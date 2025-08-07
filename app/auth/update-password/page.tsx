@@ -1,8 +1,8 @@
 'use client'
 
 import LinkToAuth from "@/src/components/auth/ui/LinkToAuth";
-import NewPassword from "@/src/components/auth/update-password/NewPassword";
-import TokenToResetPassword from "@/src/components/auth/update-password/TokenToResetPassword";
+import NewPassword from "@/src/components/auth/recover-password/NewPassword";
+import TokenToResetPassword from "@/src/components/auth/recover-password/TokenToResetPassword";
 import { AuthToken } from "@/src/types/auth/auth";
 import Link from "next/link";
 import { useState } from "react";

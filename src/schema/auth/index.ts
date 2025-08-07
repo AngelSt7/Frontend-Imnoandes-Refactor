@@ -1,15 +1,5 @@
 import z from 'zod'
 
-export const authCreateAccountSchema = z.object({
-  name: z.string(),
-  lastname: z.string(),
-  email: z.string(),
-  password: z.string(),
-  repeatPassword: z.string(),
-  birthDate: z.string(),
-  phone: z.string(),
-})
-
 export const authCreateAccountGoogleSchema = z.object({
   name: z.string(),
   lastname: z.string(),
@@ -29,9 +19,6 @@ export const authCompleteAccountSchema = z.object({
   birthDate: z.string(),
 })
 
-export const authForgotPasswordSchema = z.object({
-  email: z.string(),
-})
 
 export const authConfirmAccountSchema = z.object({
   token: z.string(),
@@ -60,4 +47,18 @@ export const checkEmailSchema = z.object({
 
 export const tokenSchema = z.object({
   token: z.string(),
+})
+
+export const forgotPasswordSchema = z.object({
+  email: z.string(),
+})
+
+export const createAccountSchema = z.object({
+  name: z.string(),
+  lastname: z.string(),
+  email: z.string(),
+  password: z.string(),
+  repeatPassword: z.string(),
+  birthDate: z.string(),
+  phone: z.string(),
 })

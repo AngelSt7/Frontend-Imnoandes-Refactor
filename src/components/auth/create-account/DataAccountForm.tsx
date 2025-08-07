@@ -8,7 +8,7 @@ import { Phone } from 'lucide-react';
 import { Auth } from '@/src/services/auth';
 import { useSubmitMutation } from '@/src/hooks';
 
-type DataAccountFormProps = {
+interface DataAccountFormProps {
     birthDate: string
 }
 

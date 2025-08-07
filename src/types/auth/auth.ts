@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { authCompleteAccountSchema, authCreateAccountSchema, authForgotPasswordSchema, loginSchema, authRequestTokenSchema, authUpdatePasswordSchema, checkEmailSchema, tokenSchema } from "@/src/schema/auth";
+import { authCompleteAccountSchema, createAccountSchema, forgotPasswordSchema, loginSchema, authRequestTokenSchema, authUpdatePasswordSchema, checkEmailSchema, tokenSchema } from "@/src/schema/auth";
 
 export type AuthCompleteAccount = z.infer<typeof authCompleteAccountSchema>
-export type AuthForgotPassword = z.infer<typeof authForgotPasswordSchema>
 export type AuthRequestToken= z.infer<typeof authRequestTokenSchema>
 export type AuthUpdatePassword= z.infer<typeof authUpdatePasswordSchema>
 
@@ -11,4 +10,6 @@ export type AuthUpdatePassword= z.infer<typeof authUpdatePasswordSchema>
 export type AuthLogin = z.infer<typeof loginSchema>
 export type AuthCheckEmail = z.infer<typeof checkEmailSchema>
 export type AuthToken = z.infer<typeof tokenSchema>
-export type AuthCreateAccount = z.infer<typeof authCreateAccountSchema>
+export type AuthCreateAccount = z.infer<typeof createAccountSchema>
+
+export type AuthForgotPassword = z.infer<typeof forgotPasswordSchema>

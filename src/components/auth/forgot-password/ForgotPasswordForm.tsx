@@ -4,23 +4,17 @@ import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
 import { AuthForgotPassword } from '@/src/types/auth/auth';
 import { AiOutlineMail } from 'react-icons/ai';
-import { useMutation } from '@tanstack/react-query';
-import { authForgotPassword } from '@/src/services/server-actions/auth-actions/authForgotPasswordAccount-action';
-import toast from 'react-hot-toast';
+import { useSubmitMutation } from '@/src/hooks';
+import { Auth } from '@/src/services/auth';
 
 export default function ForgotPasswordForm() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<AuthForgotPassword>();
 
-    const { mutate } = useMutation({
-        mutationFn: authForgotPassword,
-        onError: (error) => {
-            toast.error(error.message)
-        },
-        onSuccess: (data) => {
-            reset()
-            toast.success(data)
-        }
-    })
+    const { mutate } = useSubmitMutation({
+        serviceFunction: Auth.forgotPassword,
+        onSuccessCallback: () => reset(),
+        replace: "/auth/recover-password",
+    });
 
     const onSubmit = (data: AuthForgotPassword) => mutate(data)
     
@@ -31,6 +25,7 @@ export default function ForgotPasswordForm() {
                 <Input
                     type="email"
                     label="Email"
+                    htmlFor='email'
                     placeholder='Ingresa tu email'
                     register={register("email", {
                         required: "El email es obligatorio",
@@ -44,9 +39,9 @@ export default function ForgotPasswordForm() {
                 />
 
                 <button
-                    className="mt-4 bg-zinc-800 text-white  font-semibold py-2 rounded-lg transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400"
+                    className="mt-4 bg-zinc-800 text-white font-semibold py-2 rounded-lg transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400"
                 >
-                   Solicitar Token
+                   Request Token
                 </button>
             </form>
         </div>

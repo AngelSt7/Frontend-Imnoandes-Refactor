@@ -1,7 +1,7 @@
 'use server'
 
 import api from "@/src/axios/axios";
-import { AuthCreateAccount } from "@/src/types/authTypes/auth";
+import { AuthCreateAccount } from "@/src/types/auth/auth";
 import { isAxiosError } from 'axios';
 
 export const authCreateAccount = async (formData: AuthCreateAccount) => {

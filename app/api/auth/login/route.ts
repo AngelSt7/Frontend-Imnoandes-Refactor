@@ -4,7 +4,7 @@ import { checkPassword } from "@/src/utils/backend/authUtils";
 import { dataSendEmail } from "@/src/utils/backend/emailUtils";
 import { NextRequest, NextResponse } from "next/server";
 import { validateData } from "@/src/utils/backend/validations/validateData";
-import { authLoginSchema } from "@/src/schema/authSchema";
+import { authLoginSchema } from "@/src/schema/auth";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 
 export const POST = async (request: NextRequest) => {

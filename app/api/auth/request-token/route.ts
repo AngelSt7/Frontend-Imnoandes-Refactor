@@ -3,7 +3,7 @@ import { UserExistNoAuth } from "@/src/utils/backend/validations/UserExistNoAuth
 import { dataSendEmail } from "@/src/utils/backend/emailUtils";
 import { NextRequest, NextResponse } from "next/server"
 import { validateData } from "@/src/utils/backend/validations/validateData";
-import { authRequestTokenSchema } from "@/src/schema/authSchema";
+import { authRequestTokenSchema } from "@/src/schema/auth";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 
 export const POST = async (request: NextRequest) => {

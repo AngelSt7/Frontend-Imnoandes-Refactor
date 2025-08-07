@@ -4,7 +4,7 @@ import { DateValue } from "@internationalized/date";
 import { DateInput } from "@heroui/react";
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthCompleteAccount } from '@/src/types/authTypes/auth';
+import { AuthCompleteAccount } from '@/src/types/auth/auth';
 import { AiOutlineUser } from 'react-icons/ai';
 import { Phone } from 'lucide-react';
 import { User } from '@/src/types/userTypes/user';

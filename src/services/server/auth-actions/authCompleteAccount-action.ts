@@ -1,7 +1,7 @@
 'use server'
 
 import api from "@/src/axios/axios";
-import { AuthCompleteAccount } from "@/src/types/authTypes/auth";
+import { AuthCompleteAccount } from "@/src/types/auth/auth";
 import { serverGetCookie } from "@/src/utils/backend/cookiesUtils";
 import { isAxiosError } from 'axios';
 

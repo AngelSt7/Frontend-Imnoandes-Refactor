@@ -1,5 +1,5 @@
 import { prisma } from "@/src/config/prisma";
-import { authCompleteAccountSchema } from "@/src/schema/authSchema";
+import { authCompleteAccountSchema } from "@/src/schema/auth";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { getServerSession } from "next-auth";

@@ -1,7 +1,7 @@
 'use client'
 
 import { authConfirmAccount } from '@/src/services/server-actions/auth-actions/authConfirmAccount-action'
-import { AuthToken } from '@/src/types/authTypes/auth'
+import { AuthToken } from '@/src/types/auth/auth'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'

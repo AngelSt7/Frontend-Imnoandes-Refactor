@@ -3,7 +3,6 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/src/providers/ReactQueryProvider";
 import { Toaster } from 'react-hot-toast';
 import { NextUIProvider } from "@/src/providers/NextUIProvider";
-import SessionProvider from "@/src/providers/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Bienes Raices",
@@ -43,11 +42,9 @@ export default function RootLayout({
         className={` antialiased`}
       >
         <ReactQueryProvider dehydratedState={dehydratedState}>
-          <SessionProvider>
             <NextUIProvider>
               {children}
             </NextUIProvider>
-          </SessionProvider>
           <Toaster position="top-right" reverseOrder={true} />
         </ReactQueryProvider>
       </body>

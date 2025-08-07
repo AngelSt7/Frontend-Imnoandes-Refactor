@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthCreateAccount } from '@/src/types/authTypes/auth';
+import { AuthCreateAccount } from '@/src/types/auth/auth';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';

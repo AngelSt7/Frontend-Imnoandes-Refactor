@@ -5,7 +5,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Home, User as UserIcon, ShoppingBag, LogOut, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Switcher from '../../ui/darkMode/SwitchMode';
-import { signOut } from 'next-auth/react';
 import { useModalUtils } from '@/src/hooks/modal/useModalUtils';
 
 const links = [
@@ -81,7 +80,7 @@ export default function Menu() {
                                 Quitar Propiedad
                             </button>
                             <button
-                                onClick={() => signOut({ callbackUrl: '/es' })}
+                                onClick={() => ''}
                                 className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 p-2 flex items-center hover:text-zinc-950 focus:outline-none focus:ring-0 gap-2 w-full'
                                 type='button'
                             >

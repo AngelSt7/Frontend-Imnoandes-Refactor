@@ -1,4 +1,4 @@
-import { AuthToken, AuthUpdatePassword } from '@/src/types/authTypes/auth'
+import { AuthToken, AuthUpdatePassword } from '@/src/types/auth/auth'
 import Input from '../../ui/inputs/Input'
 import { useForm } from 'react-hook-form';
 import { AiOutlineLock } from 'react-icons/ai';

@@ -1,7 +1,7 @@
 'use server'
 
 import api from "@/src/axios/axios";
-import { AuthToken } from "@/src/types/authTypes/auth";
+import { AuthToken } from "@/src/types/auth/auth";
 import { isAxiosError } from 'axios';
 
 export const authConfirmAccount = async (formData: AuthToken) => {

@@ -1,5 +1,5 @@
 import { prisma } from "@/src/config/prisma"
-import { authTokenSchema } from "@/src/schema/authSchema"
+import { authTokenSchema } from "@/src/schema/auth"
 import { ERRORS } from "@/src/utils/backend/errors/errors"
 import { validateData } from "@/src/utils/backend/validations/validateData"
 import { NextRequest, NextResponse } from "next/server"

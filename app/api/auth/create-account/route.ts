@@ -1,7 +1,7 @@
 import { AuthEmail } from "@/src/class/AuthEmail";
 import { prisma } from "@/src/config/prisma";
-import { authCreateAccountSchema } from "@/src/schema/authSchema";
-import { AuthCreateAccount } from "@/src/types/authTypes/auth";
+import { authCreateAccountSchema } from "@/src/schema/auth";
+import { AuthCreateAccount } from "@/src/types/auth/auth";
 import { generateToken, hashPassword } from "@/src/utils/backend/authUtils";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { validateData } from "@/src/utils/backend/validations/validateData";

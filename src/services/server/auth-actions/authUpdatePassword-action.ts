@@ -1,7 +1,7 @@
 'use server'
 
 import api from "@/src/axios/axios";
-import { AuthToken, AuthUpdatePassword } from "@/src/types/authTypes/auth";
+import { AuthToken, AuthUpdatePassword } from "@/src/types/auth/auth";
 import { isAxiosError } from 'axios';
 
 type AuthPasswordType = {

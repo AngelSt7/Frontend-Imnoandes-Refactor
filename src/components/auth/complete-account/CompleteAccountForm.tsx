@@ -118,7 +118,7 @@ export default function CompleteAccountForm({ user }: DataAccountFormProps) {
                 {errors.birthDate && <ErrorsAuth>{errors.birthDate?.message?.toString()}</ErrorsAuth>}
 
                 <button
-                    className="mt-4 bg-zinc-800 text-white font-semibold py-2 rounded-lg transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400"
+                    className="custom-button"
                 >
                     Completar mi Cuenta
                 </button>

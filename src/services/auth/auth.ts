@@ -1,11 +1,12 @@
 import nest from "@/src/axios/nest";
-import { AuthCheckEmail, AuthLogin, AuthToken } from "@/src/types";
+import { AuthCheckEmail, AuthCreateAccount, AuthLogin, AuthToken } from "@/src/types";
 import { errorHttp } from "@/src/utils/resolves/error";
 
 const ROUTES = {
     CHECK_EMAIL: `/auth/check-email`,
     LOGIN: `/auth/login`,
-    CONFIRM_ACCESS: `/auth/confirm-access`
+    CONFIRM_ACCESS: `/auth/confirm-access`,
+    CREATE_ACCOUNT: `/auth/create-account`
 }
 
 export class Auth {
@@ -33,6 +34,16 @@ export class Auth {
             const url = `${ROUTES.CONFIRM_ACCESS}/${FormData.token}`
             const { data } = await nest.post(url)
             return data
+        } catch (error) { errorHttp(error) }
+    }
+
+    static async createAccount(FormData: AuthCreateAccount) {
+        try {
+            const { repeatPassword : __, ...rest } = FormData
+            const url = ROUTES.CREATE_ACCOUNT
+            const { data } = await nest.post(url, rest)
+            console.log(data)
+            return data;
         } catch (error) { errorHttp(error) }
     }
 

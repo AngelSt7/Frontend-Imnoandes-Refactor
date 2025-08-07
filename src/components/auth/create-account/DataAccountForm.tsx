@@ -4,56 +4,49 @@ import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
 import { AuthCreateAccount } from '@/src/types/auth/auth';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { redirect } from 'next/navigation';
-import { authCreateAccount } from '@/src/services/server/auth-actions/authCreateAccount-action';
-import { useEffect } from 'react';
 import { Phone } from 'lucide-react';
+import { Auth } from '@/src/services/auth';
+import { useSubmitMutation } from '@/src/hooks';
 
 type DataAccountFormProps = {
     birthDate: string
 }
 
 export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
-    const { register, handleSubmit, formState: { errors }, getValues, reset, watch } = useForm<AuthCreateAccount>({
-        defaultValues: {
-            birthDate: birthDate
-        }
-    });
+    const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<AuthCreateAccount>();
 
-    const { mutate } = useMutation({
-        mutationFn: authCreateAccount,
-        onError: (error) => {
-            toast.error(error.message || "Ocurrió un error");
-        },
-        onSuccess: (data) => {
-            reset()
-            toast.success(data);
-            redirect('/auth/login')
-        }
+    const { mutate } = useSubmitMutation({
+        serviceFunction: Auth.createAccount,
+        onSuccessCallback: () => reset(),
+        replace: "/auth/login",
     })
 
-    const onSubmit = (data: AuthCreateAccount) => mutate(data)
+    const onSubmit = (data: AuthCreateAccount) => mutate({ ...data, birthDate })
 
     return (
         <div>
-            <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="  flex w-full flex-col gap-4 p-6 shadow-md">
+            <form
+                noValidate
+                autoComplete="off"
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex w-full flex-col gap-4 p-6 shadow-md">
 
                 <div className='flex gap-3 flex-1'>
                     <Input
                         type="text"
-                        label="Nombre"
-                        placeholder='Ingresa tu nombre'
-                        register={register("name", { required: "El nombre es obligatorio" })}
+                        label="Name"
+                        htmlFor='name'
+                        placeholder='Enter your name'
+                        register={register("name", { required: "The name is required" })}
                         errorMessage={errors.name}
                         Icon={AiOutlineUser}
                     />
                     <Input
                         type="text"
-                        label="Apellido"
-                        placeholder='Ingresa tu apellido'
-                        register={register("lastname", { required: "El apellido es obligatorio" })}
+                        label="Last name"
+                        htmlFor='lastname'
+                        placeholder='Enter your last name'
+                        register={register("lastname", { required: "Last name is required" })}
                         errorMessage={errors.lastname}
                         Icon={AiOutlineUser}
                     />
@@ -61,13 +54,14 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
 
                 <Input
                     type="tel"
-                    label="Teléfono"
-                    placeholder='Ingresa tu apellido'
+                    label="Phone"
+                    htmlFor='phone'
+                    placeholder='Enter your last name'
                     register={register("phone", {
-                        required: "El teléfono es obligatorio",
+                        required: "Phone number is required",
                         pattern: {
                             value: /^\d{9}$/,
-                            message: "El teléfono debe tener exactamente 9 dígitos numéricos"
+                            message: "Phone number must have exactly 9 numeric digits"
                         }
                     })}
                     errorMessage={errors.phone}
@@ -77,12 +71,13 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
                 <Input
                     type="email"
                     label="Email"
-                    placeholder='Ingresa tu email'
+                    htmlFor='email'
+                    placeholder='Enter your email address'
                     register={register("email", {
-                        required: "El email es obligatorio",
+                        required: "Email number is required",
                         pattern: {
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: "El email no es válido"
+                            message: "Email is not valid"
                         }
                     })}
                     errorMessage={errors.email}
@@ -91,12 +86,13 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
 
                 <Input
                     type="password"
-                    label="Contraseña"
-                    placeholder='Ingresa tu contraseña'
+                    label="Password"
+                    htmlFor='password'
+                    placeholder='Enter your password'
                     register={register("password", {
-                        required: "La contraseña es obligatoria", minLength: {
+                        required: "Password is required", minLength: {
                             value: 6,
-                            message: "La contraseña debe tener mínimo 6 caracteres"
+                            message: "Password must be at least 6 characters"
                         }
                     })}
                     errorMessage={errors.password}
@@ -105,21 +101,22 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
 
                 <Input
                     type="password"
-                    label="Repetir contraseña"
-                    placeholder='Repite tu contraseña'
+                    label="Repeat Password"
+                    htmlFor='repeatPassword'
+                    placeholder='Repeat your password'
                     register={register("repeatPassword", {
-                        required: "Debes confirmar la contraseña",
+                        required: "You must confirm the password",
                         validate: (value) =>
-                            value === getValues("password") || "Las contraseñas no coinciden"
+                            value === getValues("password") || "Passwords they don't match"
                     })}
                     errorMessage={errors.repeatPassword}
                     Icon={AiOutlineLock}
                 />
 
                 <button
-                    className="mt-4 bg-zinc-800 text-white  font-semibold py-2 rounded-lg transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400"
+                    className="custom-button"
                 >
-                    Crear Cuenta
+                    Create Account
                 </button>
             </form>
         </div>

@@ -13,13 +13,15 @@ export default function LoginOrquestForm() {
         <div>
             <div className='shadow-md p-6'>
                 {statusForm.init && (
-                    <CheckEmailForm statusForm={statusForm} setStatusForm={setStatusForm} />
+                    <>
+                        <CheckEmailForm statusForm={statusForm} setStatusForm={setStatusForm} />
+                        <ButtonGoogle />
+                    </>
                 )}
                 {(statusForm.requiredPassword && statusForm.meta.email) && (
                     <CheckPasswordForm email={statusForm.meta.email} />
                 )}
                 {statusForm.requiredOtp && <InputOtp />}
-                <ButtonGoogle />
             </div>
         </div>
     );

@@ -38,8 +38,8 @@ export default function useSubmitMutation<T>({
         });
       }
       replace && router.replace(replace);
-      onSuccessCallback?.(data);
       toast.success(data.message ?? message);
+      onSuccessCallback?.(data);
     }
 
   });

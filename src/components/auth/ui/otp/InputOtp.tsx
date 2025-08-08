@@ -3,22 +3,34 @@
 import { useState, useEffect } from 'react'
 import { OTPInput } from 'input-otp'
 import { useOtpUi, useSubmitMutation } from '@/src/hooks'
-import { Auth } from '@/src/services/auth'
-import { useRouter } from 'next/navigation';
+import { AuthToken } from '@/src/types'
 
-export default function InputOtp() {
+interface InputOtpProps {
+  serviceFunction: (data: any) => Promise<any>,
+  onSuccessCallback?: (data: any) => any,
+  token?: AuthToken['token']
+}
+
+interface Payload {
+  otp: string,
+  token?: AuthToken['token']
+}
+
+export default function InputOtp({ serviceFunction, onSuccessCallback, token }: InputOtpProps) {
+
   const { Slot, FakeDash } = useOtpUi()
   const [otp, setOtp] = useState('')
-  const router = useRouter()
 
   const { mutate } = useSubmitMutation({
-    serviceFunction: Auth.confirmAccess,
-    onSuccessCallback: (data) => router.replace(data.redirect),
+    serviceFunction,
+    onSuccessCallback
   })
 
   useEffect(() => {
     if (otp.length === 6) {
-      mutate({ token: otp })
+      const payload: Payload = { otp };
+      if (token) payload.token = token;
+      mutate(payload);
     }
   }, [otp])
 

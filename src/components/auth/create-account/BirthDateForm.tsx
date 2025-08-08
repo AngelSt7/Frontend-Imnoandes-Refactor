@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { DateValue, getLocalTimeZone } from "@internationalized/date";
+import { DateValue } from "@internationalized/date";
 import { DateInput } from "@heroui/react";
-import toast from "react-hot-toast";
 import { useBirthDateForm } from "@/src/hooks/auth/useBirthDateForm";
 
 type BirthDateFormProps = {

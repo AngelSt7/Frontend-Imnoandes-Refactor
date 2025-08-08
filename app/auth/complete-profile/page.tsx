@@ -1,13 +1,19 @@
-import CompleteAccountForm from '@/src/components/auth/complete-account/CompleteAccountForm'
-import { userGetInfo } from '@/src/services/client/user/UserGetInfo'
-import { serverGetCookie } from '@/src/utils/backend/cookiesUtils'
+import CompleteAccountForm from '@/src/components/auth/complete-account/logic/CompleteAccountForm'
+import { User } from '@/src/services'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export default async function page() {
-  const token = await serverGetCookie()
-  const user = await userGetInfo({token})
-  if(!user) redirect('/auth/login')
+  try {
+    const cookieStore = await cookies();
+    const jwt = cookieStore.get("TEMP")?.value;
+    if (!jwt) return redirect('/404');
 
-  return <CompleteAccountForm user={user} />
-  
+    const user = await User.validate(jwt);
+    
+    return <CompleteAccountForm user={user} />;
+
+  } catch (error) {
+    return redirect('/404');
+  }
 }

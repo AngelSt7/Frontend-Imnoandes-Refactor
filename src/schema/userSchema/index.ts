@@ -4,7 +4,7 @@ const phoneMin = 900000000
 const phoneMax = 999999999
 
 export const userSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     name: z.string(),
     lastname: z.string(),
     email: z.string().email(),
@@ -14,6 +14,7 @@ export const userSchema = z.object({
     birthDate: z.preprocess((val) => new Date(val as string), z.date()), 
     phone: z.number().int().min(phoneMin).max(phoneMax).nullable(),
     createdAt: z.preprocess((val) => new Date(val as string), z.date()),
+    exp: z.number()
 });
 
 

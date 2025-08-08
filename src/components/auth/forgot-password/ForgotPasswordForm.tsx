@@ -13,7 +13,6 @@ export default function ForgotPasswordForm() {
     const { mutate } = useSubmitMutation({
         serviceFunction: Auth.forgotPassword,
         onSuccessCallback: () => reset(),
-        replace: "/auth/recover-password",
     });
 
     const onSubmit = (data: AuthForgotPassword) => mutate(data)

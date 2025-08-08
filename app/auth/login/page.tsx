@@ -1,6 +1,5 @@
 import LoginOrquestForm from '@/src/components/auth/login/logic/LoginOrquestForm'
 import LinkToAuth from '@/src/components/auth/ui/LinkToAuth'
-import { useErrorToast } from '@/src/hooks/ui/toast/useErrorToast';
 
 export default async function LoginPage() {
     return (

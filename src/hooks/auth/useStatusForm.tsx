@@ -1,3 +1,5 @@
+"use client"
+
 import { StatusForm } from "@/src/components/auth/login/steps/ChekEmailForm";
 import { useState } from "react";
 

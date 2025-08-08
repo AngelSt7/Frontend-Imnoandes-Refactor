@@ -1,4 +1,4 @@
-import ReequestTokenForm from '@/src/components/auth/request-token/ReequestTokenPage'
+import ReequestTokenForm from '@/src/components/auth/request-token/RequestTokenPage'
 import LinkToAuth from '@/src/components/auth/ui/LinkToAuth'
 
 export default function ReequestTokenPage() {

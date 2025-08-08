@@ -1,13 +1,14 @@
 'use client';
 
-import { CheckPasswordForm, CheckEmailForm, InputOtp } from '../steps';
-import { useErrorToast } from '@/src/hooks/ui';
-import ButtonGoogle from './ButtonGoogle';
-import { useStatusForm } from '@/src/hooks';
+import { useErrorToast, useStatusForm } from '@/src/hooks';
+import { InputOtp, CheckPasswordForm, CheckEmailForm, ButtonGoogle } from '@/src/components/auth';
+import { Auth } from '@/src/services/auth';
+import { useRouter } from 'next/navigation';
 
 export default function LoginOrquestForm() {
     useErrorToast();
     const { statusForm, setStatusForm } = useStatusForm();
+    const router = useRouter()
 
     return (
         <div>
@@ -21,7 +22,11 @@ export default function LoginOrquestForm() {
                 {(statusForm.requiredPassword && statusForm.meta.email) && (
                     <CheckPasswordForm email={statusForm.meta.email} />
                 )}
-                {statusForm.requiredOtp && <InputOtp />}
+                {statusForm.requiredOtp && 
+                    <InputOtp 
+                    serviceFunction={Auth.confirmAccess} 
+                    onSuccessCallback={(data) => router.replace(data.redirect)}
+                />}
             </div>
         </div>
     );

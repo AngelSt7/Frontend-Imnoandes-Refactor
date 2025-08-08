@@ -12,26 +12,14 @@ export const authCreateAccountGoogleSchema = z.object({
   createdAt: z.date(),
 })
 
-export const authCompleteAccountSchema = z.object({
-  name: z.string(),
-  lastname: z.string(),
-  phone: z.string().nullable(),
-  birthDate: z.string(),
-})
 
 
 export const authConfirmAccountSchema = z.object({
   token: z.string(),
 })
 
-export const authRequestTokenSchema = z.object({
-  email: z.string(),
-})
 
-export const authUpdatePasswordSchema = z.object({
-  password: z.string(),
-  repeatPassword: z.string(),
-})
+
 
 
 // READY
@@ -61,4 +49,32 @@ export const createAccountSchema = z.object({
   repeatPassword: z.string(),
   birthDate: z.string(),
   phone: z.string(),
+})
+
+export const recoverPasswordSchema = z.object({
+  tokenId: z.string(),
+  password: z.string(),
+  repeatPassword: z.string(),
+})
+
+export const otpSchema = z.object({
+  token: z.string(),
+  otp: z.string(),
+})
+
+export const confirmAccessSchema = z.object({
+  otp: z.string(),
+})
+
+export const requestTokenSchema = z.object({
+  email: z.string(),
+})
+
+
+export const completeAccountSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  lastname: z.string(),
+  phone: z.string(),
+  birthDate: z.string(),
 })

@@ -1,33 +1,27 @@
-import { AuthToken, AuthUpdatePassword } from '@/src/types/auth/auth'
-import Input from '../../ui/inputs/Input'
+import { AuthToken, RecoverPassword } from '@/src/types/auth/auth'
+import Input from '../../../ui/inputs/Input'
 import { useForm } from 'react-hook-form';
 import { AiOutlineLock } from 'react-icons/ai';
-import { useMutation } from '@tanstack/react-query';
-import { authUpdatePassword } from '@/src/services/server-actions/auth-actions/authUpdatePassword-action';
-import toast from 'react-hot-toast';
-import { redirect } from 'next/navigation';
+import { useSubmitMutation } from '@/src/hooks';
+import { Auth } from '@/src/services/auth';
 
-type NewPasswordProps = {
-    token: AuthToken['token']
+export interface NewPasswordProps {
+  tokenId: AuthToken['token']
 }
 
-export default function NewPassword({ token }: NewPasswordProps) {
 
-    const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<AuthUpdatePassword>();
+export default function NewPassword({ tokenId }: NewPasswordProps) {
 
-    const {mutate} = useMutation({
-        mutationFn: authUpdatePassword,
-        onError: (error) => {
-            toast.error(error.message || "Ocurrió un error");
-        },
-        onSuccess: (data) => {
-            reset()
-            toast.success(data);
-            redirect('/auth/login')
-        }
-    })
+    const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<RecoverPassword>();
 
-    const onSubmit = (data: AuthUpdatePassword) => mutate({password: data.password, token}) 
+    const { mutate } = useSubmitMutation({
+        serviceFunction: Auth.recoverPassword,
+        onErrorCallback: () => reset(),
+        onSuccessCallback: () => reset(),
+        replace: "/auth/login",
+    });
+
+    const onSubmit = (data: RecoverPassword) => mutate({ ...data, tokenId })
 
     return (
         <div>
@@ -38,17 +32,21 @@ export default function NewPassword({ token }: NewPasswordProps) {
                 <Input
                     type="password"
                     label="Contraseña"
+                    htmlFor='password'
                     placeholder='Ingresa tu contraseña'
-                    register={register("password", { required: "La contraseña es obligatoria" , minLength: {
-                        value: 6,
-                        message: "La contraseña debe tener mínimo 6 caracteres"
-                    }})}
+                    register={register("password", {
+                        required: "La contraseña es obligatoria", minLength: {
+                            value: 6,
+                            message: "La contraseña debe tener mínimo 6 caracteres"
+                        }
+                    })}
                     errorMessage={errors.password}
                     Icon={AiOutlineLock}
                 />
 
                 <Input
                     type="password"
+                    htmlFor='repeatPassword'
                     label="Repetir contraseña"
                     placeholder='Repite tu contraseña'
                     register={register("repeatPassword", {

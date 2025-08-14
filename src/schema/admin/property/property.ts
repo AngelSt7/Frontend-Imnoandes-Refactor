@@ -1,65 +1,26 @@
+import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "@/src/utils/resolves/bases/enums";
 import { z } from "zod";
 
 export const formDataPropertySchema = z.object({
-  id: z.number().optional(),
-  districtId: z
-    .number({ required_error: "El ID del distrito es obligatorio." })
-    .int("El ID del distrito debe ser un número entero.")
-    .positive("El ID del distrito debe ser un número positivo."),
-  area: z
-    .number({ required_error: "El área es obligatoria." })
-    .min(20, "El area minima es de 20 metros")
-    .positive("El área debe ser un número positivo."),
-  location: z
-    .string({ required_error: "La ubicación es obligatoria." })
-    .min(5, "La ubicación debe tener al menos 5 caracteres.")
-    .max(255, "La ubicación no puede superar los 255 caracteres."),
-  bedrooms: z
-    .number({ required_error: "El número de habitaciones es obligatorio." })
-    .int("El número de habitaciones debe ser un entero.")
-    .nonnegative("El número de habitaciones no puede ser negativo."),
-  bathrooms: z
-    .number({ required_error: "El número de baños es obligatorio." })
-    .int("El número de baños debe ser un entero.")
-    .nonnegative("El número de baños no puede ser negativo."),
-  terrace: z.boolean({ required_error: "El campo terraza es obligatorio." }),
-  yearBuilt: z
-    .number({ required_error: "El año de construcción es obligatorio." })
-    .int("El año de construcción debe ser un número entero.")
-    .min(1900, "El año de construcción no puede ser menor a 1900.")
-    .max(new Date().getFullYear(), "El año de construcción no puede ser en el futuro."),
-  typeId: z
-    .number({ required_error: "El ID del tipo de propiedad es obligatorio." })
-    .int("El ID del tipo de propiedad debe ser un número entero.")
-    .positive("El ID del tipo de propiedad debe ser un número positivo."),
-  description: z
-    .string({ required_error: "La descripción es obligatoria." })
-    .min(10, "La descripción debe tener al menos 10 caracteres.")
-    .max(1000, "La descripción no puede superar los 1000 caracteres."),
-  price: z
-    .number({ required_error: "El precio es obligatorio." })
-    .positive("El precio debe ser un número positivo."),
-  currencyId: z.number({ required_error: "El id de la moneda es requerido" })
-    .positive("El id no puede ser un número negativo")
-    .min(1, "El id no puede ser inferior a 0"),
-  elevator: z.boolean({ required_error: "El campo ascensor es obligatorio." }),
-  parkingSpaces: z.boolean({ required_error: "El campo gas natural es obligatorio" }),
-  furnished: z.boolean({ required_error: "El campo amoblado es obligatorio." }),
-  services: z
-    .array(z.string().min(1, "Cada servicio debe tener al menos 1 carácter.")).default(['']),
-  imageMain: z.union([
-    z.instanceof(File).refine((file) => file.size > 0, { message: "El archivo debe tener contenido válido" }),
-    z.string().url("Debe ser una URL válida"),
-  ]),
-  imagesGallery: z.array(
-    z.union([
-      z.instanceof(File).refine((file) => file.size > 0, {
-        message: "El archivo debe tener contenido válido"
-      }),
-      z.string().url("Debe ser una URL válida"),
-    ])
-  )
+  name: z.string().min(8).max(50),
+  property_type: z.nativeEnum(PROPERTY_TYPE),
+  property_category: z.nativeEnum(PROPERTY_CATEGORY),
+  currency: z.nativeEnum(CURRENCY),
+  price: z.number().positive(),
+  location: z.string().min(8).max(40),
+  description: z.string().min(8).max(300),
+  departmentId: z.string().uuid(),
+  provinceId: z.string().uuid(),
+  districtId: z.string().uuid(),
+  bedrooms: z.number().positive(),
+  bathrooms: z.number().positive(),
+  area: z.number().positive(),
+  furnished: z.boolean(),
+  floor: z.number().positive(),
+  parkingSpaces: z.boolean(),
+  servicesId: z.array(z.string().uuid())
 });
+
 
 export const propertySchema = z.object({
   id: z.number(),

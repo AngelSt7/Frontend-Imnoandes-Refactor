@@ -2,7 +2,7 @@
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@heroui/react";
 import { PaginationType, SessionNextAuth } from "@/src/types/adminTypes/property";
-import { PropertyAdmin } from "@/src/services";
+// import { PropertyAdmin } from "@/src/services";
 import { useAppStore } from "@/src/store/useAppStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -18,17 +18,17 @@ export default function DeleteModal({ key, page } : DeleteModalProps ) {
   const removeDeleteId = useAppStore(state => state.removeDeleteId)
   const showModal = deleteId === null ? false : true
 
-  const { mutate } = useMutation({
-    mutationFn: PropertyAdmin.changeStatus,
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    onSuccess: (data) => {
-      toast.success(data)
-      invalidate.invalidateQueries({queryKey: [key, page]})
-      removeDeleteId()
-    }
-  })
+  // const { mutate } = useMutation({
+  //   mutationFn: PropertyAdmin.changeStatus,
+  //   onError: (error) => {
+  //     toast.error(error.message)
+  //   },
+  //   onSuccess: (data) => {
+  //     toast.success(data)
+  //     invalidate.invalidateQueries({queryKey: [key, page]})
+  //     removeDeleteId()
+  //   }
+  // })
   return (
     <>
       <Modal onOpenChange={() => removeDeleteId()} isOpen={showModal} >
@@ -46,9 +46,9 @@ export default function DeleteModal({ key, page } : DeleteModalProps ) {
                   <Button color="primary" variant="light" onPress={() => removeDeleteId()}>
                     Cerrar
                   </Button>
-                  <Button color="danger" onPress={() => mutate(deleteId)}>
+                  {/* <Button color="danger" onPress={() => mutate(deleteId)}>
                     Eliminar Propiedad
-                  </Button>
+                  </Button> */}
                 </ModalFooter>
               </>
             )}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Errors from '../../../ui/inputs/Errors'
+import Errors from '../../../ui/errors/Errors'
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, UseFormRegister, UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form'
 import { DateInput } from '@heroui/react'
 import { DateValue } from '@internationalized/date'

@@ -1,16 +1,15 @@
-import TextArea from '@/src/components/ui/inputs/TextArea';
+// import TextArea from '@/src/components/ui/inputs/TextArea';
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { AdminFormDataProperty, AdminPropertyById } from '@/src/types/adminTypes/property';
+import { FormDataProperty, AdminPropertyById } from '@/src/types/adminTypes/property';
 import Fieldset from '../../../ui/Fieldset';
 import ImageMain from './ImageMain';
 import ImagesGallery from './ImagesGallery';
 
 type StepThreeProps = {
-    register: UseFormRegister<AdminFormDataProperty>;
-    errors: FieldErrors<AdminFormDataProperty>
-    setValue: UseFormSetValue<AdminFormDataProperty>
-    watch: UseFormWatch<AdminFormDataProperty>
-    dataProperty?: AdminPropertyById
+    register: UseFormRegister<FormDataProperty>;
+    errors: FieldErrors<FormDataProperty>
+    setValue: UseFormSetValue<FormDataProperty>
+    watch: UseFormWatch<FormDataProperty>
 };
 
 export default function StepThree({ register, errors, setValue, watch, dataProperty }: StepThreeProps) {
@@ -33,7 +32,7 @@ export default function StepThree({ register, errors, setValue, watch, dataPrope
                     setValue={setValue} 
                 />
 
-                <TextArea register={register('description', {
+                {/* <TextArea register={register('description', {
                     required: "La descripción es oblgiatoria",
                     minLength: {
                         value: 15,
@@ -46,7 +45,7 @@ export default function StepThree({ register, errors, setValue, watch, dataPrope
                     setValue={setValue}
                     defaultData={dataProperty?.location}
                     name='description'
-                />
+                /> */}
             </div>
         </>
     )

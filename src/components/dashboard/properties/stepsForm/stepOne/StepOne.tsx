@@ -1,74 +1,94 @@
 import Input from '@/src/components/ui/inputs/Input';
-import Select from '../../../ui/Select';
-import { districts } from '@/src/utils/frontend/data/selectUtils';
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { AdminFormDataProperty, AdminPropertyById } from '@/src/types/adminTypes/property';
+import { FormDataProperty } from '@/src/types/adminTypes/property';
 import { PiMapPinSimpleAreaFill } from "react-icons/pi";
-import { SlSizeFullscreen } from "react-icons/sl";
-import { MdConstruction } from "react-icons/md";
 import Fieldset from '../../../ui/Fieldset';
+import SelectItem from '@/src/components/ui/select/Select';
+import { CURRENCY_SELECT, PROPERTY_CATEGORY_SELECT, PROPERTY_TYPE_SELECT } from '@/src/utils/resolves/bases/select';
+import { CURRENCY } from '@/src/utils/resolves/bases/enums';
 
 type StepOneProps = {
-    register: UseFormRegister<AdminFormDataProperty>;
-    errors: FieldErrors<AdminFormDataProperty>
-    setValue: UseFormSetValue<AdminFormDataProperty>
-    watch: UseFormWatch<AdminFormDataProperty>
-    dataProperty?: AdminPropertyById
+    register: UseFormRegister<FormDataProperty>;
+    errors: FieldErrors<FormDataProperty>
+    setValue: UseFormSetValue<FormDataProperty>
+    watch: UseFormWatch<FormDataProperty>
 };
 
-export default function StepOne({ register, errors, setValue, watch, dataProperty }: StepOneProps) {
-    const currentYear = new Date().getFullYear();
+export default function StepOne({ register, errors, setValue, watch }: StepOneProps) {
+    const currency = watch('currency')
 
     return (
         <>
             <Fieldset>Información básica</Fieldset>
             <div className=' flex flex-col gap-4'>
+                <Input
+                    type='text'
+                    htmlFor='name'
+                    label='nombre'
+                    placeholder='Elige como llamaremos a tu propiedad'
+                    register={register('name', { required: "El nombre es obligatorio" })}
+                    Icon={PiMapPinSimpleAreaFill}
+                    errorMessage={errors.name}
+                />
                 <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                    <Select register={register('districtId', {
-                        required: 'Debes seleccionar un distrito'
-                    })}
-                        name='districtId'
-                        errorMessage={errors.districtId}
+                    <SelectItem
+                        data={PROPERTY_TYPE_SELECT}
+                        register={register('property_type', { required: 'Debes seleccionar un tipo de propiedad' })}
+                        errorMessage={errors.property_type}
+                        name="property_type"
                         watch={watch}
                         setValue={setValue}
-                        label='Distrito:'
-                        data={districts}
-                        placeholder='Seleccione el distrito'
+                        label='Tipo de propiedad'
                     />
-                    <Input type='text' label='Dirección:' placeholder='Ingrese la dirección de la vivienda' register={
-                        register('location', {
-                            required: 'La dirección de la vivienda es obligatoria',
-                            minLength: { value: 15, message: "La dirección de la vivienda no puede ser menor a 15 caracteres" }
-                        })
-                    }
-                        errorMessage={errors.location}
-                        Icon={PiMapPinSimpleAreaFill}
+                    <SelectItem
+                        data={PROPERTY_CATEGORY_SELECT}
+                        register={register('property_category', { required: 'Debes seleccionar un tipo de categoria' })}
+                        errorMessage={errors.property_category}
+                        name="property_category"
+                        watch={watch}
                         setValue={setValue}
+                        label='Categoría de propiedad'
                     />
                 </div>
-                <Input type='number' label='Area total:' placeholder='Ingrese el area de la vivienda' register={
-                    register('area', {
-                        valueAsNumber: true,
-                        required: 'El area de la propiedad es requerida',
-                        min: { value: 20, message: "El área mínima es de 20 metros" }
-                    })
-                }
-                    errorMessage={errors.area}
-                    Icon={SlSizeFullscreen}
-                    setValue={setValue}
-                />
-                <Input type='number' label='Año de construcción:' placeholder='Ingrese el año de construccion' register={
-                    register('yearBuilt', {
-                        valueAsNumber: true,
-                        required: 'El año de construcción es requerido',
-                        min: { value: 1900, message: "El año no debe ser menor a 1900" },
-                        max: { value: currentYear, message: "El año de construcción no puede ser en el futuro" }
-                    })
-                }
-                    errorMessage={errors.yearBuilt}
-                    Icon={MdConstruction}
-                    setValue={setValue}
-                />
+                <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <SelectItem
+                        data={CURRENCY_SELECT}
+                        register={register('currency', { required: 'Debes seleccionar un tipo de moneda' })}
+                        errorMessage={errors.currency}
+                        name="currency"
+                        watch={watch}
+                        setValue={setValue}
+                        label='Tipo de moneda'
+                    />
+                    <Input
+                        type='number'
+                        htmlFor='price'
+                        label='Precio'
+                        placeholder='Ingrese el precio de alquiler o venta'
+                        register={register("price", {
+                            valueAsNumber: true,
+                            required: "El precio es obligatorio",
+                            min: {
+                                value: currency === CURRENCY.PEN ? 1000 : 250,
+                                message:
+                                    currency === CURRENCY.PEN
+                                        ? "El precio debe ser al menos 1,000 PEN"
+                                        : "El precio debe ser al menos 250 USD"
+                            },
+                            max: {
+                                value: currency === CURRENCY.PEN ? 15000000 : 4000000,
+                                message:
+                                    currency === CURRENCY.PEN
+                                        ? "El precio no puede ser mayor a 1,000,000 PEN"
+                                        : "El precio no puede ser mayor a 100,000 USD"
+                            }
+                        })}
+                        Icon={PiMapPinSimpleAreaFill}
+                        errorMessage={errors.price}
+                        inputMode='numeric'
+                    />
+                </div>
+
             </div>
         </>
     )

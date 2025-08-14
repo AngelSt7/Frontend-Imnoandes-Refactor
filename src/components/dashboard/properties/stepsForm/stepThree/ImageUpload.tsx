@@ -1,11 +1,11 @@
 'use client'
 import { FieldError, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { TbPhotoPlus, TbTrash } from 'react-icons/tb';
-import { AdminFormDataProperty } from '@/src/types/adminTypes/property';
+import { FormDataProperty } from '@/src/types/adminTypes/property';
 import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Merge } from '@heroui/react';
-import ErrorsAuth from '@/src/components/ui/errors/ErrorsAuth';
+import Errors from '@/src/components/ui/errors/Errors';
 
 type ImageType = {
   file: File;
@@ -13,10 +13,10 @@ type ImageType = {
 };
 
 type ImageUploadProps = {
-  setValue: UseFormSetValue<AdminFormDataProperty>;
-  register: UseFormRegister<AdminFormDataProperty>;
+  setValue: UseFormSetValue<FormDataProperty>;
+  register: UseFormRegister<FormDataProperty>;
   errorMessage?: FieldError | Merge<FieldError, any> | undefined;
-  watch: UseFormWatch<AdminFormDataProperty>;
+  watch: UseFormWatch<FormDataProperty>;
 };
 
 export default function ImageUpload({ setValue, errorMessage, register, watch }: ImageUploadProps) {
@@ -91,7 +91,7 @@ export default function ImageUpload({ setValue, errorMessage, register, watch }:
         type="hidden"
         {...register("imagesGallery", { validate: value => value.length > 0 || "Debes subir al menos una imagen" })}
       />
-      {errorMessage && <ErrorsAuth>{errorMessage.message?.toString()}</ErrorsAuth>}
+      {errorMessage && <Errors>{errorMessage.message?.toString()}</Errors>}
 
       {/* Mostrar imágenes cargadas */}
       {images.length > 0 && (

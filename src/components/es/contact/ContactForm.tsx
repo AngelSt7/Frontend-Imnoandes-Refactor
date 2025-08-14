@@ -2,7 +2,6 @@
 
 import Input from "../../ui/inputs/Input"
 import { User, Mail, Phone } from 'lucide-react';
-import TextArea from "../../ui/inputs/TextArea";
 import { useForm } from 'react-hook-form';
 import { PublicContactForm } from "@/src/types/publicTypes/publicProperty";
 
@@ -52,12 +51,7 @@ export default function ContactForm() {
                 })}
                 errorMessage={errors.phone}
             />
-            <TextArea placeholder="Tu mensaje. Ej: Tengo un inconveniente con..."
-                register={register('message', {
-                    required: 'El mensaje es requerido'
-                })}
-                errorMessage={errors.message}
-            />
+
             <button className="w-full bg-zinc-900/90 hover:bg-zinc-800 dark:bg-zinc-700/25 dark:hover:bg-zinc-800 text-gray-100 mt-4 mx-auto px-4 py-2 transition-transform-background rounded-md font-medium">Enviar</button>
         </form>
     )

@@ -4,7 +4,7 @@ import { TbPhotoPlus, TbTrash } from 'react-icons/tb'
 import { AdminFormDataProperty } from '@/src/types/adminTypes/property'
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
-import ErrorsAuth from '@/src/components/ui/errors/ErrorsAuth'
+import Errors from '@/src/components/ui/errors/Errors'
 
 type ImagesGalleryProps = {
     setValue: UseFormSetValue<AdminFormDataProperty>
@@ -108,7 +108,7 @@ export default function ImagesGallery({ setValue, errorMessage, watch, register 
                         (value.length > 0 ? (value.length <= 10 ? true : "Máximo 10 imágenes permitidas") : "Debes subir al menos una imagen") 
                 })}
             />
-            {errorMessage && <ErrorsAuth>{errorMessage.message?.toString()}</ErrorsAuth>}
+            {errorMessage && <Errors>{errorMessage.message?.toString()}</Errors>}
         </div>
     )
 }

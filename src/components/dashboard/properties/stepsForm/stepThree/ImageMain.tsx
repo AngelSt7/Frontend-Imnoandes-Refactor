@@ -4,7 +4,6 @@ import { TbPhotoPlus, TbTrash } from 'react-icons/tb'
 import { AdminFormDataProperty } from '@/src/types/adminTypes/property'
 import { ChangeEvent, useState, useEffect } from 'react'
 import Image from 'next/image'
-import ErrorsAuth from '@/src/components/ui/errors/ErrorsAuth'
 
 type ImageMainProps = {
     setValue: UseFormSetValue<AdminFormDataProperty>
@@ -100,7 +99,7 @@ export default function ImageMain({ setValue, errorMessage, watch, register }: I
                     validate: value => (value ? true : "Debes subir al menos una imagen")
                 })}
             />
-            {errorMessage && <ErrorsAuth>{errorMessage.message?.toString()}</ErrorsAuth>}
+            {errorMessage && <Errors>{errorMessage.message?.toString()}</Errors>}
         </div>
     )
 }

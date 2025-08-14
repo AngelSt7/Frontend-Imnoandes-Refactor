@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { FieldError, FieldValues, UseFormRegister } from 'react-hook-form';
 import { IconType } from 'react-icons';
-import Errors from './Errors';
+import Errors from '../errors/Errors';
 
 type InputProps<T extends FieldValues> = {
   type: string;
@@ -59,8 +59,8 @@ export default function Input<T extends FieldValues>({
   return (
     <div className="flex flex-col w-full gap-2">
       {variant === 'default' && label && (
-        <label htmlFor={inputId} className="overflow-hidden whitespace-nowrap text-ellipsis text-base font-semibold text-[#202021] dark:text-[#c5c5c7]">
-          {label}
+        <label htmlFor={inputId} className="capitalize overflow-hidden whitespace-nowrap text-ellipsis text-base font-semibold text-[#202021] dark:text-[#c5c5c7]">
+          {label}:
         </label>
       )}
 

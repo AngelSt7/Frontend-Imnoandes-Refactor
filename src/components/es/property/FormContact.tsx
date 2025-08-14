@@ -2,7 +2,6 @@
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, User } from 'lucide-react';
 import Input from '../../ui/inputs/Input';
-import TextArea from '../../ui/inputs/TextArea';
 import { BiLogoGmail } from "react-icons/bi";
 import { ImWhatsapp } from "react-icons/im";
 import { PublicContactForm, PublicPropertyById } from '@/src/types/publicTypes/publicProperty';
@@ -95,7 +94,7 @@ export default function FormContact({ direction, phoneUser }: FormContactProps) 
                             })}
                         />
                     </div>
-
+{/* 
                     <TextArea
                         label="Tu mensaje"
                         errorMessage={errors.message}
@@ -103,7 +102,7 @@ export default function FormContact({ direction, phoneUser }: FormContactProps) 
                         register={register("message", {
                             required: "El mensaje es obligatorio",
                         })}
-                    />
+                    /> */}
 
                 </div>
                 <button type='submit' className="flex items-center justify-center gap-3 bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 text-white font-medium py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out w-full mb-3">

@@ -14,7 +14,6 @@ export function useModalUtils() {
 
     const openModalCreate = () => {
         const params = new URLSearchParams(searchParams.toString());
-        console.log(params);
         params.set(ValidParams.action, ValidParams.create);
         router.replace(`?${params.toString()}`);
     };

@@ -16,7 +16,7 @@ export function useGenericModal({
     id,
     closeModal
 }: GenericModalProps) {
-
+    console.log("desde el gneir modal");
     const path = usePathname();
     const searchParams = useSearchParams();
     const action = searchParams.get("action");

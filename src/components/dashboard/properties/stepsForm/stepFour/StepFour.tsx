@@ -1,5 +1,5 @@
 import Input from '@/src/components/ui/inputs/Input'
-import Select from '../../../ui/Select'
+import Select from '../../../../ui/select/Select'
 import { Currency } from '@/src/utils/frontend/data/selectUtils'
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { AdminFormDataProperty, AdminPropertyById } from '@/src/types/adminTypes/property';
@@ -10,7 +10,6 @@ type StepThreeProps = {
     errors: FieldErrors<AdminFormDataProperty>
     setValue: UseFormSetValue<AdminFormDataProperty>
     watch: UseFormWatch<AdminFormDataProperty>
-    dataProperty?: AdminPropertyById
 };
 
 export default function StepFour({ register, errors, setValue, watch, dataProperty }: StepThreeProps) {

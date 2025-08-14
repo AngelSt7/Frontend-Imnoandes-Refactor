@@ -23,7 +23,7 @@ export default function GenericModal({ user, id, closeModal, defaultValues }: Ge
   const tittle = getTitle();
   
   return (
-    <Modal scrollBehavior="inside" size={"3xl"} backdrop="opaque" isOpen={showModal} onClose={closeModal}>
+    <Modal placement="center" scrollBehavior="inside" size={"3xl"} backdrop="opaque" isOpen={showModal} onClose={closeModal}>
       <ModalContent>
         {(onClose) => (
           <>

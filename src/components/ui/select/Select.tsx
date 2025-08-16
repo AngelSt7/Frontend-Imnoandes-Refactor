@@ -29,6 +29,7 @@ export default function SelectItem<T extends FieldValues>({
 }: SelectItemProps<T>) {
   const selectedValue = watch(name);
 
+
   const handleChange = (value: string) => {
     setValue(name, value as PathValue<T, Path<T>>, { shouldValidate: true });
   };
@@ -63,6 +64,7 @@ export default function SelectItem<T extends FieldValues>({
           items={data}
           size="lg"
           radius="sm"
+          showScrollIndicators={true}
           placeholder="Selecciona una opción"
           selectedKeys={selectedValue ? [String(selectedValue)] : []}
           onSelectionChange={(keys) => handleChange(Array.from(keys)[0] as string)}

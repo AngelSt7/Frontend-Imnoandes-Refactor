@@ -10,6 +10,8 @@ import { TabsForms } from '../../ui';
 import { VscTriangleRight } from "react-icons/vsc";
 import { VscTriangleLeft } from "react-icons/vsc";
 import { Tooltip, Button } from '@heroui/react';
+import { useSubmitMutation } from '@/src/hooks';
+import { PropertyAdmin } from '@/src/services/admin';
 
 
 const StepOne = lazy(() => import("../stepsForm/stepOne/StepOne"));
@@ -26,17 +28,17 @@ const steps: StepConfig<FormDataProperty>[] = [
     {
         component: StepTwo as React.ComponentType<any>,
         fallback: <SkeletonStepTwo />,
-        fields: ['location', 'property_type']
+        fields: ['location', 'departmentId', 'provinceId', 'districtId', 'latitude', 'longitude']
     },
     {
         component: StepThree as React.ComponentType<any>
         , fallback: <SkeletonStepOne />,
-        fields: ['description', 'bedrooms', 'bathrooms', 'area', 'floor', 'furnished', 'parkingSpaces']
+        fields: ['area', 'yearBuilt', 'bedrooms', 'bathrooms', 'parkingSpaces', 'floor', 'furnished', 'description']
     },
     {
         component: StepFour as React.ComponentType<any>,
         fallback: <SkeletonStepOne />,
-        fields: ['servicesId']
+        fields: ['servicesId', 'extraInfo']
     },
 ];
 
@@ -46,14 +48,18 @@ export default function CreateProperty() {
 
     const { methods, handleSubmit, getValues, currentStep, canGoNext, canGoPrev, setCurrentStep, goToNextStep, goToPrevStep, renderStep } = useStepsForm<FormDataProperty>({ steps });
 
+    const { mutate } = useSubmitMutation({
+        serviceFunction: PropertyAdmin.create
+    })
 
-    const onSubmit: SubmitHandler<FormDataProperty> = async (data) => {
-        router.replace('/dashboard/properties')
+
+    const onSubmit: SubmitHandler<FormDataProperty> = (data : FormDataProperty) => {
+        mutate(data)
     };
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate encType="multipart/form-data">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className='mt-3' encType="multipart/form-data">
                 <TabsForms
                 />
 
@@ -91,7 +97,7 @@ export default function CreateProperty() {
                         <div className=' flex justify-end'>
 
                             <Tooltip content="Todos los campos estan completos" isOpen={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-                                <Button type='button' radius='full' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-[30%]'>Finalizar</Button>
+                                <Button type='submit' radius='full' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-[30%]'>Finalizar</Button>
                             </Tooltip>
                         </div>
                     </div>

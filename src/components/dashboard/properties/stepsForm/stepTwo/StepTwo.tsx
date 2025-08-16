@@ -5,6 +5,12 @@ import Fieldset from '../../../ui/Fieldset'
 import { PiMapPinSimpleAreaFill } from 'react-icons/pi'
 import { DEPARTMENT_SELECT } from '@/src/utils/resolves/bases/select'
 import SelectItem from '../../../../ui/select/Select'
+import { useGetData } from '@/src/hooks/data/useGetData'
+import { Province } from '@/src/services'
+import Autocomplete from '@/app/success/Autocomplete'
+import { District } from '@/src/services/data/district'
+import Map from '@/src/components/ui/map/Map'
+import { PROPERTY_CATEGORY } from '@/src/utils/resolves/bases/enums'
 
 type StepTwoProps = {
     register: UseFormRegister<FormDataProperty>;
@@ -14,47 +20,80 @@ type StepTwoProps = {
 };
 
 export default function StepTwo({ register, errors, setValue, watch }: StepTwoProps) {
+    const departmentId = watch('departmentId');
+    const provinceId = watch('provinceId');
+
+    const { data: Provinces = [] } = useGetData({
+        functionService: Province.list,
+        id: departmentId,
+        queryKey: ['provinces', departmentId]
+    });
+
+    const { data: Districts = [] } = useGetData({
+        functionService: District.list,
+        id: provinceId,
+        queryKey: ['District', provinceId]
+    });
+
     return (
         <>
             <Fieldset>Características principales</Fieldset>
             <div className=' flex flex-col gap-4'>
 
-                <Input
-                    type='text'
-                    htmlFor='name'
-                    label='nombre'
-                    placeholder='Dirección de la propiedad'
-                    register={register('location', { required: "La ubicación es obligatoria" })}
-                    Icon={PiMapPinSimpleAreaFill}
-                    errorMessage={errors.location}
-                />
                 <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <Input
+                        type='text'
+                        htmlFor='location'
+                        label='Ubicación'
+                        placeholder='Dirección de la propiedad'
+                        register={register('location', { required: "La ubicación es obligatoria" })}
+                        Icon={PiMapPinSimpleAreaFill}
+                        errorMessage={errors.location}
+                    />
+
                     <SelectItem
                         data={DEPARTMENT_SELECT}
-                        register={register('departmentId', { required: 'Debes seleccionar un tipo de propiedad' })}
-                        errorMessage={errors.property_type}
+                        register={register('departmentId', { required: 'Debes seleccionar un departamento' })}
+                        errorMessage={errors.departmentId}
                         name="departmentId"
                         watch={watch}
                         setValue={setValue}
                         label='Tipo de propiedad'
                     />
+
                 </div>
 
+                <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4 '>
+                    <Autocomplete
+                        data={Provinces}
+                        setValue={setValue}
+                        register={register('provinceId', { required: 'Debes seleccionar una provincia' })}
+                        errorMessage={errors.provinceId}
+                        name="provinceId"
+                        watch={watch}
+                        label="Provincia"
+                    />
 
+                    <Autocomplete
+                        data={Districts}
+                        setValue={setValue}
+                        register={register('districtId', { required: 'Debes seleccionar un distrito' })}
+                        errorMessage={errors.districtId}
+                        name="districtId"
+                        watch={watch}
+                        label="Distrito"
+                    />
+                </div>
 
-            {/* <CheckBoxExtras
-                    label="Características"
-                    data={Extras}   
+                <Map
+                    valueLatitude={'latitude'}
+                    valueLongitude={'longitude'}
                     setValue={setValue}
-                    watch={watch}                 
+                    watch={watch}
+                    errorMessage={errors.location}
                 />
-                <CheckBoxServices
-                    setValue={setValue}
-                    label="Servicios"
-                    data={Services}
-                    watch={watch}   
-                /> */}
-        </div >
+
+            </div >
         </>
     )
 }

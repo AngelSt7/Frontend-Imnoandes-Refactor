@@ -1,50 +1,34 @@
 'use client'
 
-import SelectItem from "@/src/components/ui/select/Select";
-import { useForm } from "react-hook-form"
+import { Field, FieldError, useForm } from "react-hook-form";
+import AutoCompleteWhitTabs from "./AutoCompleteWhitTabs";
 import Autocomplete from "./Autocomplete";
 
-type prueba = {
-  animal: string
+interface MapInterface {
+  provinceId: string[] | null;
 }
 
 export default function page() {
-  const { register, handleSubmit, formState: { errors }, setValue, reset, watch } = useForm<prueba>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<MapInterface>({
     defaultValues: {
-      animal: 'cat'
+      provinceId: null
     }
   });
 
 
+
+  const submit = (data: MapInterface) => {
+    console.log(data)
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit((data) => console.log(data))}
-      className="flex w-full flex-col gap-4 p-6 shadow-md">
-        <Autocomplete 
-          data={[
-            
-          ]}
-          register={register('animal', { required: 'El animal es obligatorio' })}
-          errorMessage={errors.animal}
-          name="animal"
-          watch={watch}
-          setValue={setValue}
-          label="Seleccionar un animal"
-        />
-      {/* <SelectItem
-        data={[
-          { id: 'HOLA', label: 'hola' },
-          { id: 'TARDES', label: 'tardes' },
-          { id: 'ADIOS', label: 'adios' },
-        ]}
-        register={register('id')}
-        errorMessage={errors.id}
-        name="id"
-        watch={watch}
-        setValue={setValue}
-        label='Seleccionar una opcion'
-      /> */}
-      <button>Enviar</button>
+    <div className=" flex flex-col min-h-screen">
+    <form onSubmit={handleSubmit(submit)} className="flex gap-5 flex-col max-w-[400px] mx-auto">
+
+      
+      <button className="bg-red-400">Enviar</button>
+
     </form>
+        </div>
   )
 }

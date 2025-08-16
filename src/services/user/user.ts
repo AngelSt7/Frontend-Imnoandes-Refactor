@@ -17,8 +17,6 @@ export class User {
                 }
             });
             return data;
-        } catch (error) {
-            errorHttp(error);
-        }
+        } catch (error) { errorHttp(error); }
     }
 }

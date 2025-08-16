@@ -1,15 +1,17 @@
 import api from "@/src/axios/axios"
+import nest from "@/src/axios/nest"
 import { detailsPropertySchema, findPropertySchema, listPropertiesSchema } from "@/src/schema/admin/property/property"
 import { AdminProperty, FormDataProperty, PaginationType } from "@/src/types/adminTypes"
 import { errorHttp } from "@/src/utils/resolves/error"
 
+// corregir rutas
 const ROUTES = {
-    CHANGE_STATUS: `/property/status`,
-    CREATE: `/property/create`,
-    EDIT: `/property/edit`,
-    FIND: `/property`,
-    LIST: `/property/me`,
-    DETAILS: `/property/me/details`
+    CHANGE_STATUS: `/property-me/status`,
+    CREATE: `/property-me`,
+    EDIT: `/property-me/edit`,
+    FIND: `/property-me`,
+    LIST: `/property-me/me`,
+    DETAILS: `/property-me/me/details`
 }
 
 export class PropertyAdmin {
@@ -17,7 +19,7 @@ export class PropertyAdmin {
     static create = async (formData: FormDataProperty) => {
         try {
             const url = ROUTES.CREATE
-            const { data } = await api.post(url, formData)
+            const { data } = await nest.post(url, formData)
             return data.message;
         } catch (error) { errorHttp(error) }
     }

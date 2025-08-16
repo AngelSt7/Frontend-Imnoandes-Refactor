@@ -7,34 +7,32 @@ type InputProps<T extends FieldValues> = {
   type: string;
   placeholder: string;
   htmlFor: string;
-  label?: string;
-  register?: ReturnType<UseFormRegister<T>>;
+  disabled?: boolean;
   errorMessage?: FieldError;
   Icon?: IconType;
-  variant?: 'default' | 'floating';
-  maxLength?: number;
-  max?: number;
-  disabled?: boolean;
   inputMode?: 'text' | 'numeric' | 'decimal' | 'tel' | 'email' | 'url';
+  label?: string;
+  max?: number;
+  maxLength?: number;
   pattern?: string;
-  isLogin?: boolean
+  register?: ReturnType<UseFormRegister<T>>;
+  variant?: 'default' | 'floating';
 };
 
 export default function Input<T extends FieldValues>({
-  isLogin,
   type,
-  label,
-  register,
   htmlFor,
-  errorMessage,
   placeholder,
-  Icon,
-  maxLength,
-  max,
   disabled = false,
-  variant = 'default',
+  errorMessage,
+  Icon,
   inputMode,
+  label,
+  max,
+  maxLength,
   pattern,
+  register,
+  variant = 'default',
 }: InputProps<T>) {
   const isTextArea = type === 'textarea';
 
@@ -42,7 +40,6 @@ export default function Input<T extends FieldValues>({
     const base = `text-base block w-full p-2 border ${errorMessage ? 'border-[#d10b30]' : 'border-[#afaeae] dark:border-[#3f3f46]'
       } bg-[#f4f4f5] hover:bg-[#e4e4e7] dark:bg-[#242428] dark:hover:bg-[#3f3f46] rounded-md outline-none focus:ring-1 ${errorMessage ? 'ring-[#d10b30]' : 'focus:ring-white/10'
       }`;
-
 
     return variant === 'floating'
       ? `${base} peer px-3 pt-6 pb-2`
@@ -64,7 +61,7 @@ export default function Input<T extends FieldValues>({
         </label>
       )}
 
-      <div className="relative">
+      <div className="relative -mb-2">
         {isTextArea ? (
           <textarea
             id={inputId}

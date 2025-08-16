@@ -2,6 +2,7 @@ import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "@/src/utils/resolves
 import { z } from "zod";
 
 export const formDataPropertySchema = z.object({
+  id: z.string().uuid().nullish(),
   name: z.string().min(8).max(50),
   property_type: z.nativeEnum(PROPERTY_TYPE),
   property_category: z.nativeEnum(PROPERTY_CATEGORY),
@@ -12,13 +13,19 @@ export const formDataPropertySchema = z.object({
   departmentId: z.string().uuid(),
   provinceId: z.string().uuid(),
   districtId: z.string().uuid(),
-  bedrooms: z.number().positive(),
-  bathrooms: z.number().positive(),
+  bedrooms: z.number().positive().nullish(),
+  bathrooms: z.number().positive().nullish(),
   area: z.number().positive(),
-  furnished: z.boolean(),
-  floor: z.number().positive(),
-  parkingSpaces: z.boolean(),
-  servicesId: z.array(z.string().uuid())
+  furnished: z.boolean().nullish(),
+  hasTerrace: z.boolean().nullish(),
+  yearBuilt: z.number(),
+  latitude: z.number(),
+  longitude: z.number(),
+  floor: z.number().positive().nullish(),
+  hasParking: z.boolean().nullish(),
+  parkingSpaces: z.boolean().nullish(),
+  extraInfo: z.string().max(255),
+  servicesId: z.array(z.string().uuid()).nullish()
 });
 
 

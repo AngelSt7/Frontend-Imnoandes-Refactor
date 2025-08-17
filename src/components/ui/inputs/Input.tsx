@@ -17,7 +17,9 @@ type InputProps<T extends FieldValues> = {
   pattern?: string;
   register?: ReturnType<UseFormRegister<T>>;
   variant?: 'default' | 'floating';
+  className?: string; // 👈 nuevo
 };
+
 
 export default function Input<T extends FieldValues>({
   type,
@@ -33,6 +35,7 @@ export default function Input<T extends FieldValues>({
   pattern,
   register,
   variant = 'default',
+  className,
 }: InputProps<T>) {
   const isTextArea = type === 'textarea';
 
@@ -54,7 +57,7 @@ export default function Input<T extends FieldValues>({
   const inputId = `input-${label ? label : htmlFor}`;
 
   return (
-    <div className="flex flex-col w-full gap-2">
+    <div className={`flex flex-col w-full gap-2 ${className ?? ''}`}>
       {variant === 'default' && label && (
         <label htmlFor={inputId} className="capitalize overflow-hidden whitespace-nowrap text-ellipsis text-base font-semibold text-[#202021] dark:text-[#c5c5c7]">
           {label}:
@@ -85,11 +88,26 @@ export default function Input<T extends FieldValues>({
             className={inputClasses}
             onKeyDown={(e) => {
               if (type === 'number' && (e.key === '-' || e.key === 'e')) {
-                e.preventDefault()
+                e.preventDefault();
               }
             }}
-            {...register}
+            {...(type === 'number'
+              ? {
+                ...register,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value;
+                  register?.onChange({
+                    ...e,
+                    target: {
+                      ...e.target,
+                      value: value === '' ? null : Number(value),
+                    },
+                  });
+                },
+              }
+              : register)}
           />
+
         )}
 
         {Icon && !isTextArea && (

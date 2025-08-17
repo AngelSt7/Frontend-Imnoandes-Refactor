@@ -1,5 +1,6 @@
 import { Path, useForm } from "react-hook-form";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
+import { PROPERTY_CATEGORY } from "@/src/utils/resolves/bases/enums";
 
 export interface StepConfig<T> {
     component: React.ComponentType<any>;
@@ -12,15 +13,21 @@ interface StepsFormProps<T> {
     defaultValues?: T;
 }
 
-export const useStepsForm = <T extends Record<string, any>>({ steps, defaultValues }: StepsFormProps<T>) => {
+export const useStepsForm = <T extends Record<string, any>>({
+    steps,
+    defaultValues,
+}: StepsFormProps<T>) => {
 
     const numSteps = steps.length;
-    const methods = useForm<T>({ mode: 'onChange' });
+    const methods = useForm<T>({ mode: 'onChange', defaultValues: { 
+        property_category: PROPERTY_CATEGORY.COMERCIAL
+     } });
     const { handleSubmit, register, trigger, setError, formState, setValue, getValues, watch, clearErrors } = methods;
-    const [currentStep, setCurrentStep] = useState(0);
+
+    const [currentStep, setCurrentStep] = useState(3);
 
     const validateCurrentStep = async (): Promise<boolean> => {
-        const fields = steps[currentStep]?.fields || [];
+        const fields = steps[currentStep - 1]?.fields || [];
         if (!fields.length) return true;
         return await trigger(fields as Path<T>[]);
     };
@@ -30,21 +37,23 @@ export const useStepsForm = <T extends Record<string, any>>({ steps, defaultValu
         if (isValid) setCurrentStep(prev => Math.max(prev - 1, 1));
     };
 
-    const canGoPrev = () => currentStep > 0;
-    const canGoNext = () => currentStep < numSteps - 1;
+    const canGoPrev = () => currentStep > 1;
+    const canGoNext = () => currentStep < numSteps;
 
     const goToNextStep = async () => {
         const isValid = await validateCurrentStep();
-        if (isValid) setCurrentStep(prev => Math.min(prev + 1, numSteps - 1));
+        if (isValid) setCurrentStep(prev => Math.min(prev + 1, numSteps));
     };
 
     const goToStep = async (step: number) => {
         const isValid = step > currentStep ? await validateCurrentStep() : true;
-        if (isValid) setCurrentStep(step);
+        if (isValid && step >= 1 && step <= numSteps) {
+            setCurrentStep(step);
+        }
     };
 
     const renderStep = () => {
-        const step = steps[currentStep];
+        const step = steps[currentStep - 1];
         if (!step) return null;
         const StepComponent = step.component;
         return (
@@ -59,7 +68,6 @@ export const useStepsForm = <T extends Record<string, any>>({ steps, defaultValu
         );
     };
 
-
     return {
         numSteps,
         goToPrevStep,
@@ -71,13 +79,13 @@ export const useStepsForm = <T extends Record<string, any>>({ steps, defaultValu
         setValue,
         getValues,
         clearErrors,
-        currentStep,
+        currentStep, // ahora 1-based
         setCurrentStep,
         goToNextStep,
         goToStep,
         renderStep,
         setError,
         canGoPrev,
-        canGoNext
+        canGoNext,
     };
 };

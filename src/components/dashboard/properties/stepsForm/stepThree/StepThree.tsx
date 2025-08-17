@@ -14,6 +14,91 @@ type StepThreeProps = {
 
 export default function StepThree({ register, errors, setValue, watch }: StepThreeProps) {
     const propertyCategory = watch('property_category');
+    const hasParking = watch('hasParking');
+
+    const getLabelFloor = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+            case PROPERTY_CATEGORY.COMERCIAL:
+            case PROPERTY_CATEGORY.OFICINA:
+            case PROPERTY_CATEGORY.ALMACEN:
+                return 'Número de pisos';
+            case PROPERTY_CATEGORY.APARTAMENTO:
+                return 'Piso';
+            default:
+                return 'Piso'; 
+        }
+    };
+
+    const getErrorFloor = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+            case PROPERTY_CATEGORY.COMERCIAL:
+            case PROPERTY_CATEGORY.OFICINA:
+            case PROPERTY_CATEGORY.ALMACEN:
+                return 'El número de pisos es obligatorio';
+            case PROPERTY_CATEGORY.APARTAMENTO:
+                return 'El piso en el cual se encuentra la propiedad es obligatorio';
+            default:
+                return 'El piso es obligatorio';
+        }
+    };
+
+    const getMaxFloor = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+                return 8;
+            case PROPERTY_CATEGORY.APARTAMENTO:
+            case PROPERTY_CATEGORY.COMERCIAL:
+                return 50;
+            case PROPERTY_CATEGORY.OFICINA:
+                return 20;
+            default:
+                return 100;
+        }
+    };
+
+    const getMaxBedrooms = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+            case PROPERTY_CATEGORY.APARTAMENTO:
+                return 10;
+            default:
+                return 0;
+        }
+    };
+
+    const getMaxBathrooms = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+            case PROPERTY_CATEGORY.APARTAMENTO:
+                return 10;
+            case PROPERTY_CATEGORY.COMERCIAL:
+            case PROPERTY_CATEGORY.OFICINA:
+                return 20;
+            case PROPERTY_CATEGORY.ALMACEN:
+                return 5;
+            default:
+                return 5;
+        }
+    };
+
+    const getMaxParkingSpaces = () => {
+        switch (propertyCategory) {
+            case PROPERTY_CATEGORY.CASA:
+                return 5;
+            case PROPERTY_CATEGORY.APARTAMENTO:
+                return 2;
+            case PROPERTY_CATEGORY.COMERCIAL:
+            case PROPERTY_CATEGORY.OFICINA:
+                return 50;
+            case PROPERTY_CATEGORY.ALMACEN:
+                return 20;
+            default:
+                return 5;
+        }
+    };
+
 
     return (
         <>
@@ -53,7 +138,7 @@ export default function StepThree({ register, errors, setValue, watch }: StepThr
                             },
                             max: {
                                 value: new Date().getFullYear(),
-                                message: `El año no puede ser mayor a ${new Date().getFullYear()}`
+                                message: `El año no puede ser mayor a ${new Date().getFullYear() + 2}`
                             }
                         })}
                         errorMessage={errors.yearBuilt}
@@ -63,90 +148,56 @@ export default function StepThree({ register, errors, setValue, watch }: StepThr
 
                 {propertyCategory !== PROPERTY_CATEGORY.TERRENO && (
                     <>
-                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {(propertyCategory === PROPERTY_CATEGORY.CASA || propertyCategory === PROPERTY_CATEGORY.APARTAMENTO) && (
+                                <Input
+                                    type="number"
+                                    htmlFor="bedrooms"
+                                    label="N° de dormitorios"
+                                    placeholder="Número de dormitorios"
+                                    register={register('bedrooms', {
+                                        required: "El número de dormitorios es obligatorio",
+                                        valueAsNumber: true,
+                                        min: { value: 1, message: "Debe ser al menos 1" },
+                                        max: { value: getMaxBedrooms(), message: `Debe ser menor a ${getMaxBedrooms()}` }
+                                    })}
+                                    errorMessage={errors.bedrooms}
+                                />
+                            )}
+
                             <Input
-                                type='number'
-                                htmlFor='bedrooms'
-                                label='N° de dormitorios'
-                                placeholder='Número de dormitorios'
-                                register={register('bedrooms', {
-                                    required: "El numero de dormitorios es obligatorio",
-                                    valueAsNumber: true,
-                                    min: {
-                                        value: 1,
-                                        message: "El numero de dormitorios debe ser mayor a 0"
-                                    },
-                                    max: {
-                                        value: 10,
-                                        message: "El numero de dormitorios debe ser menor a 10"
-                                    }
-                                })}
-                                errorMessage={errors.bedrooms}
-                            />
-                            <Input
-                                type='number'
-                                htmlFor='bathrooms'
-                                label='N° de baños'
-                                placeholder='Número de baños'
+                                type="number"
+                                htmlFor="bathrooms"
+                                label="N° de baños"
+                                placeholder="Número de baños"
                                 register={register('bathrooms', {
-                                    required: "El numero de baños es obligatorio",
+                                    required: "El número de baños es obligatorio",
                                     valueAsNumber: true,
-                                    min: {
-                                        value: 1,
-                                        message: "El numero de baños debe ser mayor a 0"
-                                    },
-                                    max: {
-                                        value: 10,
-                                        message: "El numero de baños debe ser menor a 10"
-                                    }
+                                    min: { value: 1, message: "Debe ser al menos 1" },
+                                    max: { value: getMaxBathrooms(), message: `Debe ser menor a ${getMaxBathrooms()}` }
                                 })}
                                 errorMessage={errors.bathrooms}
                             />
-                        </div>
-
-
-                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
                             <Input
-                                type='number'
-                                htmlFor='floor'
-                                label='Piso'
-                                placeholder='Ingrese el número de piso'
+                                type="number"
+                                htmlFor="floor"
+                                label={getLabelFloor()}
+                                placeholder="Ingrese el número de piso"
                                 register={register('floor', {
+                                    required: getErrorFloor(),
                                     valueAsNumber: true,
-                                    min: {
-                                        value: 0,
-                                        message: "El piso debe ser 0 o mayor"
-                                    },
-                                    max: {
-                                        value: 200,
-                                        message: "El piso debe ser menor a 200"
-                                    }
+                                    min: { value: 1, message: "El piso debe ser al menos 1" },
+                                    max: { value: getMaxFloor(), message: `El piso debe ser menor o igual a ${getMaxFloor()}` }
                                 })}
                                 errorMessage={errors.floor}
-                            />
-                            <Input
-                                type='number'
-                                htmlFor='parkingSpaces'
-                                label='Espacios de parqueo'
-                                placeholder='Ingrese la cantidad de espacios de parqueo'
-                                register={register('parkingSpaces', {
-                                    valueAsNumber: true,
-                                    min: {
-                                        value: 1,
-                                        message: "Debe ser al menos 1 espacio"
-                                    },
-                                    max: {
-                                        value: 5,
-                                        message: "Debe ser máximo 5 espacios"
-                                    }
-                                })}
-                                errorMessage={errors.parkingSpaces}
+                                className={(propertyCategory === PROPERTY_CATEGORY.CASA || propertyCategory === PROPERTY_CATEGORY.APARTAMENTO)
+                                    ? "sm:col-span-2"
+                                    : ""}
                             />
                         </div>
 
-
-                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3'>
+                        <div className="flex flex-col gap-2 mt-3">
 
                             <CheckBox
                                 name='hasTerrace'
@@ -156,22 +207,42 @@ export default function StepThree({ register, errors, setValue, watch }: StepThr
                                 label='¿Tiene terraza?'
                             />
                             <CheckBox
-                                name='hasParking'
-                                register={register('hasParking')}
-                                setValue={setValue}
-                                watch={watch}
-                                label='¿Tiene espacios de parqueo?'
-                            />
-                            <CheckBox
                                 name='furnished'
                                 register={register('furnished')}
                                 setValue={setValue}
                                 watch={watch}
                                 label='¿Es amueblado?'
                             />
-
+                            <CheckBox
+                                name='hasParking'
+                                register={register('hasParking')}
+                                setValue={setValue}
+                                watch={watch}
+                                label='¿Tiene espacios de parqueo?'
+                            />
 
                         </div>
+                        {hasParking && (
+                            <Input
+                                type='number'
+                                htmlFor='parkingSpaces'
+                                label='Espacios de parqueo'
+                                placeholder='Ingrese la cantidad de espacios de parqueo'
+                                register={register('parkingSpaces', {
+                                    required: "La cantidad de espacios de parqueo es obligatoria",
+                                    valueAsNumber: true,
+                                    min: {
+                                        value: 1,
+                                        message: "Debe ser al menos 1 espacio"
+                                    },
+                                    max: {
+                                        value: getMaxParkingSpaces(),
+                                        message: `Debe ser máximo ${getMaxParkingSpaces()} espacios`
+                                    }
+                                })}
+                                errorMessage={errors.parkingSpaces}
+                            />
+                        )}
 
                     </>
                 )}
@@ -180,7 +251,12 @@ export default function StepThree({ register, errors, setValue, watch }: StepThr
                     htmlFor='description'
                     label='Descripción'
                     placeholder='Describe tu propiedad'
-                    register={register('description', { required: "La descripción es obligatoria" })}
+                    register={register('description', { 
+                        required: "La descripción es obligatoria", 
+                        minLength: {
+                            value: 8, message: "La descripción debe tener al menos 10 caracteres" }, 
+                            maxLength: { value: 300, message: "La descripción debe tener menos de 500 caracteres" } 
+                        })}
                     errorMessage={errors.description}
                 />
             </div>

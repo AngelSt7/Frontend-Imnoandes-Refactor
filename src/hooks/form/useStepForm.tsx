@@ -1,6 +1,5 @@
 import { Path, useForm } from "react-hook-form";
-import { Suspense, useState } from "react";
-import { PROPERTY_CATEGORY } from "@/src/utils/resolves/bases/enums";
+import { Suspense, useState, useEffect } from 'react';
 
 export interface StepConfig<T> {
     component: React.ComponentType<any>;
@@ -19,12 +18,11 @@ export const useStepsForm = <T extends Record<string, any>>({
 }: StepsFormProps<T>) => {
 
     const numSteps = steps.length;
-    const methods = useForm<T>({ mode: 'onChange', defaultValues: { 
-        property_category: PROPERTY_CATEGORY.COMERCIAL
-     } });
+    const methods = useForm<T>({ mode: 'onChange' });
     const { handleSubmit, register, trigger, setError, formState, setValue, getValues, watch, clearErrors } = methods;
 
-    const [currentStep, setCurrentStep] = useState(3);
+
+    const [currentStep, setCurrentStep] = useState(1);
 
     const validateCurrentStep = async (): Promise<boolean> => {
         const fields = steps[currentStep - 1]?.fields || [];
@@ -44,6 +42,18 @@ export const useStepsForm = <T extends Record<string, any>>({
         const isValid = await validateCurrentStep();
         if (isValid) setCurrentStep(prev => Math.min(prev + 1, numSteps));
     };
+
+    const isStepComplete = (stepIndex: number): boolean => {
+        const fields = steps[stepIndex]?.fields || [];
+        if (!fields.length) return false;
+
+        const values = getValues(fields as Path<T>[]);
+        const hasErrors = fields.some((field) => !!formState.errors[field]);
+        const allFilled = values.every((val) => val !== undefined && val !== "" && val !== null);
+
+        return !hasErrors && allFilled;
+    };
+
 
     const goToStep = async (step: number) => {
         const isValid = step > currentStep ? await validateCurrentStep() : true;
@@ -79,7 +89,7 @@ export const useStepsForm = <T extends Record<string, any>>({
         setValue,
         getValues,
         clearErrors,
-        currentStep, // ahora 1-based
+        currentStep,
         setCurrentStep,
         goToNextStep,
         goToStep,
@@ -87,5 +97,6 @@ export const useStepsForm = <T extends Record<string, any>>({
         setError,
         canGoPrev,
         canGoNext,
+        isStepComplete
     };
 };

@@ -43,10 +43,12 @@ export default function StepTwo({ register, errors, setValue, watch }: StepTwoPr
                 <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <Input
                         type='text'
+                        field='location'
                         htmlFor='location'
                         label='Ubicación'
                         placeholder='Dirección de la propiedad'
-                        register={register('location', { required: "La ubicación es obligatoria" })}
+                        register={register}
+                        rules={{ required: "La ubicación es obligatoria" }}
                         Icon={PiMapPinSimpleAreaFill}
                         errorMessage={errors.location}
                     />

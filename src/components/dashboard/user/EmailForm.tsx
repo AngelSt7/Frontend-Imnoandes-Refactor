@@ -25,7 +25,7 @@ export default function EmailForm({ user }: UserFormProps) {
         },
         onSuccess: (data) => {
             toast.success(data);
-            signOut({ callbackUrl: "/auth/login" }); 
+            signOut({ callbackUrl: "/auth/login" });
         }
     });
 
@@ -36,15 +36,19 @@ export default function EmailForm({ user }: UserFormProps) {
             <Input
                 htmlFor='email'
                 type="email"
+                field="email"
+                label="Email"
                 variant="floating"
                 placeholder='Ingresa tu email'
-                register={register("email", {
+                register={register}
+                rules={{
                     required: "El email es obligatorio",
                     pattern: {
                         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         message: "El email no es válido"
                     }
-                })}
+                }
+                }
                 errorMessage={errors.email}
                 Icon={Mail}
             />

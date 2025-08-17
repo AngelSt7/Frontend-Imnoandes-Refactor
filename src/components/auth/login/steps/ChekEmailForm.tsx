@@ -44,17 +44,19 @@ export default function CheckEmailForm({ statusForm, setStatusForm }: CheckEmail
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex w-full flex-col gap-4  ">
                 <Input
+                    field="email"
                     type="email"
                     label="Email"
                     htmlFor='email'
                     placeholder='Enter your email'
-                    register={register("email", {
+                    register={register}
+                    rules={{
                         required: "Email is required",
                         pattern: {
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: "Email is not valid"
                         }
-                    })}
+                    }}
                     errorMessage={errors.email}
                     Icon={AiOutlineMail}
                 />

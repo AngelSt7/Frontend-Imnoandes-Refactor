@@ -24,15 +24,17 @@ export default function ForgotPasswordForm() {
                 <Input
                     type="email"
                     label="Email"
+                    field='email'
                     htmlFor='email'
                     placeholder='Ingresa tu email'
-                    register={register("email", {
+                    register={register}
+                    rules={{
                         required: "El email es obligatorio",
                         pattern: {
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: "El email no es válido"
                         }
-                    })}
+                    }}
                     errorMessage={errors.email}
                     Icon={AiOutlineMail}
                 />

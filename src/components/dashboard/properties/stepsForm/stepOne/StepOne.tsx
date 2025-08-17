@@ -22,11 +22,13 @@ export default function StepOne({ register, errors, setValue, watch }: StepOnePr
             <Fieldset>Información básica</Fieldset>
             <div className=' flex flex-col gap-4'>
                 <Input
+                    field='name'
                     type='text'
                     htmlFor='name'
                     label='nombre'
                     placeholder='Elige como llamaremos a tu propiedad'
-                    register={register('name', { required: "El nombre es obligatorio" })}
+                    register={register}
+                    rules={{ required: "El nombre es obligatorio" }}
                     Icon={PiMapPinSimpleAreaFill}
                     errorMessage={errors.name}
                 />
@@ -60,33 +62,36 @@ export default function StepOne({ register, errors, setValue, watch }: StepOnePr
                         setValue={setValue}
                         label='Tipo de moneda'
                     />
+
                     <Input
-                        type='number'
-                        htmlFor='price'
-                        label='Precio'
-                        placeholder='Ingrese el precio de alquiler o venta'
-                        register={register("price", {
-                            valueAsNumber: true,
+                        type="text"
+                        field="price"
+                        htmlFor="price"
+                        label="Precio"
+                        placeholder="Ingrese el precio"
+                        register={register}
+                        rules={{
                             required: "El precio es obligatorio",
                             min: {
                                 value: currency === CURRENCY.PEN ? 1000 : 250,
                                 message:
                                     currency === CURRENCY.PEN
                                         ? "El precio debe ser al menos 1,000 PEN"
-                                        : "El precio debe ser al menos 250 USD"
+                                        : "El precio debe ser al menos 250 USD",
                             },
                             max: {
                                 value: currency === CURRENCY.PEN ? 15000000 : 4000000,
                                 message:
                                     currency === CURRENCY.PEN
-                                        ? "El precio no puede ser mayor a 1,000,000 PEN"
-                                        : "El precio no puede ser mayor a 100,000 USD"
-                            }
-                        })}
+                                        ? "El precio no puede ser mayor a 15,000,000 PEN"
+                                        : "El precio no puede ser mayor a 4,000,000 USD",
+                            },
+                        }}
                         Icon={PiMapPinSimpleAreaFill}
                         errorMessage={errors.price}
-                        inputMode='numeric'
+                        inputMode="numeric"
                     />
+
                 </div>
 
             </div>

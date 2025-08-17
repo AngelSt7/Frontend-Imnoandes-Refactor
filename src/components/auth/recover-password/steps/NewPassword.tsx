@@ -32,14 +32,16 @@ export default function NewPassword({ tokenId }: NewPasswordProps) {
                 <Input
                     type="password"
                     label="Contraseña"
+                    field='password'
                     htmlFor='password'
                     placeholder='Ingresa tu contraseña'
-                    register={register("password", {
+                    register={register}
+                    rules={{
                         required: "La contraseña es obligatoria", minLength: {
                             value: 6,
                             message: "La contraseña debe tener mínimo 6 caracteres"
                         }
-                    })}
+                    }}
                     errorMessage={errors.password}
                     Icon={AiOutlineLock}
                 />
@@ -48,12 +50,14 @@ export default function NewPassword({ tokenId }: NewPasswordProps) {
                     type="password"
                     htmlFor='repeatPassword'
                     label="Repetir contraseña"
+                    field='repeatPassword'
                     placeholder='Repite tu contraseña'
-                    register={register("repeatPassword", {
+                    register={register}
+                    rules={{
                         required: "Debes confirmar la contraseña",
                         validate: (value) =>
                             value === getValues("password") || "Las contraseñas no coinciden"
-                    })}
+                    }}
                     errorMessage={errors.repeatPassword}
                     Icon={AiOutlineLock}
                 />

@@ -24,17 +24,19 @@ export default function CheckPasswordForm({ email }: AuthCheckEmail) {
             onSubmit={handleSubmit(onSubmit)}
             className="flex w-full flex-col gap-4  ">
             <Input
+                field="password"
                 type="password"
                 label="Password"
                 htmlFor='password'
                 placeholder='Enter your password'
-                register={register("password", {
+                register={register}
+                rules={{
                     required: "Password is required",
                     minLength: {
                         value: 8,
                         message: "Password must be at least 8 characters"
                     }
-                })}
+                }}
                 errorMessage={errors.password}
                 Icon={AiOutlineLock}
             />

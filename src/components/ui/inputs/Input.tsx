@@ -1,25 +1,32 @@
 import { useMemo } from 'react';
-import { FieldError, FieldValues, UseFormRegister } from 'react-hook-form';
+import {
+  FieldError,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from 'react-hook-form';
 import { IconType } from 'react-icons';
 import Errors from '../errors/Errors';
 
 type InputProps<T extends FieldValues> = {
+  field: Path<T>;
   type: string;
   placeholder: string;
-  htmlFor: string;
+  htmlFor: Path<T>;
+  label?: string;
   disabled?: boolean;
   errorMessage?: FieldError;
   Icon?: IconType;
   inputMode?: 'text' | 'numeric' | 'decimal' | 'tel' | 'email' | 'url';
-  label?: string;
   max?: number;
   maxLength?: number;
   pattern?: string;
-  register?: ReturnType<UseFormRegister<T>>;
+  register: UseFormRegister<T>;
+  rules?: RegisterOptions<T>;
   variant?: 'default' | 'floating';
-  className?: string; // 👈 nuevo
+  className?: string;
 };
-
 
 export default function Input<T extends FieldValues>({
   type,
@@ -34,19 +41,37 @@ export default function Input<T extends FieldValues>({
   maxLength,
   pattern,
   register,
+  rules = {},
   variant = 'default',
   className,
+  field,
 }: InputProps<T>) {
   const isTextArea = type === 'textarea';
+  const isNumeric = inputMode === 'numeric' || type === 'number';
+
+  // 👉 Si es numérico, metemos el setValueAs automáticamente
+  const finalRules = isNumeric
+    ? {
+        ...rules,
+        setValueAs: (v: string) =>
+          v === '' || v == null ? null : Number(v),
+      }
+    : rules;
 
   const inputClasses = useMemo(() => {
-    const base = `text-base block w-full p-2 border ${errorMessage ? 'border-[#d10b30]' : 'border-[#afaeae] dark:border-[#3f3f46]'
-      } bg-[#f4f4f5] hover:bg-[#e4e4e7] dark:bg-[#242428] dark:hover:bg-[#3f3f46] rounded-md outline-none focus:ring-1 ${errorMessage ? 'ring-[#d10b30]' : 'focus:ring-white/10'
-      }`;
+    const base = `text-base block w-full p-2 border ${
+      errorMessage
+        ? 'border-[#d10b30]'
+        : 'border-[#afaeae] dark:border-[#3f3f46]'
+    } bg-[#f4f4f5] hover:bg-[#e4e4e7] dark:bg-[#242428] dark:hover:bg-[#3f3f46] rounded-md outline-none focus:ring-1 ${
+      errorMessage ? 'ring-[#d10b30]' : 'focus:ring-white/10'
+    }`;
 
     return variant === 'floating'
       ? `${base} peer px-3 pt-6 pb-2`
-      : `${base} px-3 py-2.5 pr-10 ${isTextArea ? 'min-h-[120px]' : 'h-[50px]'}`;
+      : `${base} px-3 py-2.5 pr-10 ${
+          isTextArea ? 'min-h-[120px]' : 'h-[50px]'
+        }`;
   }, [errorMessage, variant, isTextArea]);
 
   const autoCompleteValue = useMemo(
@@ -57,9 +82,12 @@ export default function Input<T extends FieldValues>({
   const inputId = `input-${label ? label : htmlFor}`;
 
   return (
-    <div className={`flex flex-col w-full gap-2 ${className ?? ''}`}>
+    <div className="flex flex-col w-full gap-2">
       {variant === 'default' && label && (
-        <label htmlFor={inputId} className="capitalize overflow-hidden whitespace-nowrap text-ellipsis text-base font-semibold text-[#202021] dark:text-[#c5c5c7]">
+        <label
+          htmlFor={inputId}
+          className="select-none capitalize overflow-hidden whitespace-nowrap text-ellipsis text-base font-semibold text-[#202021] dark:text-[#c5c5c7]"
+        >
           {label}:
         </label>
       )}
@@ -71,7 +99,7 @@ export default function Input<T extends FieldValues>({
             maxLength={maxLength}
             placeholder={variant === 'floating' ? ' ' : placeholder}
             className={inputClasses}
-            {...register}
+            {...register(htmlFor, finalRules)}
           />
         ) : (
           <input
@@ -87,27 +115,16 @@ export default function Input<T extends FieldValues>({
             autoComplete={autoCompleteValue}
             className={inputClasses}
             onKeyDown={(e) => {
-              if (type === 'number' && (e.key === '-' || e.key === 'e')) {
+              if (
+                inputMode === 'numeric' &&
+                !/[0-9]/.test(e.key) &&
+                !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(e.key)
+              ) {
                 e.preventDefault();
               }
             }}
-            {...(type === 'number'
-              ? {
-                ...register,
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                  const value = e.target.value;
-                  register?.onChange({
-                    ...e,
-                    target: {
-                      ...e.target,
-                      value: value === '' ? null : Number(value),
-                    },
-                  });
-                },
-              }
-              : register)}
+            {...register(field, finalRules)}
           />
-
         )}
 
         {Icon && !isTextArea && (

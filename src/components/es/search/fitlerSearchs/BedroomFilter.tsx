@@ -1,4 +1,3 @@
-
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@heroui/react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,14 +10,17 @@ export default function BedroomFilter() {
     const pathname = usePathname();
     const searchParams = useSearchParams()
 
-    const initPrices = { minBedroom: '', maxBedroom: ''}
+    const initPrices = { minBedroom: '', maxBedroom: '' }
     const [bedrooms, setBedrooms] = useState(initPrices)
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FilterBedrooms>();
 
     const onSubmit = (data: FilterBedrooms) => {
         reset()
-        setBedrooms({maxBedroom: data.maxBedroom.toString(), minBedroom: data.minBedroom.toString()})
+        setBedrooms({
+            maxBedroom: data.maxBedroom.toString(),
+            minBedroom: data.minBedroom.toString()
+        })
         const params = new URLSearchParams(searchParams.toString())
         Object.entries(data).forEach(([key, value]) => {
             if (!Number.isNaN(value)) {
@@ -46,28 +48,58 @@ export default function BedroomFilter() {
                         <p className="text-small font-bold text-foreground" {...titleProps}>
                             Habitaciones
                         </p>
-                        <form noValidate onSubmit={handleSubmit(onSubmit)} action="">
+                        <form noValidate onSubmit={handleSubmit(onSubmit)}>
                             <div className="mt-2 flex flex-col gap-2 w-full">
-                                <Input htmlFor="minBedroom" type="number" placeholder="Precio Mínimo" variant="floating"
-                                    register={register('minBedroom', {
+                                <Input
+                                    htmlFor="minBedroom"
+                                    field="minBedroom"
+                                    type="number"
+                                    placeholder="Mínimo"
+                                    variant="floating"
+                                    register={register}
+                                    rules={{
                                         valueAsNumber: true,
                                         min: {
                                             value: 1,
                                             message: "El mínimo es 1 habitación"
                                         }
-                                    })} errorMessage={errors.minBedroom} />
-                                <Input htmlFor="maxBedroom" type="number" placeholder="Precio Máximo" variant="floating"
-                                    register={register('maxBedroom', {
+                                    }}
+                                    errorMessage={errors.minBedroom}
+                                />
+                                <Input
+                                    htmlFor="maxBedroom"
+                                    field="maxBedroom"
+                                    type="number"
+                                    placeholder="Máximo"
+                                    variant="floating"
+                                    register={register}
+                                    rules={{
                                         valueAsNumber: true,
                                         max: {
                                             value: 3,
                                             message: "El máximo es 3 habitaciones"
                                         }
-                                    })} errorMessage={errors.maxBedroom} />
+                                    }}
+                                    errorMessage={errors.maxBedroom}
+                                />
                             </div>
                             <div className="flex gap-3 mt-3">
-                                <Button radius="sm" color="warning" fullWidth onPress={() => handleClearParams()}>Limpiar</Button>
-                                <Button radius="sm" color="warning" fullWidth type="submit">Aplicar</Button>
+                                <Button
+                                    radius="sm"
+                                    color="warning"
+                                    fullWidth
+                                    onPress={handleClearParams}
+                                >
+                                    Limpiar
+                                </Button>
+                                <Button
+                                    radius="sm"
+                                    color="warning"
+                                    fullWidth
+                                    type="submit"
+                                >
+                                    Aplicar
+                                </Button>
                             </div>
                         </form>
                     </div>

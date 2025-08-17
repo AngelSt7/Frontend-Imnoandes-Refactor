@@ -35,18 +35,22 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
                     <Input
                         type="text"
                         label="Name"
+                        field="name"
                         htmlFor='name'
                         placeholder='Enter your name'
-                        register={register("name", { required: "The name is required" })}
+                        register={register}
+                        rules={{ required: "The name is required" }}
                         errorMessage={errors.name}
                         Icon={AiOutlineUser}
                     />
                     <Input
                         type="text"
                         label="Last name"
+                        field="lastname"
                         htmlFor='lastname'
                         placeholder='Enter your last name'
-                        register={register("lastname", { required: "Last name is required" })}
+                        register={register}
+                        rules={{ required: "The last name is required" }}
                         errorMessage={errors.lastname}
                         Icon={AiOutlineUser}
                     />
@@ -55,31 +59,35 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
                 <Input
                     type="tel"
                     label="Phone"
+                    field="phone"
                     htmlFor='phone'
                     placeholder='Enter your last name'
-                    register={register("phone", {
+                    register={register}
+                    rules={{
                         required: "Phone number is required",
                         pattern: {
                             value: /^\d{9}$/,
                             message: "Phone number must have exactly 9 numeric digits"
                         }
-                    })}
+                    }}
                     errorMessage={errors.phone}
                     Icon={Phone}
                 />
 
                 <Input
                     type="email"
+                    field="email"
                     label="Email"
                     htmlFor='email'
                     placeholder='Enter your email address'
-                    register={register("email", {
+                    register={register}
+                    rules={{
                         required: "Email number is required",
                         pattern: {
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: "Email is not valid"
                         }
-                    })}
+                    }}
                     errorMessage={errors.email}
                     Icon={AiOutlineMail}
                 />
@@ -87,14 +95,16 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
                 <Input
                     type="password"
                     label="Password"
+                    field="password"
                     htmlFor='password'
                     placeholder='Enter your password'
-                    register={register("password", {
+                    register={register}
+                    rules={{
                         required: "Password is required", minLength: {
                             value: 6,
                             message: "Password must be at least 6 characters"
                         }
-                    })}
+                    }}
                     errorMessage={errors.password}
                     Icon={AiOutlineLock}
                 />
@@ -102,13 +112,15 @@ export default function DataAccountForm({ birthDate }: DataAccountFormProps) {
                 <Input
                     type="password"
                     label="Repeat Password"
+                    field="repeatPassword"
                     htmlFor='repeatPassword'
                     placeholder='Repeat your password'
-                    register={register("repeatPassword", {
+                    register={register}
+                    rules={{
                         required: "You must confirm the password",
                         validate: (value) =>
                             value === getValues("password") || "Passwords they don't match"
-                    })}
+                    }}
                     errorMessage={errors.repeatPassword}
                     Icon={AiOutlineLock}
                 />

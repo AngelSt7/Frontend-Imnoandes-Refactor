@@ -1,18 +1,16 @@
 'use client'
-import { useRouter } from 'next/navigation';
 import { useStepsForm } from '@/src/hooks/form';
 import { FormDataProperty } from '@/src/types';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { StepConfig } from '@/src/hooks/form/useStepForm';
-import { lazy, useState } from 'react';
+import { lazy, useEffect } from 'react';
 import { SkeletonStepTwo, SkeletonStepOne } from '../skeletons';
 import { TabsForms } from '../../ui';
 import { VscTriangleRight } from "react-icons/vsc";
 import { VscTriangleLeft } from "react-icons/vsc";
-import { Tooltip, Button } from '@heroui/react';
+import { Button } from '@heroui/react';
 import { useSubmitMutation } from '@/src/hooks';
 import { PropertyAdmin } from '@/src/services/admin';
-
 
 const StepOne = lazy(() => import("../stepsForm/stepOne/StepOne"));
 const StepTwo = lazy(() => import("../stepsForm/stepTwo/StepTwo"));
@@ -43,17 +41,24 @@ const steps: StepConfig<FormDataProperty>[] = [
 ];
 
 export default function CreateProperty() {
-    const router = useRouter()
-    const [isOpen, setIsOpen] = useState(false);
 
-    const { methods, handleSubmit, getValues, currentStep, canGoNext, canGoPrev, setCurrentStep, goToNextStep, goToPrevStep, renderStep } = useStepsForm<FormDataProperty>({ steps });
+    const { methods, handleSubmit, canGoNext, canGoPrev, goToNextStep, goToPrevStep, renderStep, currentStep, watch, formState, isStepComplete } = useStepsForm<FormDataProperty>({ steps });
+
+    useEffect(() => {
+        const subscription = watch((values) => {
+            console.log("Valores actuales del form:", values);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch, formState]);
+
 
     const { mutate } = useSubmitMutation({
         serviceFunction: PropertyAdmin.create
     })
 
 
-    const onSubmit: SubmitHandler<FormDataProperty> = (data : FormDataProperty) => {
+    const onSubmit: SubmitHandler<FormDataProperty> = (data: FormDataProperty) => {
         mutate(data)
     };
 
@@ -61,6 +66,9 @@ export default function CreateProperty() {
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} noValidate className='mt-3' encType="multipart/form-data">
                 <TabsForms
+                    numSteps={steps.length}
+                    currentStep={currentStep}
+                    isStepComplete={isStepComplete}
                 />
 
                 {renderStep()}
@@ -95,10 +103,7 @@ export default function CreateProperty() {
 
                     <div className='w-full'>
                         <div className=' flex justify-end'>
-
-                            <Tooltip content="Todos los campos estan completos" isOpen={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-                                <Button type='submit' radius='full' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-[30%]'>Finalizar</Button>
-                            </Tooltip>
+                            <Button type='submit' radius='full' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-[30%]'>Finalizar</Button>
                         </div>
                     </div>
                 </div>

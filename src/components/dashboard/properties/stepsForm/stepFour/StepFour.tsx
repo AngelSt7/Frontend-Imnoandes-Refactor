@@ -36,10 +36,13 @@ export default function StepFour({ register, errors, setValue, watch }: StepThre
 
                 <Input
                     type='textarea'
+                    field='extraInfo'
                     label='Información adicional'
                     htmlFor='extraInfo'
                     placeholder='¿Tiene alguna información adicional que desees agregar? Ej: condiciones de la propiedad, etc.'
-                    register={register('extraInfo')}
+                    register={register}
+                    rules={{minLength: {value: 8, message: 'La información adicional debe tener al menos 8 caracteres'},
+                    maxLength: {value: 300, message: 'La información adicional debe tener menos de 300 caracteres'}}}
                     errorMessage={errors.extraInfo}
                 />
             </div>

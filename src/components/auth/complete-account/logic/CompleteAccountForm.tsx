@@ -35,18 +35,22 @@ export default function CompleteAccountForm({ user }: CompleteAccountProps) {
                     <Input
                         type="text"
                         htmlFor="name"
+                        field="name"
                         label="Nombre"
                         placeholder='Ingresa tu nombre'
-                        register={register("name", { required: "El nombre es obligatorio" })}
+                        register={register}
+                        rules={{ required: "El nombre es obligatorio" }}
                         errorMessage={errors.name}
                         Icon={AiOutlineUser}
                     />
                     <Input
                         type="text"
                         htmlFor="lastname"
+                        field="lastname"
                         label="Apellido"
                         placeholder='Ingresa tu apellido'
-                        register={register("lastname", { required: "El apellido es obligatorio" })}
+                        register={register}
+                        rules={{ required: "El apellido es obligatorio" }}
                         errorMessage={errors.lastname}
                         Icon={AiOutlineUser}
                     />
@@ -57,13 +61,15 @@ export default function CompleteAccountForm({ user }: CompleteAccountProps) {
                     htmlFor="phone"
                     label="Teléfono"
                     placeholder='Ingresa tu teléfono'
-                    register={register("phone", {
+                    field="phone"
+                    register={register}
+                    rules={{
                         required: "El teléfono es obligatorio",
                         pattern: {
                             value: /^\d{9}$/,
                             message: "El teléfono debe tener exactamente 9 dígitos numéricos"
                         }
-                    })}
+                    }}
                     errorMessage={errors.phone}
                     Icon={Phone}
                 />

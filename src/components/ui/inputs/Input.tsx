@@ -82,7 +82,7 @@ export default function Input<T extends FieldValues>({
   const inputId = `input-${label ? label : htmlFor}`;
 
   return (
-    <div className="flex flex-col w-full gap-2">
+    <div className={`flex flex-col w-full gap-2 ${className ?? ''}`}>
       {variant === 'default' && label && (
         <label
           htmlFor={inputId}

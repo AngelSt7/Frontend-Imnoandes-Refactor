@@ -21,17 +21,40 @@ export default function StepOne({ register, errors, setValue, watch }: StepOnePr
         <>
             <Fieldset>Información básica</Fieldset>
             <div className=' flex flex-col gap-4'>
-                <Input
-                    field='name'
-                    type='text'
-                    htmlFor='name'
-                    label='nombre'
-                    placeholder='Elige como llamaremos a tu propiedad'
-                    register={register}
-                    rules={{ required: "El nombre es obligatorio" }}
-                    Icon={PiMapPinSimpleAreaFill}
-                    errorMessage={errors.name}
-                />
+                <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <Input
+                        field='name'
+                        type='text'
+                        htmlFor='name'
+                        label='nombre'
+                        placeholder='Elige como llamaremos a tu propiedad'
+                        register={register}
+                        rules={{ required: "El nombre es obligatorio" }}
+                        Icon={PiMapPinSimpleAreaFill}
+                        errorMessage={errors.name}
+                    />
+                    <Input
+                        field='phone'
+                        type='text'
+                        htmlFor='phone'
+                        label='telefono'
+                        placeholder='Elige un telefono de contacto'
+                        register={register}
+                        rules={{
+                            required: "El telefono es obligatorio", 
+                            max: { value: 999999999, message: 'Ingrese un número de telefono valido' },
+                            min: { value: 99999999, message: 'Ingrese un número de telefono valido' },
+                            pattern: {
+                                value: /^9[0-9]{8}$/
+                                , message: 'El número de telefono debe ser de 9 digitos'
+                            }
+                        }}
+                        Icon={PiMapPinSimpleAreaFill}
+                        inputMode='numeric'
+                        maxLength={9}
+                        errorMessage={errors.phone}
+                    />
+                </div>
                 <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <SelectItem
                         data={PROPERTY_TYPE_SELECT}

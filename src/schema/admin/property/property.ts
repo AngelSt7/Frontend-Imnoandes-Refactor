@@ -1,15 +1,17 @@
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "@/src/utils/resolves/bases/enums";
 import { z } from "zod";
+import { MetaSchema } from "../../shared";
 
 export const formDataPropertySchema = z.object({
   id: z.string().uuid().nullish(),
-  name: z.string().min(8).max(50),
+  name: z.string(),
+  phone: z.string(),
   property_type: z.nativeEnum(PROPERTY_TYPE),
   property_category: z.nativeEnum(PROPERTY_CATEGORY),
   currency: z.nativeEnum(CURRENCY),
   price: z.number().positive(),
-  location: z.string().min(8).max(40),
-  description: z.string().min(8).max(300),
+  location: z.string(),
+  description: z.string(),
   departmentId: z.string().uuid(),
   provinceId: z.string().uuid(),
   districtId: z.string().uuid(),
@@ -24,21 +26,26 @@ export const formDataPropertySchema = z.object({
   floor: z.number().positive().nullish(),
   hasParking: z.boolean().nullish(),
   parkingSpaces: z.boolean().nullish(),
-  extraInfo: z.string().max(255),
+  extraInfo: z.string(),
   servicesId: z.array(z.string().uuid()).nullish()
 });
 
-
 export const propertySchema = z.object({
-  id: z.number(),
-  imageMain: z.string(),
-  location: z.string(),
+  id: z.string().uuid(),
+  name: z.string(),
   price: z.number(),
-  type: z.object({ type: z.string() }),
+  currency: z.enum(["PEN", "USD"]),
+  property_type: z.enum(["RENT", "SALE"]),
+  property_category: z.enum(["APARTMENT", "HOUSE", "OFFICE", "LAND", "COMMERCIAL", "WAREHOUSE"]),
   availability: z.boolean(),
-  publishedAt: z.string(),
-  currency: z.object({ currency: z.string() })
-})
+  area: z.number(),
+  yearBuilt: z.number().nullable(),
+  bathrooms: z.number().nullable(),
+  bedrooms: z.number().nullable(),
+  location: z.string(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
 
 export const detailsPropertySchema = z.object({
   id: z.number(),
@@ -83,8 +90,7 @@ export const findPropertySchema = z.object({
   imagesGallery: z.array(z.string())
 })
 
-
-export const listPropertiesSchema = z.object({
-  properties: z.array(propertySchema),
-  pages: z.number()
+export const propertiesListSchema = z.object({
+  data: z.array(propertySchema),
+  meta: MetaSchema
 })

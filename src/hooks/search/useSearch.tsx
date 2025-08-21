@@ -1,90 +1,65 @@
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+'use client'
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useAppStore } from "@/src/store/useAppStore";
-import { PropertyAdmin } from "@/src/services";
+import { UseGetFilters, useGetFilters } from "./useGetFilters";
+import { Meta } from "@/src/schema/shared";
+import { useDebounce } from "../debounce/useDebounce";
 
-export const useSearch = () => {
-  // Estados y referencias
-  // const take = useAppStore(state => state.take);
-  // const [key, setKey] = useState<string>();
-  // const [search, setSearch] = useState("");
-  // const prevSearch = useRef("");
-  // const [searching, setSearching] = useState(false);
+interface ApiResponse<T> {
+  data: T[];
+  meta: Meta;
+}
 
-  // // Hooks de navegación
-  // const router = useRouter();
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
-  
-  // const page = searchParams.get("page") || "1";
-  // const paramSearch = searchParams.get("search");
+interface UseSearchProps<T> {
+  baseKey: string;
+  functionService: (filters: UseGetFilters) => Promise<ApiResponse<T> | undefined>;
+}
 
-  // // Función para manejar cambios en la barra de búsqueda
-  // const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const newSearch = e.target.value;
-  //   setSearch(newSearch);
+export const useSearch = <T,>({
+  baseKey,
+  functionService
+}: UseSearchProps<T>) => {
 
-  //   // Si hay una búsqueda, redirigir a la página 1
-  //   const params = new URLSearchParams();
-  //   if (newSearch.trim()) {
-  //     params.set("search", newSearch);
-  //     params.set("page", "1"); // Reinicia a la primera página
-  //   } else {
-  //     params.set("page", "1");
-  //   }
+  const segment = baseKey ?? "key";
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { getParams } = useGetFilters()
 
-  //   router.push(`/dashboard/properties?${params.toString()}`);
-  // };
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
+  const filters = useMemo(() => getParams(searchParams), [searchParams]);
 
-  // // Efecto para manejar búsqueda y actualización de URL
-  // useEffect(() => {
-  //   if (paramSearch) {
-  //     setSearching(true);
-  //     prevSearch.current = paramSearch;
-  //   } else {
-  //     setSearching(false);
-  //     prevSearch.current = "";
-  //   }
-  // }, [paramSearch]);
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (debouncedSearch.trim()) {
+      params.set("search", debouncedSearch);
+    } else {
+      params.delete("search");
+    }
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+  }, [debouncedSearch]);
 
-  // // Queries para obtener propiedades
-  // const { data: propertyData, isFetching } = useQuery({
-  //   queryFn: () => PropertyAdmin.list({ page: Number(page), take: take }),
-  //   queryKey: [key, page, take],
-  //   refetchOnWindowFocus: false,
-  //   retry: false,
-  //   placeholderData: keepPreviousData,
-  // });
+  const queryKey = useMemo(() => [baseKey, filters.query], [segment, filters]);
 
-  // const { data: searchData, isFetching: isFetchingSearch } = useQuery({
-  //   queryFn: () => PropertyAdmin.list({ page: 1, take: Number(take), search: paramSearch || "" }),
-  //   queryKey: [key, "1", paramSearch, take], // Siempre comienza en 1
-  //   enabled: !!paramSearch,
-  //   refetchOnWindowFocus: false,
-  //   retry: false,
-  //   placeholderData: keepPreviousData,
-  // });
+  const { data: response, isFetching: isLoading } = useQuery({
+    queryKey,
+    queryFn: () => functionService(filters),
+    placeholderData: keepPreviousData,
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
-  // // Selección de datos en base a la búsqueda
-  // const dataProperty = paramSearch && searchData?.properties 
-  //   ? searchData.properties 
-  //   : propertyData?.properties;
-
-  // return {
-  //   handleSearch,
-  //   search,
-  //   setSearch,
-  //   searching,
-  //   setSearching,
-  //   page,
-  //   router,
-  //   setKey,
-  //   dataProperty,
-  //   isFetching,
-  //   isFetchingSearch,
-  //   propertyData,
-  //   searchData,
-  //   paramSearch
-  // };
+  return {
+    search,
+    setSearch,
+    page: filters,
+    router,
+    data: response?.data ?? [],
+    meta: response?.meta,
+    isLoading,
+    filters,
+  };
 };

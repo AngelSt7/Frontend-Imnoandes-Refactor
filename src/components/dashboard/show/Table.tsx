@@ -1,7 +1,7 @@
 "use client";
 
+import { useSearch } from "@/src/hooks/search/useSearch";
 import { PaginationType, SessionNextAuth } from "@/src/types/adminTypes/property";
-// import { useSearch } from "@/src/hooks/useSearch";
 
 type TablePropertiesProps = {
   page: PaginationType['page'];
@@ -9,8 +9,8 @@ type TablePropertiesProps = {
 };
 
 export default function TableProperties({ page, key }: TablePropertiesProps) {
-  // const { handleSearch, dataProperty, setKey, isFetching, isFetchingSearch, propertyData, searchData, paramSearch } = useSearch();
-  // useEffect(() => { setKey(key) }, [])
+  const { data } = useSearch({});
+
 
   return (
     <>

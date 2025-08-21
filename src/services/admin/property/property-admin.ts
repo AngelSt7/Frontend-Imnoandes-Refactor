@@ -1,8 +1,11 @@
 import api from "@/src/axios/axios"
 import nest from "@/src/axios/nest"
-import { detailsPropertySchema, findPropertySchema, listPropertiesSchema } from "@/src/schema/admin/property/property"
-import { AdminProperty, FormDataProperty, PaginationType } from "@/src/types/adminTypes"
+import { ApiResponse } from "@/src/components/dashboard/ui/table/TableContent";
+import { UseGetFilters } from "@/src/hooks/search/useGetFilters"
+import { detailsPropertySchema, findPropertySchema, propertiesListSchema } from "@/src/schema/admin/property/property"
+import { FormDataProperty, PaginationType, AdminProperty, AdminProperties } from '@/src/types/adminTypes';
 import { errorHttp } from "@/src/utils/resolves/error"
+
 
 // corregir rutas
 const ROUTES = {
@@ -10,7 +13,7 @@ const ROUTES = {
     CREATE: `/property-me`,
     EDIT: `/property-me/edit`,
     FIND: `/property-me`,
-    LIST: `/property-me/me`,
+    LIST: `/property-me`,
     DETAILS: `/property-me/me/details`
 }
 
@@ -24,12 +27,13 @@ export class PropertyAdmin {
         } catch (error) { errorHttp(error) }
     }
 
-    static list = async (pagination: PaginationType) => {
-        const skip = (pagination.page - 1) * pagination.take
+    static list = async (filters: UseGetFilters) : Promise<ApiResponse<AdminProperty> | undefined> => {
         try {
-            const url = `${ROUTES.LIST}/${pagination.take}/${skip}`
-            const { data } = await api(url)
-            const response = listPropertiesSchema.safeParse(data)
+            const url = filters.hasParams 
+                ? `${ROUTES.LIST}?${filters.query}` 
+                : `${ROUTES.LIST}`
+            const { data } = await nest(url)
+            const response = propertiesListSchema.safeParse(data)
             if (response.success) return response.data
         } catch (error) { errorHttp(error) }
     };

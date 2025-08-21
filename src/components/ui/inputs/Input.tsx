@@ -26,6 +26,7 @@ type InputProps<T extends FieldValues> = {
   rules?: RegisterOptions<T>;
   variant?: 'default' | 'floating';
   className?: string;
+  regex?: 'phone' | 'email';
 };
 
 export default function Input<T extends FieldValues>({
@@ -45,11 +46,11 @@ export default function Input<T extends FieldValues>({
   variant = 'default',
   className,
   field,
+  regex
 }: InputProps<T>) {
   const isTextArea = type === 'textarea';
   const isNumeric = inputMode === 'numeric' || type === 'number';
 
-  // 👉 Si es numérico, metemos el setValueAs automáticamente
   const finalRules = isNumeric
     ? {
         ...rules,

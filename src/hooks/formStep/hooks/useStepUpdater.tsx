@@ -6,6 +6,7 @@ export interface StepRule<T extends FieldValues> {
   watchFields: (keyof T)[];
   getConfig: (values: Record<string, any>, formMethods: UseFormReturn<T>) => any;
   condition?: (values: Record<string, any>) => boolean;
+  onComplete?: (values: Record<string, any>) => void;
 }
 
 interface UseStepUpdaterProps<T extends FieldValues> {
@@ -30,7 +31,7 @@ export function useStepUpdater<T extends FieldValues>({
     const subscription = watch((values, { name }) => {
       if (!name || !allWatchFields.includes(name)) return;
       
-      rules.forEach(({ stepIndex, watchFields, getConfig, condition }) => {
+      rules.forEach(({ stepIndex, watchFields, getConfig, condition, onComplete }) => {
         const currentValues = watchFields.reduce((acc, field) => {
           acc[field as string] = values[field as string];
           return acc;
@@ -46,13 +47,13 @@ export function useStepUpdater<T extends FieldValues>({
           if (shouldUpdate) {
             const newStepConfig = getConfig(currentValues, formMethods);
             updateStep(stepIndex, newStepConfig);
+            onComplete?.(currentValues);
           }
           
           previousValuesRef.current[ruleKey] = currentValuesString;
         }
       });
     });
-
     return () => subscription.unsubscribe();
   }, [formMethods, rules, updateStep, watch]);
 }

@@ -59,10 +59,10 @@ export const useControlStep = () => {
   );
 
   const getStepFourConfig = useCallback(
-    (): StepConfig<FormDataProperty> => ({
+    (propertyCategory?: string): StepConfig<FormDataProperty> => ({
       component: StepFour as React.ComponentType<any>,
       fallback: <SkeletonStepOne />,
-      fields: getStepFourFields(),
+      fields: getStepFourFields(propertyCategory),
     }),
     [getStepFourFields]
   );
@@ -72,7 +72,7 @@ export const useControlStep = () => {
       getStepOneConfig(),
       getStepTwoConfig(),
       getStepThreeConfig(propertyCategory, hasParking),
-      getStepFourConfig(),
+      getStepFourConfig(propertyCategory),
     ],
     [getStepOneConfig, getStepTwoConfig, getStepThreeConfig, getStepFourConfig]
   );

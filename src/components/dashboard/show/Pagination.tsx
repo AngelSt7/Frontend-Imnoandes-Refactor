@@ -3,12 +3,13 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Pagination as PaginationHero } from "@heroui/pagination";
 import { PaginationType } from "@/src/types/adminTypes/property";
+import { Meta } from "@/src/schema/shared";
 
 type PaginationProps = {
-  total: number,
+  meta: Meta | undefined,
 }
 
-export default function Pagination({ total }: Pick<PaginationProps, 'total'>) {
+export default function Pagination({ meta }: PaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,7 +29,7 @@ export default function Pagination({ total }: Pick<PaginationProps, 'total'>) {
       color="warning"
       loop
       showControls
-      total={total}
+      total={meta?.totalPages || 1}
       page={currentPage}
       onChange={handlePageChange}
     />

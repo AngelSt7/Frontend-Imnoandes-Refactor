@@ -63,8 +63,14 @@ export const useStepFields = () => {
         []
     );
 
-    const getStepFourFields = useCallback((): string[] => {
-        return DEFINE_STEPS.stepFour;
+    const getStepFourFields = useCallback((propertyCategory?: string): string[] => {
+        let returnFiels : string[] = []
+        if(propertyCategory === PROPERTY_CATEGORY.TERRENO){
+            returnFiels = []
+        } else {
+            returnFiels = DEFINE_STEPS.stepFour
+        }
+        return returnFiels
     }, []);
 
     return {

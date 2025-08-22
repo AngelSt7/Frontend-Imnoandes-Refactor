@@ -71,7 +71,7 @@ export default function Menu() {
                                 <UserIcon size={18} />
                                 Crear Propiedad
                             </button>
-                                                        <button
+                            <button
                                 onClick={() => closeModal()}
                                 className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 p-2 flex items-center hover:text-zinc-950 focus:outline-none focus:ring-0 gap-2 w-full'
                                 type='button'

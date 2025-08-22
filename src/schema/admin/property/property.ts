@@ -35,6 +35,7 @@ export const propertySchema = z.object({
   name: z.string(),
   price: z.number(),
   currency: z.enum(["PEN", "USD"]),
+  phone: z.string(),
   property_type: z.enum(["RENT", "SALE"]),
   property_category: z.enum(["APARTMENT", "HOUSE", "OFFICE", "LAND", "COMMERCIAL", "WAREHOUSE"]),
   availability: z.boolean(),

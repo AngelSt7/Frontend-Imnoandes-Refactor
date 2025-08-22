@@ -55,11 +55,8 @@ export const useSearch = <T,>({
   return {
     search,
     setSearch,
-    page: filters,
-    router,
     data: response?.data ?? [],
     meta: response?.meta,
-    isLoading,
-    filters,
+    isLoading
   };
 };

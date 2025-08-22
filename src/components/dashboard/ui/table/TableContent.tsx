@@ -7,6 +7,8 @@ import { Spinner, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabl
 import { ColumnsType } from "../../properties/columns/columns";
 import { TopContent } from "./TopContent";
 import { useLogicTable } from "./hooks/useLogicTable";
+import React from "react";
+import { FiltersProps } from "../../properties/content/Filters";
 
 export interface ApiResponse<T> {
     data: T[];
@@ -17,15 +19,37 @@ interface TableContentProps<T> {
     queryKey: string;
     columns: ColumnsType;
     defaultVisibleColumns: (keyof T | string)[]
-    renderCells?: (item: T, columnKey: React.Key) => React.ReactNode;
+    renderCells: React.ComponentType<{ item: T; columnKey: React.Key }>;
+    renderFilters: React.ComponentType<FiltersProps>
+    onCreate?: () => void;
+    onEdit?: (item: string) => void;
+    onDetails?: (item: T) => void;
+    onAddParam: (key : string, value : string) => void;
+    onDeleteParam: (key : string) => void
+    onGetParam: (key: string) => string | null
 }
 
-export default function TableContent<T extends { id: number | string }>({
+export const options = [
+    { value: "Todas", key: "all" },
+    { value: "Disponible", key: "activo" },
+    { value: "No Disponible", key: "inactivo" },
+]
+
+export default function TableContent<T>({
     queryKey,
     renderCells,
     columns,
     defaultVisibleColumns,
+    renderFilters,
+    onAddParam,
+    onCreate,
+    onEdit,
+    onDetails,
+    onDeleteParam,
+    onGetParam
 }: TableContentProps<T>) {
+
+    console.log("Reentrando a table content")
 
     const { data, meta, isLoading, search, setSearch } = useSearch({
         baseKey: queryKey,
@@ -34,15 +58,14 @@ export default function TableContent<T extends { id: number | string }>({
 
     const { selectedKeys, setSelectedKeys, visibleColumns, setVisibleColumns, statusFilter, setStatusFilter, headerColumns } = useLogicTable({ defaultVisibleColumns, columns });
 
+    const CellRenderer = renderCells;
+    const Filters = renderFilters
     return (
         <Table
             isCompact
-            aria-label="Custom table using hook logic"
-            bottomContent={
-                <Pagination meta={meta} />
-            }
+            aria-label={`${queryKey} table`}
+            bottomContent={ <Pagination meta={meta} /> }
             bottomContentPlacement="outside"
-            classNames={{ wrapper: "min-h-[222px]" }}
             selectedKeys={selectedKeys}
             onSelectionChange={(keys) => {
                 const newKeys =
@@ -54,24 +77,27 @@ export default function TableContent<T extends { id: number | string }>({
             topContent={
                 <TopContent
                     filterValue={search}
-                    setFilterValue={setSearch}
+                    messageButton={"Agregar propiedad"}
                     onSearchChange={(value) => setSearch(value)}
                     onClear={() => {
                         setSearch("");
                         setStatusFilter("all");
                     }}
-                    statusFilter={statusFilter}
-                    setStatusFilter={setStatusFilter}
-                    visibleColumns={visibleColumns}
-                    setVisibleColumns={setVisibleColumns}
                     total={meta?.totalItems || 1}
-                    statusOptions={[
-                        { name: "Todos", uid: "all" },
-                        { name: "Activo", uid: "activo" },
-                        { name: "Inactivo", uid: "inactivo" },
-                    ]}
-                    columns={columns}
-                    messageButton="Elemento"
+                    renderFilters={
+                        <Filters
+                            statusFilter={statusFilter}
+                            setStatusFilter={setStatusFilter}
+                            visibleColumns={visibleColumns}
+                            setVisibleColumns={setVisibleColumns}
+                            statusOptions={options}
+                            columns={columns}
+                            setFilterValue={setSearch}
+                            onAddParam={onAddParam}
+                            onDeleteParam={onDeleteParam}
+                            onGetParam={onGetParam}
+                        />
+                    }
                 />
             }
             topContentPlacement="outside"
@@ -91,13 +117,16 @@ export default function TableContent<T extends { id: number | string }>({
                 emptyContent="No se encontraron registros"
                 items={data}
                 isLoading={isLoading}
-                loadingContent={<Spinner />}
+                loadingContent={<Spinner color="success" />}
             >
                 {(item) => (
                     <TableRow className="hover:bg-[#f3f4f6] dark:hover:bg-[#222225] dark:text-[#c9cacb]" key={item.id}>
                         {(columnKey) => (
                             <TableCell>
-                                {renderCells?.(item, columnKey)}
+                                <CellRenderer
+                                    item={item}
+                                    columnKey={columnKey}
+                                />
                             </TableCell>
                         )}
                     </TableRow>

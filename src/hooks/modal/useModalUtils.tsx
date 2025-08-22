@@ -24,7 +24,7 @@ export function useModalUtils() {
         router.replace(`?${params.toString()}`);
     };
 
-    const openModalEdit = (id: number) => {
+    const openModalEdit = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set(ValidParams.action, ValidParams.edit);
         params.set("id", Number(id).toString());
@@ -33,15 +33,17 @@ export function useModalUtils() {
 
     const closeModal = () => {
         const params = new URLSearchParams(searchParams.toString());
+        const deletes = [ValidParams.action, ValidParams.id, ValidParams.details, ValidParams.edit];
 
         Array.from(params.keys()).forEach((keys) => {
-            if (keys !== ValidParams.page) {
+            if (deletes.includes(keys)) {
                 params.delete(keys);
             }
         })
+
         router.replace(`?${params.toString()}`);
     };
 
 
-    return { openModalCreate, openDetailsModal, openModalEdit, closeModal };
+    return { openModalCreate, openDetailsModal, openModalEdit, closeModal, searchParams };
 };

@@ -26,3 +26,5 @@ export const DEPARTMENT_SELECT = [
   { key: 'ed69c503-91c7-41f0-8c95-ee9e936b8ae7', label: 'Arequipa' },
   { key: 'fccc85e5-0578-4b7a-98a0-f4c0f8b8f910', label: 'Piura' },
 ]
+
+export const DEPARTMENT_DROPDOWN = [...DEPARTMENT_SELECT, { key: 'all', label: 'Todos' }]

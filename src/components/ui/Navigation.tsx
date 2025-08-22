@@ -3,8 +3,11 @@
 import { usePathname } from 'next/navigation'
 import Menu from '../dashboard/ui/Menu'
 import { messages } from '@/src/utils/frontend/ui/messagesUtils'
+import { Button } from '@heroui/react'
+import { useModalUtils } from '../../hooks/modal/useModalUtils';
 
 export default function Navigation() {
+    const { openModalCreate } = useModalUtils();
     const path = usePathname()
 
     const getPageType = (path: string) => {
@@ -42,7 +45,17 @@ export default function Navigation() {
                             {currentMessages.description}
                         </p>
                     </div>
-                    <Menu />
+
+                    <div className=' flex gap-3 items-center'>
+                        <Button 
+                            onPress={openModalCreate}
+                            type='submit'
+                            radius='full'
+                            className='px-4 py-2 rounded-full text-sm font-medium border transition flex items-center gap-2 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-900 dark:hover:bg-foreground-100 border-zinc-300'>
+                            Agregar propiedad
+                        </Button>
+                        <Menu />
+                    </div>
                 </div>
             </div>
         </div>

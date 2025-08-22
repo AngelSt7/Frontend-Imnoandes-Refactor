@@ -9,7 +9,6 @@ export type ColumnsType = ({
 })[]
 
 export const Columns: ColumnsType = [
-  { name: "ID", uid: "id", sortable: true },
   { name: "Nombre", uid: "name", sortable: true },
   { name: "Precio", uid: "price", sortable: true },
   { name: "Moneda", uid: "currency", sortable: true },

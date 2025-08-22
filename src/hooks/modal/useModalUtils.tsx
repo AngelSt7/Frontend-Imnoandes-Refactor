@@ -18,9 +18,10 @@ export function useModalUtils() {
         router.replace(`?${params.toString()}`);
     };
 
-    const openDetailsModal = () => {
+    const openDetailsModal = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set(ValidParams.action, ValidParams.details);
+        params.set("id", id);
         router.replace(`?${params.toString()}`);
     };
 

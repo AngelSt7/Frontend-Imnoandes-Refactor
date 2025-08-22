@@ -1,47 +1,31 @@
 'use client'
 
-import type {Selection} from "@heroui/react";
+import GenericDrawer from "./GenericDrawer";
+import { useRouter, useSearchParams } from "next/navigation";
 
-import React from "react";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@heroui/react";
+export default function Page() {
+  const params = useSearchParams()
+  const router = useRouter()
 
-const options = [
-  { label: "Text", value: "text" },
-  { label: "Number", value: "number" },
-  { label: "Date", value: "date" },
-  { label: "Single Date", value: "single_date" },
-  { label: "Iteration", value: "iteration" },
-]
-
-export default function App() {
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set(["text"]));
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys),
-    [selectedKeys],
-  );
+  const setParmas = () => {
+    const addParams = new URLSearchParams(params)
+    addParams.set('action', 'details')
+    addParams.set('id', '0b1293c4-f131-4326-862a-ab72b4b48ac9')
+    router.replace(`?${addParams.toString()}`, { scroll: false })
+  }
 
   return (
-    <Dropdown>
-      <DropdownTrigger>
-        <Button className="capitalize" variant="bordered">
-          {selectedValue}
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu
-        disallowEmptySelection
-        aria-label="Single selection example"
-        selectedKeys={selectedKeys}
-        selectionMode="single"
-        variant="flat"
-        onSelectionChange={value => setSelectedKeys(new Set(value))}
-      >
-        {options.map((option) => (
-          <DropdownItem key={option.value} value={option.value}>
-            {option.label}
-          </DropdownItem>
-        ))}
-      </DropdownMenu>
-    </Dropdown>
+    <>
+      <GenericDrawer
+        width="99"
+        descriptionDrawer="Aquí podrás editar la información de la propiedad"
+      />
+
+      <button
+        onClick={() => setParmas()}
+        className='relative flex h-10 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-4 text-sm font-medium shadow-sm transition-all hover:bg-[#FAFAFA] dark:bg-[#161615] dark:hover:bg-[#1A1A19] dark:text-white'>
+        Open Drawer
+      </button>
+    </>
   );
 }

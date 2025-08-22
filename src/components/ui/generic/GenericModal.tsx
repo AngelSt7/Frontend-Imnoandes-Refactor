@@ -14,7 +14,7 @@ export default function GenericModal({ user, id, defaultValues }: GenericModalPr
   const {
         showModal,
         getTitle,
-        isDetails,
+        //isDetails,
         renderForm
   } = useGenericModal({ user, defaultValues, id, closeModal });
 

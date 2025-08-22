@@ -6,11 +6,12 @@ export const Tittles: Record<string, string> = {
 };
 
 // Mapear entidades
-type Entity = 'property' 
+type Entity = 'property' |'prueba';
 
 // ruta => singular
 export const pluralToSingular: Record<string, Entity> = {
     properties: "property",
+    prueba: "prueba",
 };
 
 

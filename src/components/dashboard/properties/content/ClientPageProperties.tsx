@@ -8,9 +8,10 @@ import GenericModal from "@/src/components/ui/generic/GenericModal";
 import Filters from "./Filters";
 import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
 import { useParams } from "@/src/hooks/search/useParams";
+import GenericDrawer from "@/app/success/GenericDrawer";
 
 export default function ClientPageProperties() {
-    const { openModalCreate, openModalEdit, openDetailsModal } = useModalUtils();
+    const { openModalEdit, openDetailsModal } = useModalUtils();
     const { setParam, deleteParam, getParam } = useParams();
     
     return (
@@ -21,15 +22,19 @@ export default function ClientPageProperties() {
                 defaultVisibleColumns={["name", "price", "currency", "availability", "actions"]}
                 renderCells={RenderCellProperty}
                 renderFilters={Filters}
-                onCreate={openModalCreate}
                 onEdit={(id) => openModalEdit(id)}
-                onDetails={openDetailsModal}
+                onDetails={(id) => openDetailsModal(id)}
                 onAddParam={(key, value) => setParam(key, value)}
                 onDeleteParam={(key) => deleteParam(key)}
                 onGetParam={(key) => getParam(key)}
             />
 
             <GenericModal />
+            
+            <GenericDrawer
+                width="99"
+                descriptionDrawer="Aquí podrás editar la información de la propiedad"
+            />
         </>
     );
 }

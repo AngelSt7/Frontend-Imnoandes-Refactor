@@ -14,6 +14,7 @@ interface RenderCellPropertyProps {
     mutate?: mutateProps;
     item: AdminProperty;
     columnKey: React.Key
+    onDetails: (item: AdminProperty['id']) => void | undefined
     openModalEdit?: (id: number) => void
 }
 
@@ -28,6 +29,7 @@ export const RenderCellProperty = ({
     mutate,
     item,
     columnKey,
+    onDetails,
     openModalEdit
 }: RenderCellPropertyProps) => {
     const cellValue = item[columnKey as keyof typeof item];
@@ -67,6 +69,11 @@ export const RenderCellProperty = ({
                                 // openModalEdit!(item.id)
                             }>
                                 Editar
+                            </DropdownItem>
+                            <DropdownItem key="custom" onPress={() => onDetails(item.id)
+                                // openModalEdit!(item.id)
+                            }>
+                                Personalizar propiedad
                             </DropdownItem>
                             <DropdownItem
                                 key="delete"

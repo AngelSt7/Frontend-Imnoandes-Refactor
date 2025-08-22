@@ -23,11 +23,11 @@ export function useGenericModal({
 
     const entity = pluralToSingular[rawEntity];
 
-    const isDetails = action === "details" && !!entity
+    // const isDetails = action === "details" && !!entity
     const isCreate = action === "create" && !!entity;
     const isEdit = action === "edit" && !!entity && !!defaultValues;
     const isChangeStatus = action === "changeStatus" && !!entity && !!defaultValues;
-    const showModal = isCreate || isEdit || isDetails || isChangeStatus;
+    const showModal = isCreate || isEdit || isChangeStatus // || isDetails;
 
     const getTitle = () => {
         let base = "";
@@ -39,9 +39,9 @@ export function useGenericModal({
             case "edit":
                 base = "Edit";
                 break;
-            case "details":
-                base = "Details of";
-                break;
+            // case "details":
+            //     base = "Details of";
+            //     break;
             case "changeStatus":
                 base = "Change status of";
             default:
@@ -57,7 +57,7 @@ export function useGenericModal({
 
         if (isCreate) {
             switch (entity) {
-                case "property": return<CreateProperty />
+                case "property": return <CreateProperty />
             }
         }
 
@@ -67,11 +67,11 @@ export function useGenericModal({
             }
         }
 
-        if (isDetails) {
-            switch (entity) {
+        // if (isDetails) {
+        //     switch (entity) {
 
-            }
-        }
+        //     }
+        // }
 
         if (isChangeStatus) {
             switch (entity) {
@@ -85,6 +85,6 @@ export function useGenericModal({
         getTitle,
         renderForm,
         showModal,
-        isDetails
+        // isDetails
     };
 };

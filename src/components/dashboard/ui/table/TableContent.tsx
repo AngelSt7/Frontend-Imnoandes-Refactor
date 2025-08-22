@@ -19,11 +19,10 @@ interface TableContentProps<T> {
     queryKey: string;
     columns: ColumnsType;
     defaultVisibleColumns: (keyof T | string)[]
-    renderCells: React.ComponentType<{ item: T; columnKey: React.Key }>;
+    renderCells: React.ComponentType<{ item: T; columnKey: React.Key, onDetails: (item: string) => void }>;
     renderFilters: React.ComponentType<FiltersProps>
-    onCreate?: () => void;
     onEdit?: (item: string) => void;
-    onDetails?: (item: T) => void;
+    onDetails: (item: string) => void;
     onAddParam: (key : string, value : string) => void;
     onDeleteParam: (key : string) => void
     onGetParam: (key: string) => string | null
@@ -42,14 +41,11 @@ export default function TableContent<T>({
     defaultVisibleColumns,
     renderFilters,
     onAddParam,
-    onCreate,
     onEdit,
     onDetails,
     onDeleteParam,
     onGetParam
 }: TableContentProps<T>) {
-
-    console.log("Reentrando a table content")
 
     const { data, meta, isLoading, search, setSearch } = useSearch({
         baseKey: queryKey,
@@ -126,6 +122,7 @@ export default function TableContent<T>({
                                 <CellRenderer
                                     item={item}
                                     columnKey={columnKey}
+                                    onDetails={onDetails}
                                 />
                             </TableCell>
                         )}

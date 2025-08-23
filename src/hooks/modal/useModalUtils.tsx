@@ -33,6 +33,7 @@ export function useModalUtils() {
     };
 
     const closeModal = () => {
+        console.log("eliminado todo"); 
         const params = new URLSearchParams(searchParams.toString());
         const deletes = [ValidParams.action, ValidParams.id, ValidParams.details, ValidParams.edit];
 

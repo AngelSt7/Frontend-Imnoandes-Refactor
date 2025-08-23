@@ -3,6 +3,7 @@ import { pluralToSingular } from "@/src/utils";
 import { User } from "@/src/types/userTypes/user";
 import { useModalUtils } from "../modal/useModalUtils";
 import ImageManager from "@/src/components/dashboard/properties/gallery/ImageManager";
+import { RefObject } from "react";
 
 interface GenericDrawerProps {
     user?: User;
@@ -44,13 +45,13 @@ export function useGenericDrawer() {
         return `${base} ${entityName}`;
     };
 
-    const renderForm = () => {
+    const renderForm = ({ drawerRef }: { drawerRef: RefObject<HTMLDivElement | null> }) => {
         if (!entity) return null;
 
         if (isDetails) {
             switch (entity) {
                 case "property": return <ImageManager />
-                case "prueba": return <ImageManager />
+                case "prueba": return <ImageManager drawerRef={drawerRef} />
             }
         }
 

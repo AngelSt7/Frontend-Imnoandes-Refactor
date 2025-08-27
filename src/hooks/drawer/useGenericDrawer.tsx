@@ -2,8 +2,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { pluralToSingular } from "@/src/utils";
 import { User } from "@/src/types/userTypes/user";
 import { useModalUtils } from "../modal/useModalUtils";
-import ImageManager from "@/src/components/dashboard/properties/gallery/ImageManager";
-import { RefObject } from "react";
+import ImageManagerOrquest from "@/src/components/dashboard/properties/gallery/ImageManagerOrquest";
+import { Dispatch, SetStateAction } from "react";
 
 interface GenericDrawerProps {
     user?: User;
@@ -12,10 +12,14 @@ interface GenericDrawerProps {
     closeModal?: () => void;
 }
 
+interface RenderFormProps {
+    tittle: string
+}
+
+
 export function useGenericDrawer() {
     const { closeModal } = useModalUtils();
     const path = usePathname();
-    console.log(path)
     const searchParams = useSearchParams();
     const action = searchParams.get("action");
     const id = Boolean(searchParams.get("id"));
@@ -45,13 +49,12 @@ export function useGenericDrawer() {
         return `${base} ${entityName}`;
     };
 
-    const renderForm = ({ drawerRef }: { drawerRef: RefObject<HTMLDivElement | null> }) => {
+    const renderForm = ({ tittle,  } : RenderFormProps) => {
         if (!entity) return null;
 
         if (isDetails) {
             switch (entity) {
-                case "property": return <ImageManager />
-                case "prueba": return <ImageManager drawerRef={drawerRef} />
+                case "property": return <ImageManagerOrquest tittle={tittle} />
             }
         }
 

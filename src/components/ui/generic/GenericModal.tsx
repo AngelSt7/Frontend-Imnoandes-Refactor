@@ -12,18 +12,27 @@ type GenericModalProps = {
 export default function GenericModal({ user, id, defaultValues }: GenericModalProps) {
   const { closeModal } = useModalUtils();
   const {
-        showModal,
-        getTitle,
-        //isDetails,
-        renderForm
+    showModal,
+    getTitle,
+    isCustomImage,
+    renderForm
   } = useGenericModal({ user, defaultValues, id, closeModal });
 
   if (!showModal) return null;
 
   const tittle = getTitle();
-  
+
   return (
-    <Modal placement="center" scrollBehavior="inside" size={"4xl"} backdrop="opaque" isOpen={showModal} onClose={closeModal}>
+    <Modal
+      placement="center"
+      scrollBehavior="inside"
+      className=""
+      size={"4xl"}
+      isDismissable={isCustomImage ? false : true}
+      isKeyboardDismissDisabled={isCustomImage ? true : false}
+      backdrop="opaque"
+      isOpen={showModal}
+      onClose={closeModal}>
       <ModalContent>
         {(onClose) => (
           <>

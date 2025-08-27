@@ -35,7 +35,7 @@ const links = [
 export default function Menu() {
     const { openModalCreate, closeModal } = useModalUtils();
     return (
-        <Popover className="relative z-10 ">
+        <Popover className="relative z-20 ">
             <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-transparent">
                 <RxHamburgerMenu className='w-10 h-10 text-slate-800 dark:text-slate-50 bg-[#F5F5F5] dark:bg-[#181818] p-1 rounded-xl' />
             </Popover.Button>

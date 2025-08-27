@@ -28,13 +28,12 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 14px;
-  
+
 }
 
 @supports not selector(::-webkit-scrollbar) {
   body {
-    scrollbar-color: var(--sb-thumb-color)
-                     var(--sb-track-color);
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }
 
@@ -55,4 +54,141 @@ input[type="number"] {
 
 .custom-button {
   @apply mt-4 bg-zinc-800 text-white font-semibold py-2 rounded-lg transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400;
+}
+
+.neumorphic {
+  border-radius: 30px;
+  background: #fdfcfc;
+  box-shadow: 15px 15px 30px #e8e8e8,
+    -15px -15px 30px #ffffff;
+}
+
+.neumorphic-tabs {
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 7px 7px 13px #bdbdbd,
+    -7px -7px 13px #ffffff;
+}
+
+.neu-button {
+  background-color: #e0e0e0;
+  border-radius: 50px;
+  box-shadow: inset 4px 4px 10px #bcbcbc, inset -4px -4px 10px #ffffff;
+  color: #4d4d4d;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 15px 40px;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid rgb(206, 206, 206);
+}
+
+.neu-button:hover {
+  box-shadow: inset 2px 2px 5px #bcbcbc, inset -2px -2px 5px #ffffff, 2px 2px 5px #bcbcbc, -2px -2px 5px #ffffff;
+}
+
+.neu-button:focus {
+  outline: none;
+  box-shadow: inset 2px 2px 5px #bcbcbc, inset -2px -2px 5px #ffffff, 2px 2px 5px #bcbcbc, -2px -2px 5px #ffffff;
+}
+
+
+
+/* CSS para imágenes múltiples - mantiene tu diseño actual */
+.multi-image-filepond .filepond--item {
+  width: calc(50% - 0.5em);
+}
+
+@media (min-width: 30em) {
+  .multi-image-filepond .filepond--item {
+    width: calc(50% - 0.5em);
+  }
+}
+
+@media (min-width: 50em) {
+  .multi-image-filepond .filepond--item {
+    width: calc(33.33% - 0.5em);
+  }
+}
+
+/* CSS para imagen única - ancho completo */
+.single-image-filepond .filepond--item {
+  width: 100% !important;
+}
+
+@media (min-width: 30em) {
+  .single-image-filepond .filepond--item {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 50em) {
+  .single-image-filepond .filepond--item {
+    width: 100% !important;
+  }
+}
+
+/* En tu archivo CSS global o styled-components */
+.single-image-filepond .filepond--root {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.single-image-filepond .filepond--panel-root {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px;
+}
+
+.single-image-filepond .filepond--drop-label {
+  border-radius: 12px;
+}
+
+/* Para hacer el borde más sutil */
+.single-image-filepond .filepond--item {
+  border-radius: 12px;
+}
+
+/* Opcional: border más sutil cuando hay imagen */
+.single-image-filepond .filepond--item-panel {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+
+
+
+.single-image-filepond .filepond--root {
+  min-height: 300px !important;
+  /* 🚀 Optimizar transiciones */
+  transition: all 0.2s ease-in-out !important;
+}
+
+.single-image-filepond .filepond--drop-label {
+  min-height: 280px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* 🚀 Reducir re-paints */
+  will-change: auto !important;
+}
+
+.single-image-filepond .filepond--panel-root {
+  min-height: 300px !important;
+  /* 🚀 Hardware acceleration para mejor rendimiento */
+  transform: translateZ(0) !important;
+}
+
+/* 🚀 Optimizar animaciones */
+.single-image-filepond .filepond--drip {
+  opacity: 0.6 !important;
+  transition: opacity 0.15s ease !important;
+}
+
+.single-image-filepond .filepond--root.filepond--hopper {
+  border: 2px dashed #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  transition: all 0.15s ease !important;
+}
+
+/* 🚀 Prevenir layout shifts */
+.single-image-filepond .filepond--item {
+  will-change: transform, opacity !important;
 }

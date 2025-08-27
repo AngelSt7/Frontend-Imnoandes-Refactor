@@ -8,6 +8,7 @@ export function useModalUtils() {
         page: "page",
         create: "create",
         details: "details",
+        customImages: "custom-images",
         edit: "edit",
         changeStatus: "changeStatus",
     }
@@ -20,7 +21,7 @@ export function useModalUtils() {
 
     const openDetailsModal = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set(ValidParams.action, ValidParams.details);
+        params.set(ValidParams.action, ValidParams.customImages);
         params.set("id", id);
         router.replace(`?${params.toString()}`);
     };
@@ -33,9 +34,8 @@ export function useModalUtils() {
     };
 
     const closeModal = () => {
-        console.log("eliminado todo"); 
         const params = new URLSearchParams(searchParams.toString());
-        const deletes = [ValidParams.action, ValidParams.id, ValidParams.details, ValidParams.edit];
+        const deletes = [ValidParams.action, ValidParams.id, ValidParams.details, ValidParams.edit, ValidParams.customImages];
 
         Array.from(params.keys()).forEach((keys) => {
             if (deletes.includes(keys)) {

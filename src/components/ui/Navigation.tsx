@@ -47,11 +47,14 @@ export default function Navigation() {
                     </div>
 
                     <div className=' flex gap-3 items-center'>
+                        
                         <Button 
                             onPress={openModalCreate}
                             type='submit'
                             radius='full'
-                            className='px-4 py-2 rounded-full text-sm font-medium border transition flex items-center gap-2 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-900 dark:hover:bg-foreground-100 border-zinc-300'>
+                            className='neu-button'
+
+                            >
                             Agregar propiedad
                         </Button>
                         <Menu />

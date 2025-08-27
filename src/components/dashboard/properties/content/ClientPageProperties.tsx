@@ -31,10 +31,10 @@ export default function ClientPageProperties() {
 
             <GenericModal />
             
-            <GenericDrawer
+            {/* <GenericDrawer
                 width="99"
                 descriptionDrawer="Aquí podrás editar la información de la propiedad"
-            />
+            /> */}
         </>
     );
 }

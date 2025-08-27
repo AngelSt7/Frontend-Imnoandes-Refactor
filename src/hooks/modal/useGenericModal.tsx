@@ -2,6 +2,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { pluralToSingular } from "@/src/utils";
 import { User } from "@/src/types/userTypes/user";
 import { CreateProperty } from "@/src/components";
+import ImageManagerOrquest from "@/src/components/dashboard/properties/gallery/ImageManagerOrquest";
 
 interface GenericModalProps {
     user?: User;
@@ -23,11 +24,12 @@ export function useGenericModal({
 
     const entity = pluralToSingular[rawEntity];
 
-    // const isDetails = action === "details" && !!entity
+    const isDetails = action === "details" && !!entity
+    const isCustomImage = action === "custom-images" && !!entity
     const isCreate = action === "create" && !!entity;
     const isEdit = action === "edit" && !!entity && !!defaultValues;
     const isChangeStatus = action === "changeStatus" && !!entity && !!defaultValues;
-    const showModal = isCreate || isEdit || isChangeStatus // || isDetails;
+    const showModal = isCreate || isEdit || isChangeStatus || isDetails || isCustomImage;
 
     const getTitle = () => {
         let base = "";
@@ -39,9 +41,9 @@ export function useGenericModal({
             case "edit":
                 base = "Edit";
                 break;
-            // case "details":
-            //     base = "Details of";
-            //     break;
+            case "custom-images":
+                base = "Custom images of";
+                break;
             case "changeStatus":
                 base = "Change status of";
             default:
@@ -67,11 +69,17 @@ export function useGenericModal({
             }
         }
 
-        // if (isDetails) {
-        //     switch (entity) {
+        if (isDetails) {
+            switch (entity) {
+                // case "property": return <ImageManagerOrquest tittle={"Galería"} />
+            }
+        }
 
-        //     }
-        // }
+        if(isCustomImage){
+            switch(entity){
+                case "property": return <ImageManagerOrquest tittle={"Galería"} />
+            }
+        }
 
         if (isChangeStatus) {
             switch (entity) {
@@ -85,6 +93,6 @@ export function useGenericModal({
         getTitle,
         renderForm,
         showModal,
-        // isDetails
+        isCustomImage
     };
 };

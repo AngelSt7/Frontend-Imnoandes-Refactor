@@ -13,13 +13,15 @@ export interface MetaOrquest {
     gallery: File[] | undefined | null
 }
 
-export default function ImageManagerOrquest({ tittle }: ImageManagerOrquestProps) {
+export default function ImageManagerOrquest() {
     const [activeTab, setActiveTab] = useState<string>("main");
     const [meta, setMeta] = useState<MetaOrquest>({
         main: null,
         gallery: null
     });
-    
+
+    console.log(meta.gallery)
+
     return (
         <>
             <ControlTabs activeTab={activeTab} setActiveTab={setActiveTab} />

@@ -93,6 +93,7 @@ input[type="number"] {
 
 
 
+
 /* CSS para imágenes múltiples - mantiene tu diseño actual */
 .multi-image-filepond .filepond--item {
   width: calc(50% - 0.5em);
@@ -128,7 +129,7 @@ input[type="number"] {
 }
 
 /* En tu archivo CSS global o styled-components */
-.single-image-filepond .filepond--root {
+.filepond--root {
   border-radius: 12px;
   overflow: hidden;
 }
@@ -143,12 +144,12 @@ input[type="number"] {
 }
 
 /* Para hacer el borde más sutil */
-.single-image-filepond .filepond--item {
+.filepond--item {
   border-radius: 12px;
 }
 
 /* Opcional: border más sutil cuando hay imagen */
-.single-image-filepond .filepond--item-panel {
+.filepond--item-panel {
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
@@ -177,13 +178,13 @@ input[type="number"] {
 }
 
 /* 🚀 Optimizar animaciones */
-.single-image-filepond .filepond--drip {
+.filepond--drip {
   opacity: 0.6 !important;
   transition: opacity 0.15s ease !important;
 }
 
-.single-image-filepond .filepond--root.filepond--hopper {
-  border: 2px dashed #10b981 !important;
+.filepond--root.filepond--hopper {
+  border: 2px dashed #bdbdbd !important;
   background-color: rgba(16, 185, 129, 0.1) !important;
   transition: all 0.15s ease !important;
 }

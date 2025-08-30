@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./animated.css"
 import { ReactQueryProvider } from "@/src/providers/ReactQueryProvider";
 import { Toaster } from 'react-hot-toast';
 import { NextUIProvider } from "@/src/providers/NextUIProvider";

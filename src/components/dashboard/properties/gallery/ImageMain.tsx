@@ -11,15 +11,17 @@ interface ImageMainProps {
 
 export default function ImageMain({ meta, setMeta }: ImageMainProps) {
 
-    const { register, handleSubmit, formState: { errors, isValid }, setValue } = useForm<{ main: File | null }>({
+    const { register, handleSubmit, setValue } = useForm<{ main: File | null }>({
         mode: "onChange",
-
     });
+
+    const isValid = meta?.main !== null
 
     const onSubmit = (data: { main: File | null }) => console.log(data)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className=' space-y-4' >
+
             <div className=' flex justify-between'>
                 <h2 className='text-gray-800 text-2xl'>Imagen principal</h2>
                 <Button type='submit'
@@ -29,21 +31,23 @@ export default function ImageMain({ meta, setMeta }: ImageMainProps) {
                 </Button>
             </div>
 
+
             <ImageManager<{ main: File | null }>
                 field="main"
                 register={register}
+                className='single-image-filepond'
                 setValue={setValue}
-                errorMessage={errors.main as FieldError}
-                rules={{}}
-                initialFile={meta?.main ? meta?.main : null}
+                initialFile={meta?.main ?? null}
+                onFileChange={(file) => setMeta((prev) => ({ ...prev, main: file as File | null }))}
                 width={1400}
                 height={600}
-                onFileChange={(file) =>
-                    setMeta((prev) => ({
-                        main: file,
-                        gallery: prev?.gallery,
-                    }))
-                }
+                multiple={false}
+                validation={{
+                    minWidth: 1200,
+                    minHeight: 400,
+                    maxFileSizeMB: 5,
+                    allowedTypes: ["image/png", "image/jpeg"],
+                }}
             />
 
         </form>

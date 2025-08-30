@@ -1,31 +1,59 @@
 'use client'
 
-import GenericDrawer from "./GenericDrawer";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Controller, Form, useForm } from "react-hook-form";
+import ImageManager from "../../src/myLib/FileUploader/components/ImageManager";
+import toast from "react-hot-toast";
+
+interface FormDataI {
+  imageMain: File | File[] | string | string[];
+}
 
 export default function Page() {
-  const params = useSearchParams()
-  const router = useRouter()
+  const { handleSubmit, control } = useForm<FormDataI>({
+    defaultValues: {
+      imageMain: 'https://res.cloudinary.com/dihj0ezqt/image/upload/v1739834840/bienesRaices/iaa9srbqrdxs34suwcif.jpg'
+    },
+  })
 
-  const setParmas = () => {
-    const addParams = new URLSearchParams(params)
-    addParams.set('action', 'details')
-    addParams.set('id', '0b1293c4-f131-4326-862a-ab72b4b48ac9')
-    router.replace(`?${addParams.toString()}`, { scroll: false })
-  }
+  const preparedData = (data: FormDataI) => {
+    console.log(data)
+    const formData = new FormData();
+
+    if (Array.isArray(data.imageMain)) {
+      data.imageMain.forEach(file => {
+        if (file instanceof File) formData.append('imageMain[]', file);
+        else if (typeof file === 'string') formData.append('imageMain[]', file);
+      });
+    } else {
+      if (data.imageMain instanceof File) formData.append('imageMain', data.imageMain);
+      else if (typeof data.imageMain === 'string') formData.append('imageMain', data.imageMain);
+    }
+
+    return formData;
+  };
+
 
   return (
-    <>
-      <GenericDrawer
-        width="99"
-        descriptionDrawer="Aquí podrás editar la información de la propiedad"
+    <form className=" w-full " onSubmit={handleSubmit((data) => preparedData(data))}>
+
+      <ImageManager
+        controller={Controller}
+        name="imageMain"
+        control={control}
+        rules={{ required: "La imagen es requerida" }}
+        multiple={false}
+        maxFiles={1}
+        minWidth={400}
+        minHeight={400}
+        maxWidth={5000}
+        maxHeight={5000}
+        maxFileSize={10}
+        onError={(error) => toast.error(error)}
       />
 
-      <button
-        onClick={() => setParmas()}
-        className='relative flex h-10 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-4 text-sm font-medium shadow-sm transition-all hover:bg-[#FAFAFA] dark:bg-[#161615] dark:hover:bg-[#1A1A19] dark:text-white'>
-        Open Drawer
-      </button>
-    </>
+      <button className=" bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">Enviar</button>
+
+    </form>
   );
 }
+

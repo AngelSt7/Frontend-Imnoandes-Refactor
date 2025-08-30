@@ -64,6 +64,7 @@ export default function SelectItem<T extends FieldValues>({
           items={data}
           size="lg"
           radius="sm"
+          variant="flat" 
           showScrollIndicators={true}
           placeholder="Selecciona una opción"
           selectedKeys={selectedValue ? [String(selectedValue)] : []}

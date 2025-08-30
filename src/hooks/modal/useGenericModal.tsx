@@ -77,7 +77,7 @@ export function useGenericModal({
 
         if(isCustomImage){
             switch(entity){
-                case "property": return <ImageManagerOrquest tittle={"Galería"} />
+                case "property": return <ImageManagerOrquest />
             }
         }
 

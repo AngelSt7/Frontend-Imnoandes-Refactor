@@ -30,28 +30,47 @@ registerPlugin(
   FilePondPluginFileValidateSize
 );
 
+type ImageValidation = {
+  minWidth?: number;
+  minHeight?: number;
+  maxFileSizeMB?: number;
+  allowedTypes?: string[];
+};
+
 type ImageManagerProps<T extends FieldValues> = {
   field: Path<T>;
-  errorMessage: FieldError;
   register: UseFormRegister<T>;
   setValue: UseFormSetValue<T>;
-  rules: RegisterOptions<T>;
-  initialFile?: File | null;
-  onFileChange: (file: File | null) => void;
+  rules?: RegisterOptions<T>;
+  initialFile?: File | File[] | null;
+  onFileChange: (file: File | File[] | null) => void;
   width: number;
   height: number;
+  className?: string;
+  multiple?: boolean;
+  maxFiles?: number;
+  validation?: ImageValidation;
 };
+
 
 export default function ImageManager<T extends FieldValues>({
   field,
-  errorMessage,
   register,
   setValue,
   rules = {},
   initialFile,
+  className,
   onFileChange,
   width = 600,
   height = 600,
+  multiple = false,
+  maxFiles = 1,
+  validation = {
+    minWidth: 1200,
+    minHeight: 400,
+    maxFileSizeMB: 5,
+    allowedTypes: ["image/png", "image/jpeg"],
+  },
 }: ImageManagerProps<T>) {
   const {
     files,
@@ -59,40 +78,49 @@ export default function ImageManager<T extends FieldValues>({
     editorConfig,
     handleBeforeAddFile,
     handleAddFile,
-  } = useImageManager({ initialFile, field, setValue, onFileChange, width, height });
+  } = useImageManager({
+    initialFile,
+    field,
+    setValue,
+    onFileChange,
+    width,
+    height,
+    multiple,
+    validation,
+  });
 
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <input type="hidden" {...register(field, rules)} />
-      <div className="w-full h-auto single-image-filepond">
+      <div className={`w-full h-auto ${className}`}>
         <FilePond
           files={files}
           onupdatefiles={onUpdateFiles}
-          allowMultiple={false}
-          maxFiles={1}
-          acceptedFileTypes={["image/png", "image/jpeg"]}
+          allowMultiple={multiple}
+          maxFiles={maxFiles}
+          acceptedFileTypes={validation.allowedTypes}
           name={`${field}_filepond`}
-          labelIdle='Arrastra y suelta tu imagen (ideal: 1400x600) o <span class="filepond--label-action">Explorar</span>'
+          labelIdle={
+            multiple
+              ? `Arrastra y suelta tus imágenes (mín. ${validation.minWidth}x${validation.minHeight}) o <span class="filepond--label-action">Explorar</span>`
+              : `Arrastra y suelta tu imagen (mín. ${validation.minWidth}x${validation.minHeight}) o <span class="filepond--label-action">Explorar</span>`
+          }
 
           imageCropAspectRatio="21:9"
           imageResizeTargetWidth={width}
           imageResizeTargetHeight={height}
-          imageValidateSizeMinWidth={1200}
-          imageValidateSizeMinHeight={400}
-          maxFileSize="2MB"
-
+          imageValidateSizeMinWidth={validation.minWidth}
+          imageValidateSizeMinHeight={validation.minHeight}
+          maxFileSize={`${validation.maxFileSizeMB}MB`}
           allowImageValidateSize={true}
-
           labelMaxFileSizeExceeded="La imagen es demasiado pesada"
           labelMaxFileSize="El tamaño máximo permitido es {filesize}"
           imageValidateSizeLabelImageSizeTooBig="La imagen es muy grande"
-          imageValidateSizeLabelImageSizeTooSmall="La imagen debe ser mínimo 1200x400 píxeles"
-
+          imageValidateSizeLabelImageSizeTooSmall={`La imagen debe ser mínimo ${validation.minWidth}x${validation.minHeight} píxeles`}
           beforeAddFile={handleBeforeAddFile}
           onaddfile={handleAddFile}
           imageEditEditor={editorConfig}
-
-          allowReorder={false}
+          allowReorder={multiple}
           allowRevert={false}
           instantUpload={false}
           checkValidity={false}

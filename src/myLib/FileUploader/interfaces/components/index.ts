@@ -1,2 +1,2 @@
-export type { ImageManagerProps, ImageDropZoneProps, ImageGridProps, DragCursorProps } from './components';
+export type { FileUploaderProps, ImageDropZoneProps, ImageGridProps, DragCursorProps } from './components';
 

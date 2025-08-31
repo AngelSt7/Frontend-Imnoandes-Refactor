@@ -13,6 +13,7 @@ type useCreateMutationProps<T> = {
   invalidateQuery?: QueryKey | QueryKey[],
   message?: string
   replace?: string
+  cancelToast?: boolean
 }
 
 export default function useSubmitMutation<T>({
@@ -21,7 +22,8 @@ export default function useSubmitMutation<T>({
   onSuccessCallback,
   onErrorCallback,
   message,
-  replace
+  replace,
+  cancelToast = false
 }: useCreateMutationProps<T>) {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -39,7 +41,7 @@ export default function useSubmitMutation<T>({
         });
       }
       replace && router.replace(replace);
-      toast.success(data.message ?? message);
+      cancelToast === false && toast.success(data.message ?? message);
       onSuccessCallback?.(data);
     }
 

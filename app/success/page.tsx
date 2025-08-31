@@ -1,7 +1,7 @@
 'use client'
 
 import { Controller, Form, useForm } from "react-hook-form";
-import ImageManager from "../../src/myLib/FileUploader/components/ImageManager";
+import ImageManager from "../../src/myLib/FileUploader/components/FileUploader";
 import toast from "react-hot-toast";
 
 interface FormDataI {
@@ -16,7 +16,6 @@ export default function Page() {
   })
 
   const preparedData = (data: FormDataI) => {
-    console.log(data)
     const formData = new FormData();
 
     if (Array.isArray(data.imageMain)) {

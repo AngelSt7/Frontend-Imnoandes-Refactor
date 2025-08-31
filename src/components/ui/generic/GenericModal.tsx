@@ -26,7 +26,6 @@ export default function GenericModal({ user, id, defaultValues }: GenericModalPr
     <Modal
       placement="center"
       scrollBehavior="inside"
-      className=""
       size={"4xl"}
       isDismissable={isCustomImage ? false : true}
       isKeyboardDismissDisabled={isCustomImage ? true : false}

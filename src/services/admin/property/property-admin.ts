@@ -3,7 +3,8 @@ import nest from "@/src/axios/nest"
 import { ApiResponse } from "@/src/components/dashboard/ui/table/TableContent";
 import { UseGetFilters } from "@/src/hooks/search/useGetFilters"
 import { detailsPropertySchema, findPropertySchema, propertiesListSchema } from "@/src/schema/admin/property/property"
-import { FormDataProperty, PaginationType, AdminProperty, AdminProperties } from '@/src/types/adminTypes';
+import { FormDataProperty, AdminProperty } from '@/src/types/adminTypes';
+import { FormDataImageMain, FormDataImagesGallery } from "@/src/types/image/image";
 import { errorHttp } from "@/src/utils/resolves/error"
 
 
@@ -14,7 +15,9 @@ const ROUTES = {
     EDIT: `/property-me/edit`,
     FIND: `/property-me`,
     LIST: `/property-me`,
-    DETAILS: `/property-me/me/details`
+    DETAILS: `/property-me/me/details`,
+    IMAGE_MAIN: `/property-me/image-main`,
+    IMAGES_GALLERY: `/property-me/images-gallery`
 }
 
 export class PropertyAdmin {
@@ -24,6 +27,22 @@ export class PropertyAdmin {
             const url = ROUTES.CREATE
             const { data } = await nest.post(url, formData)
             return data.message;
+        } catch (error) { errorHttp(error) }
+    }
+    
+    static async createImageMain(formData: FormDataImageMain) {
+        try {
+            const url = `${ROUTES.IMAGE_MAIN}`
+            const { data } = await nest.post(url, formData)
+            return data
+        } catch (error) { errorHttp(error) }
+    }
+
+    static async createImagesGallery(formData: FormDataImagesGallery) {
+        try {
+            const url = `${ROUTES.IMAGES_GALLERY}`
+            const { data } = await nest.post(url, formData)
+            return data
         } catch (error) { errorHttp(error) }
     }
 

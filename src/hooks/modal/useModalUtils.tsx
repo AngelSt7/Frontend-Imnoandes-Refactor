@@ -13,6 +13,8 @@ export function useModalUtils() {
         changeStatus: "changeStatus",
     }
 
+    const getParam = (key: string) => searchParams.get(key)
+
     const openModalCreate = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set(ValidParams.action, ValidParams.create);
@@ -47,5 +49,5 @@ export function useModalUtils() {
     };
 
 
-    return { openModalCreate, openDetailsModal, openModalEdit, closeModal, searchParams };
+    return { openModalCreate, openDetailsModal, openModalEdit, closeModal, searchParams, getParam };
 };

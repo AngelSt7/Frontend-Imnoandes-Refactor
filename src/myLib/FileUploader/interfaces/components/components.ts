@@ -3,7 +3,7 @@ import { ChangeEvent, DragEvent } from "react";
 import { ImageItem } from "../data/data";
 import { ComponentType } from "react";
 
-export interface ImageManagerProps<T extends FieldValues> {
+export interface FileUploaderProps<T extends FieldValues> {
   controller: ComponentType<ControllerProps<T>>;
   name: Path<T>
   control: Control<T>;

@@ -1,23 +1,56 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import { FieldError, useForm } from 'react-hook-form';
-import MultiImageManager from './MultiImageManager';
+import { Dispatch, SetStateAction } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { MetaOrquest } from './ImageManagerOrquest';
-import ImageManager from '@/src/components/ui/lib/image-manager/one/ImageManager';
 import { Button } from '@heroui/react';
+import { FileUploader } from '@/src/myLib/FileUploader';
+import toast from 'react-hot-toast';
+import { ImageGallery as ImageGalleryType } from '@/src/types/image/image';
+import { useSubmitMutation } from '@/src/hooks';
+import { Image } from '@/src/services/images/images';
+import { PropertyAdmin } from '@/src/services/admin';
+import { AdminProperty } from '@/src/types';
 
 interface ImageGalleryProps {
-    meta: MetaOrquest | undefined
+    meta: MetaOrquest
     setMeta: Dispatch<SetStateAction<MetaOrquest>>
+    propertyId: AdminProperty['id']
 }
 
-export default function ImageGallery({ meta, setMeta }: ImageGalleryProps) {
+export default function ImageGallery({ meta, setMeta, propertyId }: ImageGalleryProps) {
 
-    const { register, handleSubmit, setValue } = useForm<{ gallery: File[] }>({
-        mode: "onChange"
+    const { handleSubmit, control } = useForm<{ imagesGallery: ImageGalleryType }>({
+        mode: "onChange",
+        defaultValues: { imagesGallery: meta?.imagesGallery || [] }
     });
 
-    const isValid = meta?.gallery?.length === 0 || meta?.gallery === null
-    const onSubmit = (data: { gallery: File[] }) => console.log(data)
+    const isValid = meta?.imagesGallery?.length === 0 || meta?.imagesGallery === null
+
+    const onSubmit = (data: { imagesGallery: ImageGalleryType }) => {
+        const formData = new FormData();
+        const files = data.imagesGallery
+        if(Array.isArray(files)){
+            files.filter(file => file instanceof File).map(f => formData.append('images', f))
+        }
+        mutate({ formData, property_id: propertyId });
+    }
+
+    const { mutate } = useSubmitMutation({
+        serviceFunction: async (data: { formData: FormData; property_id: AdminProperty['id'] }) => {
+            const uploadResult = await Image.create({ formData: data.formData, type: 'gallery' });
+            const propertyResult = await PropertyAdmin.createImagesGallery({
+                id: data.property_id,
+                url: uploadResult.urls
+            });
+
+            return propertyResult;
+        },
+        cancelToast: true,
+        onSuccessCallback: () => {
+            toast.success('Galería subida y vinculada correctamente');
+        }
+    });
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className='space-y-4' >
 
@@ -30,30 +63,26 @@ export default function ImageGallery({ meta, setMeta }: ImageGalleryProps) {
                 </Button>
             </div>
 
-            <ImageManager<{ gallery: File[] }>
-                field="gallery"
-                register={register}
+            <FileUploader
+                controller={Controller}
+                name="imagesGallery"
+                control={control}
+                multiple={true}
                 maxFiles={10}
-                className='multi-image-filepond'
-                setValue={setValue}
-                initialFile={meta?.gallery ?? []}
-                onFileChange={(files) => {
-                    console.log("ejecutando en arranque")
-                    setMeta((prev) => ({
-                        main: prev.main,
-                        gallery: files as File[]
+                minWidth={800}
+                minHeight={600}
+                maxWidth={1600}
+                maxHeight={1200}
+                maxFileSize={3}
+                onError={(error) => toast.error(error)}
+                onChange={(data) =>
+                    setMeta(prev => ({
+                        ...prev,
+                        imagesGallery: Array.isArray(data) ? data : [data]
                     }))
-                }}
-                width={800}
-                height={600}
-                multiple
-                validation={{
-                    minWidth: 400,
-                    minHeight: 300,
-                    maxFileSizeMB: 2,
-                    allowedTypes: ["image/png", "image/jpeg", "image/webp"],
-                }}
+                }
             />
+
 
         </form>
     )

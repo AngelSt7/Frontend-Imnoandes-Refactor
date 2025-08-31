@@ -1,32 +1,32 @@
 'use client'
-import ImageMain from "./ImageMain";
-import ImageGallery from "./ImageGallery";
-import ControlTabs from "./ControlTabs";
-import { useState } from "react";
 
-interface ImageManagerOrquestProps {
-    tittle: string;
-}
+import { ImageGallery as ImageGalleryType, ImageMain as ImageMainType } from "@/src/types/image/image";
+import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
+import { useState } from "react";
+import { validate } from "uuid";
+import ControlTabs from "./ControlTabs";
+import ImageGallery from "./ImageGallery";
+import ImageMain from "./ImageMain";
 
 export interface MetaOrquest {
-    main: File | undefined | null,
-    gallery: File[] | undefined | null
+    imageMain: ImageMainType;
+    imagesGallery: ImageGalleryType;
 }
 
 export default function ImageManagerOrquest() {
+    const { getParam } = useModalUtils();
+    const propertyId = getParam("id");
     const [activeTab, setActiveTab] = useState<string>("main");
     const [meta, setMeta] = useState<MetaOrquest>({
-        main: null,
-        gallery: null
+        imageMain: null,
+        imagesGallery: []
     });
 
-    console.log(meta.gallery)
-
-    return (
+    if (propertyId && validate(propertyId)) return (
         <>
             <ControlTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab === "main" && <ImageMain setMeta={setMeta} meta={meta} />}
-            {activeTab === "gallery" && <ImageGallery setMeta={setMeta} meta={meta} />}
+            {activeTab === "main" && <ImageMain propertyId={propertyId} setMeta={setMeta} meta={meta} />}
+            {activeTab === "gallery" && <ImageGallery propertyId={propertyId} setMeta={setMeta} meta={meta} />}
         </>
     )
 }

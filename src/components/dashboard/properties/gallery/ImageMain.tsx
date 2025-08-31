@@ -1,23 +1,52 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import { FieldError, useForm } from 'react-hook-form';
-import ImageManager from '../../../ui/lib/image-manager/one/ImageManager';
+import { Dispatch, SetStateAction } from 'react'
+import { Controller, useForm } from 'react-hook-form';
 import { MetaOrquest } from './ImageManagerOrquest';
 import { Button } from '@heroui/react';
+import FileUploader from '@/src/myLib/FileUploader/components/FileUploader';
+import toast from 'react-hot-toast';
+import { useSubmitMutation } from '@/src/hooks';
+import { Image } from '@/src/services/images/images';
+import { ImageMain as ImageMainType } from '@/src/types/image/image';
+import { PropertyAdmin } from '@/src/services/admin';
+import { AdminProperty } from '@/src/types';
 
 interface ImageMainProps {
-    meta: MetaOrquest | undefined
+    meta: MetaOrquest
     setMeta: Dispatch<SetStateAction<MetaOrquest>>
+    propertyId: AdminProperty['id']
 }
 
-export default function ImageMain({ meta, setMeta }: ImageMainProps) {
+export default function ImageMain({ meta, setMeta, propertyId }: ImageMainProps) {
 
-    const { register, handleSubmit, setValue } = useForm<{ main: File | null }>({
+    const { handleSubmit, control } = useForm<{ imageMain: ImageMainType }>({
         mode: "onChange",
+        defaultValues: { imageMain: meta?.imageMain }
     });
 
-    const isValid = meta?.main !== null
+    const isValid = meta?.imageMain !== null
 
-    const onSubmit = (data: { main: File | null }) => console.log(data)
+    const onSubmit = (data: { imageMain: ImageMainType }) => {
+        const formData = new FormData();
+        formData.append('images', data.imageMain as File | string);
+        mutate({ formData, property_id: propertyId });
+    };
+
+    const { mutate } = useSubmitMutation({
+        serviceFunction: async (data: { formData: FormData; property_id: AdminProperty['id'] }) => {
+            const uploadResult = await Image.create({ formData: data.formData, type: 'main' });
+            const propertyResult = await PropertyAdmin.createImageMain({
+                id: data.property_id,
+                url: uploadResult.urls[0]
+            });
+
+            return propertyResult;
+        },
+        cancelToast: true,
+        onSuccessCallback: () => {
+            toast.success('Imagen subida y vinculada correctamente');
+        }
+    });
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className=' space-y-4' >
@@ -31,23 +60,24 @@ export default function ImageMain({ meta, setMeta }: ImageMainProps) {
                 </Button>
             </div>
 
-
-            <ImageManager<{ main: File | null }>
-                field="main"
-                register={register}
-                className='single-image-filepond'
-                setValue={setValue}
-                initialFile={meta?.main ?? null}
-                onFileChange={(file) => setMeta((prev) => ({ ...prev, main: file as File | null }))}
-                width={1400}
-                height={600}
+            <FileUploader
+                controller={Controller}
+                name="imageMain"
+                control={control}
                 multiple={false}
-                validation={{
-                    minWidth: 1200,
-                    minHeight: 400,
-                    maxFileSizeMB: 5,
-                    allowedTypes: ["image/png", "image/jpeg"],
-                }}
+                maxFiles={1}
+                minWidth={1200}
+                minHeight={600}
+                maxWidth={1600}
+                maxHeight={800}
+                maxFileSize={5}
+                onError={(error) => toast.error(error)}
+                onChange={(files) =>
+                    setMeta(prev => ({
+                        ...prev,
+                        imageMain: Array.isArray(files) ? files[0] : files
+                    }))
+                }
             />
 
         </form>

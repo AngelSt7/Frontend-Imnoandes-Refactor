@@ -1,12 +1,12 @@
 import { FieldValues } from "react-hook-form";
-import { ImageManagerProps } from "../interfaces";
+import { FileUploaderProps } from "../interfaces";
 import { useLogicManager } from "../hooks/useLogicManager";
 import ImageDropZone from "./ImageDropZone";
 import ImageGrid from "./ImageGrid";
 import DragCursor from "./DragCursor";
 
 
-export default function ImageManager<T extends FieldValues>(props: ImageManagerProps<T>) {
+export default function FileUploader<T extends FieldValues>(props: FileUploaderProps<T>) {
   const { controller: Controller, name, control, rules, errorComponent, onChange } = props
   const maxFiles = props.maxFiles || 5;
   const multiple = props.multiple && props.maxFiles !== 1;

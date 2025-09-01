@@ -6,8 +6,8 @@ export const formDataPropertySchema = z.object({
   id: z.string().uuid().nullish(),
   name: z.string(),
   phone: z.string(),
-  property_type: z.nativeEnum(PROPERTY_TYPE),
-  property_category: z.nativeEnum(PROPERTY_CATEGORY),
+  propertyType: z.nativeEnum(PROPERTY_TYPE),
+  propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
   currency: z.nativeEnum(CURRENCY),
   price: z.number().positive(),
   location: z.string(),
@@ -36,13 +36,13 @@ export const propertySchema = z.object({
   price: z.number(),
   currency: z.enum(["PEN", "USD"]),
   phone: z.string(),
-  property_type: z.enum(["RENT", "SALE"]),
-  property_category: z.enum(["APARTMENT", "HOUSE", "OFFICE", "LAND", "COMMERCIAL", "WAREHOUSE"]),
+  propertyType: z.enum(["RENT", "SALE"]),
+  propertyCategory: z.enum(["APARTMENT", "HOUSE", "OFFICE", "LAND", "COMMERCIAL", "WAREHOUSE"]),
   availability: z.boolean(),
   area: z.number(),
-  yearBuilt: z.number().nullable(),
-  bathrooms: z.number().nullable(),
-  bedrooms: z.number().nullable(),
+  yearBuilt: z.number().nullish(),
+  bathrooms: z.number().nullish(),
+  bedrooms: z.number().nullish(),
   location: z.string(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
@@ -67,28 +67,40 @@ export const detailsPropertySchema = z.object({
 })
 
 export const findPropertySchema = z.object({
-  id: z.number().int().positive(),
-  location: z.string().min(5).max(255),
-  description: z.string().min(15).max(500),
-  imageMain: z.string().url(),
-  area: z.number().int().positive(),
-  price: z.number().int().positive(),
-  terrace: z.boolean(),
-  elevator: z.boolean(),
-  furnished: z.boolean(),
-  parkingSpaces: z.boolean(),
-  currencyId: z.number().int().positive(),
-  bedrooms: z.number().int().positive(),
-  bathrooms: z.number().int().positive(),
-  yearBuilt: z.number().int().min(1900).max(new Date().getFullYear()),
-  districtId: z.number().int().positive(),
-  typeId: z.number().int().positive(),
-  userId: z.number().int().positive(),
-  departmentId: z.number().int().positive(),
-  publishedAt: z.string(),
+  id: z.string().uuid(),
+  name: z.string(),
+
+  currency: z.nativeEnum(CURRENCY),
+  propertyType: z.nativeEnum(PROPERTY_TYPE),
+  propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
+
+  price: z.number(),
+  phone: z.string(),
+
+  yearBuilt: z.number().nullish(),
+
+  latitude: z.number(),
+  longitude: z.number(),
+
+  hasTerrace: z.boolean(),
+  location: z.string(),
+  description: z.string(),
   availability: z.boolean(),
-  services: z.array(z.string()),
-  imagesGallery: z.array(z.string())
+
+  districtId: z.string().uuid(),
+  departmentId: z.string().uuid(),
+  provinceId: z.string().uuid(),
+
+  floor: z.number().nullish(),
+  hasParking: z.boolean(),
+  parkingSpaces: z.number().nullish(),
+  bedrooms: z.number().nullish(),
+  bathrooms: z.number().nullish(),
+
+  area: z.number(),
+  furnished: z.boolean(),
+
+  servicesId: z.array(z.string().uuid()).default([]),
 })
 
 export const propertiesListSchema = z.object({

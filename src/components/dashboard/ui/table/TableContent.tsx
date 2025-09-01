@@ -1,7 +1,6 @@
 'use client'
 import { useSearch } from "@/src/hooks/search/useSearch";
 import { Meta } from "@/src/schema/shared";
-import { servicesMap } from "@/src/services/mapping/mapping";
 import Pagination from "../../show/Pagination";
 import { Spinner, TableBody, TableCell, TableColumn, TableHeader, TableRow, Table } from "@heroui/react";
 import { ColumnsType } from "../../properties/columns/columns";
@@ -19,13 +18,15 @@ interface TableContentProps<T> {
     queryKey: string;
     columns: ColumnsType;
     defaultVisibleColumns: (keyof T | string)[]
-    renderCells: React.ComponentType<{ item: T; columnKey: React.Key, onDetails: (item: string) => void }>;
+    renderCells: React.ComponentType<{ item: T; columnKey: React.Key, onDetails: (item: string) => void, onEdit: (id: string) => void }>;
     renderFilters: React.ComponentType<FiltersProps>
-    onEdit?: (item: string) => void;
+    onList: (filters : any) => Promise<ApiResponse<T> | undefined>;
+    onEdit: (item: string) => void;
     onDetails: (item: string) => void;
     onAddParam: (key : string, value : string) => void;
     onDeleteParam: (key : string) => void
     onGetParam: (key: string) => string | null
+    getRowId: (item : T) => string | number
 }
 
 export const options = [
@@ -40,6 +41,8 @@ export default function TableContent<T>({
     columns,
     defaultVisibleColumns,
     renderFilters,
+    getRowId,
+    onList,
     onAddParam,
     onEdit,
     onDetails,
@@ -47,9 +50,9 @@ export default function TableContent<T>({
     onGetParam
 }: TableContentProps<T>) {
 
-    const { data, meta, isLoading, search, setSearch } = useSearch({
+    const { data, meta, isLoading, search, setSearch } = useSearch<T>({
         baseKey: queryKey,
-        functionService: servicesMap[queryKey],
+        functionService: (filters) => onList(filters),
     });
 
     const { selectedKeys, setSelectedKeys, visibleColumns, setVisibleColumns, statusFilter, setStatusFilter, headerColumns } = useLogicTable({ defaultVisibleColumns, columns });
@@ -116,13 +119,14 @@ export default function TableContent<T>({
                 loadingContent={<Spinner color="success" />}
             >
                 {(item) => (
-                    <TableRow className="hover:bg-[#f3f4f6] dark:hover:bg-[#222225] dark:text-[#c9cacb]" key={item.id}>
+                    <TableRow className="hover:bg-[#f3f4f6] dark:hover:bg-[#222225] dark:text-[#c9cacb]" key={getRowId(item)}>
                         {(columnKey) => (
                             <TableCell>
                                 <CellRenderer
                                     item={item}
                                     columnKey={columnKey}
                                     onDetails={onDetails}
+                                    onEdit={onEdit}
                                 />
                             </TableCell>
                         )}

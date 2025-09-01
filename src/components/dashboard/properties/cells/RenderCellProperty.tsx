@@ -4,6 +4,7 @@ import { AdminProperty } from "@/src/types";
 import { VerticalDotsIcon } from "../../ui/icons/VerticalDotsIcon";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
+import { on } from "events";
 
 
 export const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -15,7 +16,7 @@ interface RenderCellPropertyProps {
     item: AdminProperty;
     columnKey: React.Key
     onDetails: (item: AdminProperty['id']) => void | undefined
-    openModalEdit?: (id: number) => void
+    onEdit: (id: string) => void
 }
 
 export type ChangeStatus = {
@@ -30,7 +31,7 @@ export const RenderCellProperty = ({
     item,
     columnKey,
     onDetails,
-    openModalEdit
+    onEdit
 }: RenderCellPropertyProps) => {
     const cellValue = item[columnKey as keyof typeof item];
 
@@ -65,13 +66,14 @@ export const RenderCellProperty = ({
                             </Button>
                         </DropdownTrigger>
                         <DropdownMenu disabledKeys={item.availability === false ? ["edit", "delete"] : []}>
-                            <DropdownItem key="edit" onPress={() => console.log(item.id)
-                                // openModalEdit!(item.id)
-                            }>
+                            <DropdownItem key="edit" onPress={() => {
+                                console.log(item.id)
+                                onEdit(item.id)
+                            }}>
                                 Editar
                             </DropdownItem>
                             <DropdownItem key="custom" onPress={() => onDetails(item.id)
-                                // openModalEdit!(item.id)
+                                // onEdit!(item.id)
                             }>
                                 Personalizar propiedad
                             </DropdownItem>

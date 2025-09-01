@@ -14,7 +14,7 @@ interface ApiResponse<T> {
 
 interface UseSearchProps<T> {
   baseKey: string;
-  functionService: (filters: UseGetFilters) => Promise<ApiResponse<T> | undefined>;
+  functionService: (filters : any) => Promise<ApiResponse<T> | undefined>
 }
 
 export const useSearch = <T,>({

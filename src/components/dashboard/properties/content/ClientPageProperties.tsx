@@ -8,29 +8,44 @@ import GenericModal from "@/src/components/ui/generic/GenericModal";
 import Filters from "./Filters";
 import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
 import { useParams } from "@/src/hooks/search/useParams";
-import GenericDrawer from "@/app/success/GenericDrawer";
+import GenericDataWrapper from "@/src/components/ui/generic/GenericDataWrapper";
+import { PropertyAdmin } from "@/src/services/admin";
 
 export default function ClientPageProperties() {
-    const { openModalEdit, openDetailsModal } = useModalUtils();
+    const { openModalEdit, openDetailsModal, closeModal } = useModalUtils();
     const { setParam, deleteParam, getParam } = useParams();
-    
+    const ID = getParam("id");
+
     return (
         <>
             <TableContent<AdminProperty>
-                queryKey={"properties"}
                 columns={Columns}
+                queryKey={"properties"}
                 defaultVisibleColumns={["name", "price", "currency", "availability", "actions"]}
                 renderCells={RenderCellProperty}
                 renderFilters={Filters}
-                onEdit={(id) => openModalEdit(id)}
-                onDetails={(id) => openDetailsModal(id)}
-                onAddParam={(key, value) => setParam(key, value)}
-                onDeleteParam={(key) => deleteParam(key)}
-                onGetParam={(key) => getParam(key)}
+                onList={PropertyAdmin.list}
+                onEdit={openModalEdit}
+                onDetails={openDetailsModal}
+                onAddParam={setParam}
+                onDeleteParam={deleteParam}
+                onGetParam={getParam}
+                getRowId={(item) => item.id}
             />
 
-            <GenericModal />
-            
+            <GenericModal closeModal={closeModal} />
+
+
+            {ID &&
+
+                <GenericDataWrapper
+                    closeModal={closeModal}
+                    id={ID}
+                    serviceFunction={PropertyAdmin.find}
+                    queryKey="property"
+                />
+                }
+
             {/* <GenericDrawer
                 width="99"
                 descriptionDrawer="Aquí podrás editar la información de la propiedad"

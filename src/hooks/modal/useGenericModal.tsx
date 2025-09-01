@@ -1,21 +1,19 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { pluralToSingular } from "@/src/utils";
 import { User } from "@/src/types/userTypes/user";
-import { CreateProperty } from "@/src/components";
+import { CreateProperty, EditProperty } from "@/src/components";
 import ImageManagerOrquest from "@/src/components/dashboard/properties/gallery/ImageManagerOrquest";
 
 interface GenericModalProps {
     user?: User;
     defaultValues?: any;
     id?: string;
-    closeModal: () => void;
 }
 
 export function useGenericModal({
     user,
     defaultValues,
     id,
-    closeModal
 }: GenericModalProps) {
     const path = usePathname();
     const searchParams = useSearchParams();
@@ -65,7 +63,7 @@ export function useGenericModal({
 
         if (isEdit) {
             switch (entity) {
-
+                case "property": return <EditProperty defaultValues={defaultValues} />
             }
         }
 

@@ -60,7 +60,7 @@ export class PropertyAdmin {
     static find = async (id: AdminProperty['id']) => {
         try {
             const url = `${ROUTES.FIND}/${id}`
-            const { data } = await api(url)
+            const { data } = await nest(url)
             const response = findPropertySchema.safeParse(data)
             if (response.success) return response.data
         } catch (error) { errorHttp(error) }

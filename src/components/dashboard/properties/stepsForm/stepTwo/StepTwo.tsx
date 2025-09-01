@@ -10,7 +10,6 @@ import { Province } from '@/src/services'
 import Autocomplete from '@/app/success/Autocomplete'
 import { District } from '@/src/services/data/district'
 import Map from '@/src/components/ui/map/Map'
-import { PROPERTY_CATEGORY } from '@/src/utils/resolves/bases/enums'
 
 type StepTwoProps = {
     register: UseFormRegister<FormDataProperty>;
@@ -60,7 +59,7 @@ export default function StepTwo({ register, errors, setValue, watch }: StepTwoPr
                         name="departmentId"
                         watch={watch}
                         setValue={setValue}
-                        label='Tipo de propiedad'
+                        label='Departamento'
                     />
 
                 </div>

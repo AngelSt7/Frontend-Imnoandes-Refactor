@@ -2,7 +2,7 @@ import { PROPERTY_CATEGORY } from "@/src/utils/resolves/bases/enums";
 import { useCallback } from "react";
 
 export const DEFINE_STEPS = {
-    stepOne: ['name', 'property_type', 'property_category', 'currency', 'price'],
+    stepOne: ['name', 'propertyType', 'propertyCategory', 'phone', 'currency', 'price'],
     stepTwo: ['location', 'departmentId', 'provinceId', 'districtId', 'latitude', 'longitude'],
     stepThree: ['area', 'yearBuilt', 'bathrooms', 'floor', 'hasTerrace', 'furnished', 'hasParking', 'description', 'bedrooms', 'parkingSpaces'],
     stepFour: ['servicesId', 'extraInfo']

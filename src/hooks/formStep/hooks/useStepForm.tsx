@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { DefaultValues, useForm } from 'react-hook-form';
 
 export interface StepConfig<T> {
     component: React.ComponentType<any>;
@@ -8,16 +8,18 @@ export interface StepConfig<T> {
 }
 
 interface UseStepsFormProps<T> {
+    defaultValues?: DefaultValues<T>;
     steps: StepConfig<T>[];
 }
 
-export function useStepsForm<T extends Record<string, any>>({ steps: initialSteps }: UseStepsFormProps<T>) {
-    const [currentStep, setCurrentStep] = useState(0);
+export function useStepsForm<T extends Record<string, any>>({ steps: initialSteps, defaultValues }: UseStepsFormProps<T>) {
+    const [currentStep, setCurrentStep] = useState(3);
     const [steps, setSteps] = useState<StepConfig<T>[]>(initialSteps);
 
     const methods = useForm<T>({
         mode: 'onChange',
-        criteriaMode: 'all'
+        criteriaMode: 'all',
+        ...(defaultValues && { defaultValues })
     });
 
     const { watch, formState, handleSubmit, trigger } = methods;

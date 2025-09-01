@@ -22,6 +22,7 @@ export function useModalUtils() {
     };
 
     const openDetailsModal = (id: string) => {
+        console.log(id)
         const params = new URLSearchParams(searchParams.toString());
         params.set(ValidParams.action, ValidParams.customImages);
         params.set("id", id);
@@ -31,7 +32,7 @@ export function useModalUtils() {
     const openModalEdit = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set(ValidParams.action, ValidParams.edit);
-        params.set("id", Number(id).toString());
+        params.set("id", id);
         router.replace(`?${params.toString()}`);
     };
 

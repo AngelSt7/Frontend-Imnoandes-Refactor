@@ -16,6 +16,8 @@ type StepOneProps = {
 
 export default function StepOne({ register, errors, setValue, watch }: StepOneProps) {
     const currency = watch('currency')
+    const phone = watch('phone')
+    console.log(phone)
 
     return (
         <>
@@ -58,18 +60,18 @@ export default function StepOne({ register, errors, setValue, watch }: StepOnePr
                 <div className=' grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <SelectItem
                         data={PROPERTY_TYPE_SELECT}
-                        register={register('property_type', { required: 'Debes seleccionar un tipo de propiedad' })}
-                        errorMessage={errors.property_type}
-                        name="property_type"
+                        register={register('propertyType', { required: 'Debes seleccionar un tipo de propiedad' })}
+                        errorMessage={errors.propertyType}
+                        name="propertyType"
                         watch={watch}
                         setValue={setValue}
                         label='Tipo de propiedad'
                     />
                     <SelectItem
                         data={PROPERTY_CATEGORY_SELECT}
-                        register={register('property_category', { required: 'Debes seleccionar un tipo de categoria' })}
-                        errorMessage={errors.property_category}
-                        name="property_category"
+                        register={register('propertyCategory', { required: 'Debes seleccionar un tipo de categoria' })}
+                        errorMessage={errors.propertyCategory}
+                        name="propertyCategory"
                         watch={watch}
                         setValue={setValue}
                         label='Categoría de propiedad'

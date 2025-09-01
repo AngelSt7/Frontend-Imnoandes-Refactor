@@ -1,22 +1,21 @@
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/react";
 import { useGenericModal } from "@/src/hooks/modal/useGenericModal";
 import { User } from "@/src/types/userTypes/user";
-import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
 
 type GenericModalProps = {
-  user?: User;
   id?: string;
+  user?: User;
   defaultValues?: any;
+  closeModal?: () => void
 };
 
-export default function GenericModal({ user, id, defaultValues }: GenericModalProps) {
-  const { closeModal } = useModalUtils();
+export default function GenericModal({ user, id, defaultValues, closeModal }: GenericModalProps) {
   const {
     showModal,
     getTitle,
     isCustomImage,
     renderForm
-  } = useGenericModal({ user, defaultValues, id, closeModal });
+  } = useGenericModal({ user, defaultValues, id });
 
   if (!showModal) return null;
 

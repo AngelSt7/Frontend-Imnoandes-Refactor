@@ -20,11 +20,11 @@ export const PROPERTY_CATEGORY_SELECT = [
 ]
 
 export const DEPARTMENT_SELECT = [
-  { key: 'f81254d3-17f4-46ca-a983-614bde3d73c6', label: 'Lima' },
-  { key: '56312170-d32f-4c07-976f-471df01d8e22', label: 'Cusco' },
-  { key: '876079b1-935a-42d7-87ea-3fd555136c90', label: 'Ica' },
-  { key: 'ed69c503-91c7-41f0-8c95-ee9e936b8ae7', label: 'Arequipa' },
-  { key: 'fccc85e5-0578-4b7a-98a0-f4c0f8b8f910', label: 'Piura' },
+  { key: '817a3c11-a403-4c63-bf45-b0cf472d82b3', label: 'Lima' },
+  { key: '31581e72-0de3-49f4-ade3-519c32b97c68', label: 'Cusco' },
+  { key: 'f9b96f9a-8635-4ea0-83aa-de7d6098b060', label: 'Ica' },
+  { key: 'ead7ba7b-dc0e-468c-8701-9e6302d6abdf', label: 'Arequipa' },
+  { key: 'd6f19842-5452-4b39-aa46-596b5225fcf5', label: 'Piura' },
 ]
 
 export const DEPARTMENT_DROPDOWN = [...DEPARTMENT_SELECT, { key: 'all', label: 'Todos' }]

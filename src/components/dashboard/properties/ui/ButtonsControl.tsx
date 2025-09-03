@@ -5,9 +5,10 @@ interface ButtonsControlProps {
     canGoPrev: () => boolean
     goToNextStep: () => void
     goToPrevStep: () => void
+    validationMode?: "block" | "message"
 }
 
-export default function ButtonsControl({ canGoNext, canGoPrev, goToNextStep, goToPrevStep }: ButtonsControlProps) {
+export default function ButtonsControl({ canGoNext, canGoPrev, goToNextStep, goToPrevStep, validationMode = 'message' }: ButtonsControlProps) {
     const buttons = [
         {
             id: 'prev',
@@ -30,7 +31,8 @@ export default function ButtonsControl({ canGoNext, canGoPrev, goToNextStep, goT
     return (
         <div className='flex justify-center gap-2'>
             {buttons.map(({ id, label, icon: Icon, iconPosition, onClick, canExecute }) => {
-                const isDisabled = !canExecute()
+                let isDisabled 
+                validationMode === 'block' ? isDisabled = !canExecute() : isDisabled = false
                 
                 return (
                     <button

@@ -10,23 +10,30 @@ import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
 import { useParams } from "@/src/hooks/search/useParams";
 import GenericDataWrapper from "@/src/components/ui/generic/GenericDataWrapper";
 import { PropertyAdmin } from "@/src/services/admin";
+import { useSubmitMutation } from "@/src/hooks";
 
 export default function ClientPageProperties() {
     const { openModalEdit, openDetailsModal, closeModal } = useModalUtils();
     const { setParam, deleteParam, getParam } = useParams();
     const ID = getParam("id");
+    const { mutate } = useSubmitMutation({
+        serviceFunction: PropertyAdmin.changeStatus
+    });
 
     return (
         <>
             <TableContent<AdminProperty>
                 columns={Columns}
                 queryKey={"properties"}
-                defaultVisibleColumns={["name", "price", "currency", "availability", "actions"]}
+                defaultVisibleColumns={["name", "price", "currency", "propertyType", "propertyCategory" , "availability", "actions"]}
                 renderCells={RenderCellProperty}
+                renderCellsProps={{
+                    onDetails: openDetailsModal,
+                    onEdit: openModalEdit,
+                    onMutate: mutate
+                }}
                 renderFilters={Filters}
                 onList={PropertyAdmin.list}
-                onEdit={openModalEdit}
-                onDetails={openDetailsModal}
                 onAddParam={setParam}
                 onDeleteParam={deleteParam}
                 onGetParam={getParam}

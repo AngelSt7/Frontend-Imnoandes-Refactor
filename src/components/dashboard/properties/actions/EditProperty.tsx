@@ -2,7 +2,7 @@
 
 import { FormDataProperty } from '@/src/types';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
+import equal from "fast-deep-equal";
 import { TabsForms } from '../../ui';
 import { useSubmitMutation } from '@/src/hooks';
 import { PropertyAdmin } from '@/src/services/admin';
@@ -12,23 +12,32 @@ import { useStepRules } from '@/src/hooks/formStep/config/useStepRules';
 import { useStepsForm } from '@/src/hooks/formStep/hooks/useStepForm';
 import ButtonsControl from '../ui/ButtonsControl';
 import ButtonSubmit from '../ui/ButtonSubmit';
-
+import toast from 'react-hot-toast';
+import { useModalUtils } from '@/src/hooks/modal/useModalUtils';
 
 interface EditPropertyProps {
     defaultValues: FormDataProperty
 }
 
 export default function EditProperty({ defaultValues }: EditPropertyProps) {
-    const { getStepsConfig } = useControlStep();
-    const [stepsConfig] = useState(() => getStepsConfig());
-    const { methods, handleSubmit, canGoNext, canGoPrev, goToNextStep, goToPrevStep, goToStep, renderStep, currentStep, isStepComplete, updateStep } = useStepsForm<FormDataProperty>({ steps: stepsConfig, defaultValues });
+    const { closeModal } = useModalUtils();
+    const { getStepsOnEdit } = useControlStep();
+    
+    const stepsConfig = getStepsOnEdit(defaultValues.propertyCategory, Boolean(defaultValues.hasParking));
+    const { methods, handleSubmit, canGoNext, canGoPrev, goToNextStep, goToPrevStep, goToStep, renderStep, currentStep, isStepComplete, updateStep, reset } = useStepsForm<FormDataProperty>({ steps: stepsConfig, defaultValues, validationMode: 'message' });
     useStepUpdater({ formMethods: methods, rules: useStepRules(), updateStep });
 
     const { mutate } = useSubmitMutation({
-        serviceFunction: PropertyAdmin.edit
+        serviceFunction: PropertyAdmin.edit,
+        onSuccessCallback: () => {
+            reset();
+            closeModal();
+        }
     });
 
     const onSubmit: SubmitHandler<FormDataProperty> = (data: FormDataProperty) => {
+        const normalized = { ...data, phone: String(data.phone) };
+        if (equal(normalized, defaultValues)) return toast.error("No se han detectado cambios en la propiedad");
         mutate(data);
     };
 

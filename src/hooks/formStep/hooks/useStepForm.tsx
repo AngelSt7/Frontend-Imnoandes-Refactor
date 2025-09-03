@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { DefaultValues, useForm } from 'react-hook-form';
 
 export interface StepConfig<T> {
@@ -10,10 +10,17 @@ export interface StepConfig<T> {
 interface UseStepsFormProps<T> {
     defaultValues?: DefaultValues<T>;
     steps: StepConfig<T>[];
+    validationMode?: "block" | "message";
+    debug?: boolean;
 }
 
-export function useStepsForm<T extends Record<string, any>>({ steps: initialSteps, defaultValues }: UseStepsFormProps<T>) {
-    const [currentStep, setCurrentStep] = useState(3);
+export function useStepsForm<T extends Record<string, any>>({
+    steps: initialSteps,
+    defaultValues,
+    debug = false,
+    validationMode = "block"
+}: UseStepsFormProps<T>) {
+    const [currentStep, setCurrentStep] = useState(0);
     const [steps, setSteps] = useState<StepConfig<T>[]>(initialSteps);
 
     const methods = useForm<T>({
@@ -57,21 +64,24 @@ export function useStepsForm<T extends Record<string, any>>({ steps: initialStep
         return isStepComplete(currentStep);
     }, [currentStep, steps.length, isStepComplete]);
 
-
     const canGoPrev = useCallback((): boolean => {
         return currentStep > 0;
     }, [currentStep]);
 
     const goToNextStep = useCallback(async () => {
-        if (!canGoNext()) return;
-
         const stepFields = steps[currentStep].fields;
-        const isValid = await trigger(stepFields as any);
 
-        if (isValid) {
+        if (validationMode === "block") {
+            const isValid = await trigger(stepFields as any);
+            if (isValid) {
+                setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+            }
+        } else {
+            const isValid = await trigger(stepFields as any, { shouldFocus: true });
+            if (!isValid) return;
             setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
         }
-    }, [canGoNext, trigger, steps, currentStep]);
+    }, [steps, currentStep, trigger, validationMode]);
 
     const goToPrevStep = useCallback(() => {
         if (canGoPrev()) {
@@ -97,7 +107,6 @@ export function useStepsForm<T extends Record<string, any>>({ steps: initialStep
     }, [currentStep, steps, methods, formState.errors, watch]);
 
     const goToStep = useCallback(async (targetStepIndex: number) => {
-
         if (targetStepIndex < 0 || targetStepIndex >= steps.length) return;
 
         if (targetStepIndex < currentStep) {
@@ -117,6 +126,24 @@ export function useStepsForm<T extends Record<string, any>>({ steps: initialStep
         setCurrentStep(targetStepIndex);
     }, [currentStep, steps, trigger, isStepComplete]);
 
+    const getDebugState = useCallback(() => {
+        const formValues = watch();
+        return {
+            currentStep,
+            totalSteps: steps.length,
+            stepFields: steps[currentStep]?.fields ?? [],
+            values: formValues,
+            errors: formState.errors,
+            isStepComplete: isStepComplete(currentStep)
+        };
+    }, [currentStep, steps, watch, formState.errors, isStepComplete]);
+
+    useEffect(() => {
+        if (debug) {
+            console.log("[useStepsForm debug]", getDebugState());
+        }
+    }, [debug, getDebugState]);
+
     return {
         methods,
         handleSubmit,
@@ -131,6 +158,8 @@ export function useStepsForm<T extends Record<string, any>>({ steps: initialStep
         isStepComplete: (stepIndex?: number) => isStepComplete(stepIndex ?? currentStep),
         goToStep,
         totalSteps: steps.length,
-        updateStep
+        updateStep,
+        getDebugState,
+        reset: methods.reset
     };
 }

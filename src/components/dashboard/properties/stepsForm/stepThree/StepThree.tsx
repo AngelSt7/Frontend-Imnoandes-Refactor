@@ -13,7 +13,7 @@ type StepThreeProps = {
 };
 
 export default function StepThree({ register, errors, setValue, watch }: StepThreeProps) {
-    const propertyCategory = watch('property_category');
+    const propertyCategory = watch('propertyCategory');
     const hasParking = watch('hasParking');
 
     const getLabelFloor = () => {

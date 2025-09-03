@@ -18,7 +18,7 @@ export default function GenericDataWrapper<T>({ id, user, serviceFunction, query
     retry: false,
     enabled: id !== undefined,
   });
-  console.log(data)
+
   if(data) return (
     <GenericModal
       id={id}

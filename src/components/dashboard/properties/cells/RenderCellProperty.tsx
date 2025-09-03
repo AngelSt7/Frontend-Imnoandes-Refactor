@@ -15,8 +15,8 @@ interface RenderCellPropertyProps {
     mutate?: mutateProps;
     item: AdminProperty;
     columnKey: React.Key
-    onDetails: (item: AdminProperty['id']) => void | undefined
-    onEdit: (id: string) => void
+    onDetails?: (item: AdminProperty['id']) => void
+    onEdit?: (id: string) => void
 }
 
 export type ChangeStatus = {
@@ -24,7 +24,7 @@ export type ChangeStatus = {
     status: boolean;
 };
 
-export type mutateProps = UseMutateFunction<any, Error, ChangeStatus, unknown>
+export type mutateProps = UseMutateFunction<any, any, string, unknown>
 
 export const RenderCellProperty = ({
     mutate,
@@ -67,12 +67,11 @@ export const RenderCellProperty = ({
                         </DropdownTrigger>
                         <DropdownMenu disabledKeys={item.availability === false ? ["edit", "delete"] : []}>
                             <DropdownItem key="edit" onPress={() => {
-                                console.log(item.id)
-                                onEdit(item.id)
+                                onEdit?.(item.id)
                             }}>
                                 Editar
                             </DropdownItem>
-                            <DropdownItem key="custom" onPress={() => onDetails(item.id)
+                            <DropdownItem key="custom" onPress={() => onDetails?.(item.id)
                                 // onEdit!(item.id)
                             }>
                                 Personalizar propiedad

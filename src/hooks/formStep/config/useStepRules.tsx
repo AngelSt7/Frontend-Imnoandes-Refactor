@@ -10,21 +10,21 @@ export function useStepRules() {
   const rules = [
     useCreateStepRules<FormDataProperty>({
       stepIndex: 2,
-      watchFields: ["property_category", "hasParking"],
-      condition: (values) => !!values.property_category,
+      watchFields: ["propertyCategory", "hasParking"],
+      condition: (values) => !!values.propertyCategory,
       getConfig: (values) =>
         getStepThreeConfig(
-          values.property_category,
+          values.propertyCategory,
           Boolean(values.hasParking)
         ),
     }),
     useCreateStepRules<FormDataProperty>({
       stepIndex: 3,
-      watchFields: ["property_category"],
-      condition: (values) => !!values.property_category,
-      getConfig: (values) => getStepFourConfig(values.property_category),
+      watchFields: ["propertyCategory"],
+      condition: (values) => !!values.propertyCategory,
+      getConfig: (values) => getStepFourConfig(values.propertyCategory),
       onComplete: (values) => {
-        if (values.property_category === PROPERTY_CATEGORY.TERRENO) {
+        if (values.propertyCategory === PROPERTY_CATEGORY.TERRENO) {
           toast.success("Paso 4 completado automáticamente por la categoría del inmueble");
         }
       }

@@ -70,11 +70,8 @@ export const useImageManager = <T extends FieldValues>({
 
 
   useEffect(() => {
-    // Evitar re-sync si no cambió
     if (lastInitialFileRef.current === initialFile) return;
-
     lastInitialFileRef.current = initialFile;
-
     if (!initialFile) {
       if (files.length > 0) {
         setFiles([]);
@@ -102,17 +99,12 @@ export const useImageManager = <T extends FieldValues>({
       }
     }
 
-    // Desactivar flag de primer render
     if (isFirstMountRef.current) {
       setTimeout(() => { isFirstMountRef.current = false }, 100);
     }
   }, [initialFile, multiple, files, areFileArraysEqual, areFilesEqual]);
 
 
-
-
-
-  // ⬇️ Aquí insertamos el nuevo efecto
   useEffect(() => {
     if (!didMountRef.current) {
       didMountRef.current = true;
@@ -143,10 +135,7 @@ export const useImageManager = <T extends FieldValues>({
   const onUpdateFiles = useCallback(
     (items: FilePondFile[]) => {
       const itemCount = items.length;
-      console.log("onUpdateFiles called with", itemCount, "items");
-
       if (isUpdatingRef.current) {
-        console.log("Skipping update - already updating");
         return;
       }
 
@@ -158,17 +147,14 @@ export const useImageManager = <T extends FieldValues>({
 
         if (isFirstMountRef.current) {
           if (expectedCount > 0 && itemCount < expectedCount) {
-            console.log("Ignoring partial mount update");
             return;
           }
           if (expectedCount === itemCount) {
-            console.log("Mount sync OK");
             isFirstMountRef.current = false;
           }
         }
 
         if (expectedCount === itemCount && itemCount > 0) {
-          console.log("Updating files state during early mounting");
           setFiles(items.map((i) => ({
             source: i.file,
             options: { type: "local" }
@@ -187,12 +173,10 @@ export const useImageManager = <T extends FieldValues>({
             const currentFiles = lastFileRef.current as File[] || [];
 
             if (!areFileArraysEqual(currentFiles, newFiles)) {
-              console.log("Updating multiple files - files changed from", currentFiles.length, "to", newFiles.length);
               setValue(field, newFiles as any, { shouldValidate: true });
               onFileChange(newFiles);
               lastFileRef.current = newFiles;
             } else {
-              console.log("Files are the same - skipping update");
             }
           } else {
             const newFile = newFiles[0] ?? null;
@@ -203,12 +187,10 @@ export const useImageManager = <T extends FieldValues>({
               : newFile !== currentFile;
 
             if (filesAreDifferent) {
-              console.log("Updating single file - file changed");
               setValue(field, newFile as any, { shouldValidate: true });
               onFileChange(newFile);
               lastFileRef.current = newFile;
             } else {
-              console.log("File is the same - skipping update");
             }
           }
 
@@ -218,7 +200,6 @@ export const useImageManager = <T extends FieldValues>({
           })));
 
         } catch (error) {
-          console.warn("Error updating files:", error);
         } finally {
           setTimeout(() => {
             isUpdatingRef.current = false;

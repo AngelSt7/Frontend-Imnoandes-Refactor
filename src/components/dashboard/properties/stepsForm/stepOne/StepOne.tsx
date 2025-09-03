@@ -17,7 +17,6 @@ type StepOneProps = {
 export default function StepOne({ register, errors, setValue, watch }: StepOneProps) {
     const currency = watch('currency')
     const phone = watch('phone')
-    console.log(phone)
 
     return (
         <>

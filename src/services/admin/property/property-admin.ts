@@ -70,7 +70,7 @@ export class PropertyAdmin {
         try {
             const { id, ...rest } = formData
             const url = `${ROUTES.EDIT}/${id}`
-            const { data } = await api.put(url, rest)
+            const { data } = await api.patch(url, rest)
             return data.message;
         } catch (error) { errorHttp(error) }
     }

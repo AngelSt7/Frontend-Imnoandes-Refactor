@@ -1,6 +1,6 @@
 import { ErrorComponentsRegistry } from "@/src/config/ErrorsComponents";
 import { Autocomplete as Auto, AutocompleteItem } from '@heroui/react';
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { FieldValues } from "react-hook-form";
 import { Option } from "../../shared/interfaces/interface";
 import { useAutoCompleteWhitTabs } from "../hooks/useAutoCompleteWhitTabs";

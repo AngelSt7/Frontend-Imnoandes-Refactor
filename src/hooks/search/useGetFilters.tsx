@@ -9,7 +9,7 @@ const validParams = [
     "page",
     "search",
     "currency",
-    "property_type",
+    "propertyType",
     "departmentId",
     "provinceId",
     "districtId",

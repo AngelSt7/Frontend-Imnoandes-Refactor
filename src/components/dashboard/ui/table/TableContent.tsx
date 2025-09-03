@@ -8,6 +8,16 @@ import { TopContent } from "./TopContent";
 import { useLogicTable } from "./hooks/useLogicTable";
 import React from "react";
 import { FiltersProps } from "../../properties/content/Filters";
+import { UseMutateFunction } from "@tanstack/react-query";
+
+interface RenderCellProps {
+    onDetails?: (item: string) => void;
+    onEdit?: (id: string) => void;
+    onAddParam?: (p: string) => void;
+    onDeleteParam?: (id: string) => void;
+    onGetParam?: (id: string) => void;
+    onMutate?: UseMutateFunction<any, any, string, unknown>;
+};
 
 export interface ApiResponse<T> {
     data: T[];
@@ -18,15 +28,14 @@ interface TableContentProps<T> {
     queryKey: string;
     columns: ColumnsType;
     defaultVisibleColumns: (keyof T | string)[]
-    renderCells: React.ComponentType<{ item: T; columnKey: React.Key, onDetails: (item: string) => void, onEdit: (id: string) => void }>;
+    renderCells: React.ComponentType<{ item: T; columnKey: React.Key } & RenderCellProps>;
     renderFilters: React.ComponentType<FiltersProps>
-    onList: (filters : any) => Promise<ApiResponse<T> | undefined>;
-    onEdit: (item: string) => void;
-    onDetails: (item: string) => void;
-    onAddParam: (key : string, value : string) => void;
-    onDeleteParam: (key : string) => void
+    renderCellsProps?: RenderCellProps
+    onList: (filters: any) => Promise<ApiResponse<T> | undefined>;
+    onAddParam: (key: string, value: string) => void;
+    onDeleteParam: (key: string) => void
     onGetParam: (key: string) => string | null
-    getRowId: (item : T) => string | number
+    getRowId: (item: T) => string | number
 }
 
 export const options = [
@@ -41,11 +50,10 @@ export default function TableContent<T>({
     columns,
     defaultVisibleColumns,
     renderFilters,
+    renderCellsProps,
     getRowId,
     onList,
     onAddParam,
-    onEdit,
-    onDetails,
     onDeleteParam,
     onGetParam
 }: TableContentProps<T>) {
@@ -63,7 +71,7 @@ export default function TableContent<T>({
         <Table
             isCompact
             aria-label={`${queryKey} table`}
-            bottomContent={ <Pagination meta={meta} /> }
+            bottomContent={<Pagination meta={meta} />}
             bottomContentPlacement="outside"
             selectedKeys={selectedKeys}
             onSelectionChange={(keys) => {
@@ -125,8 +133,7 @@ export default function TableContent<T>({
                                 <CellRenderer
                                     item={item}
                                     columnKey={columnKey}
-                                    onDetails={onDetails}
-                                    onEdit={onEdit}
+                                    {...renderCellsProps}
                                 />
                             </TableCell>
                         )}

@@ -67,6 +67,8 @@ export const useControlStep = () => {
     [getStepFourFields]
   );
 
+
+
   const getStepsConfig = useCallback(
     (propertyCategory?: string, hasParking?: boolean): StepConfig<FormDataProperty>[] => [
       getStepOneConfig(),
@@ -77,11 +79,18 @@ export const useControlStep = () => {
     [getStepOneConfig, getStepTwoConfig, getStepThreeConfig, getStepFourConfig]
   );
 
+  const getStepsOnEdit = useCallback(
+    (propertyCategory?: string, hasParking?: boolean | undefined | null ) =>
+      getStepsConfig(propertyCategory, Boolean(hasParking)),
+    [getStepsConfig]
+  );
+
   return {
     getStepsConfig,
     getStepOneConfig,
     getStepTwoConfig,
     getStepThreeConfig,
     getStepFourConfig,
+    getStepsOnEdit
   };
 };

@@ -4,22 +4,24 @@ import { options } from '../../ui/table/TableContent'
 import { useFilterState } from '@/src/hooks/ui/filter/state/useFilterState'
 
 interface FilterStateProps {
+    classNames: string
     onAddParam: (key: string, value: string) => void
     onDeleteParam: (key: string) => void
     onGetParam: (key: string) => string | null
 }
 
 export default function FilterState({
+    classNames,
     onGetParam,
     onAddParam,
     onDeleteParam
 }: FilterStateProps) {
 
-    const { getStatusButtonText, resolveLabel } = useFilterState({onGetParam})
+    const { getStatusButtonText, resolveLabel } = useFilterState({ onGetParam })
 
     return (
-        <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
+        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined} className='w-fit'>
+            <DropdownTrigger className={`flex ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"

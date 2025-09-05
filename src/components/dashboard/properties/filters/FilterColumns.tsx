@@ -4,19 +4,21 @@ import React from 'react'
 import { ColumnsType } from '../columns/columns';
 
 interface FilterColumnsProps {
+    classNames?: string
     visibleColumns: "all" | Set<string>;
     setVisibleColumns: React.Dispatch<React.SetStateAction<"all" | Set<string>>>;
     columns: ColumnsType
 }
 
 export default function FilterColumns({
+    classNames,
     visibleColumns,
     setVisibleColumns,
     columns
 } : FilterColumnsProps) {
     return (
-        <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
+        <Dropdown >
+            <DropdownTrigger className={`flex ${classNames}`}>
                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
                     Columnas
                 </Button>

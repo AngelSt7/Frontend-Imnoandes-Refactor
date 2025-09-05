@@ -4,19 +4,18 @@ import { AdminProperty } from "@/src/types";
 import { VerticalDotsIcon } from "../../ui/icons/VerticalDotsIcon";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
-import { on } from "events";
-
+import { Actions, IOpenModal } from "@/src/hooks/modal/useModalUtils";
+import { formatDate } from '@/src/utils/frontend/format/dateUtils';
 
 export const statusColorMap: Record<string, ChipProps["color"]> = {
     activo: "success",
     inactivo: "danger",
 };
 interface RenderCellPropertyProps {
-    mutate?: mutateProps;
+    onOpenModal?: (meta: IOpenModal) => void
+    onMutate?: mutateProps;
     item: AdminProperty;
     columnKey: React.Key
-    onDetails?: (item: AdminProperty['id']) => void
-    onEdit?: (id: string) => void
 }
 
 export type ChangeStatus = {
@@ -27,11 +26,10 @@ export type ChangeStatus = {
 export type mutateProps = UseMutateFunction<any, any, string, unknown>
 
 export const RenderCellProperty = ({
-    mutate,
+    onMutate,
+    onOpenModal,
     item,
-    columnKey,
-    onDetails,
-    onEdit
+    columnKey
 }: RenderCellPropertyProps) => {
     const cellValue = item[columnKey as keyof typeof item];
 
@@ -48,13 +46,19 @@ export const RenderCellProperty = ({
                     color={statusColorMap[statusText]}
                     size="sm"
                     variant="flat"
-                    // onDoubleClick={() => mutate({ id: item.id, status: item.activo })}
+                    onDoubleClick={() => onMutate?.(item.id)}
                     role="button"
                     tabIndex={0}
                 >
                     {statusText}
                 </Chip>
             );
+        
+        case "createdAt": 
+            return formatDate(item.createdAt, "short");
+        
+        case "updatedAt":
+            return formatDate(item.updatedAt, "short");
 
         case "actions":
             return (
@@ -67,28 +71,12 @@ export const RenderCellProperty = ({
                         </DropdownTrigger>
                         <DropdownMenu disabledKeys={item.availability === false ? ["edit", "delete"] : []}>
                             <DropdownItem key="edit" onPress={() => {
-                                onEdit?.(item.id)
+                                onOpenModal?.({action: Actions.edit, id: item.id});
                             }}>
                                 Editar
                             </DropdownItem>
-                            <DropdownItem key="custom" onPress={() => onDetails?.(item.id)
-                                // onEdit!(item.id)
-                            }>
+                            <DropdownItem key="custom" onPress={() => onOpenModal?.({action: Actions.customImages, id: item.id})}>
                                 Personalizar propiedad
-                            </DropdownItem>
-                            <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                                color="danger"
-                            // onPress={() => {
-                            //     ToastDelete({
-                            //         message: `¿Desea eliminar el usuario`,
-                            //         name: `${item.nombre} ${item.apellido}`,
-                            //         onConfirm: () => mutate({ id: item.id, status: 1 }),
-                            //     });
-                            // }}
-                            >
-                                Eliminar
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>

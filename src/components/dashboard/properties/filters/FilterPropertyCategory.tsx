@@ -2,48 +2,51 @@ import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from '@
 import { ChevronDownIcon } from 'lucide-react';
 import React from 'react'
 import { currency, useFilterCurrency } from '@/src/hooks/ui/filter/currency/useFilterCurrency';
+import { useFilterPropertyType } from '@/src/hooks/ui/filter/propertyType/usePropertyType';
+import { PROPERTY_CATEGORY_SELECT, PROPERTY_TYPE_SELECT } from '@/src/utils/resolves/bases/select';
+import { useFilterPropertyCategory } from '@/src/hooks/ui/filter/propertyCategory/usePropertyCategory';
 
-interface FilterCurrencyProps {
+interface FilterPropertyCategoryProps {
     classNames: string
     onGetParam: (key: string) => string | null
     onAddParam: (key: string, value: string) => void
     onDeleteParam: (key: string) => void
 }
 
-export default function FilterCurrency({
+export default function FilterPropertyCategory({
     classNames,
     onGetParam,
     onAddParam,
     onDeleteParam
-}: FilterCurrencyProps) {
+}: FilterPropertyCategoryProps) {
 
-    const { resolveLabel, getCurrencyButtonText } = useFilterCurrency({ onGetParam })
+    const { resolveLabel, getButtonText } = useFilterPropertyCategory({ onGetParam })
 
     return (
-        <Dropdown>
-            <DropdownTrigger className={`flex ${classNames}`}>
+        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined} className='w-fit'>
+            <DropdownTrigger  className={`flex ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"
                     className="capitalize"
                 >
-                    {getCurrencyButtonText}
+                    {getButtonText}
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
                 disallowEmptySelection
-                aria-label="ESTADOS"
+                aria-label="CATEGORIAS"
                 closeOnSelect={true}
-                selectedKeys={resolveLabel("currency")}
+                selectedKeys={resolveLabel("propertyCategory")}
                 selectionMode="single"
                 onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0];
-                    selectedKey === "all" ? onDeleteParam("currency") : onAddParam("currency", String(selectedKey));
+                    onAddParam("propertyCategory", String(selectedKey));
                 }}
             >
-                {currency.map((cu) => (
-                    <DropdownItem key={cu.key} className="capitalize">
-                        {cu.value}
+                {PROPERTY_CATEGORY_SELECT.map((pr) => (
+                    <DropdownItem key={pr.key} className="capitalize">
+                        {pr.label}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

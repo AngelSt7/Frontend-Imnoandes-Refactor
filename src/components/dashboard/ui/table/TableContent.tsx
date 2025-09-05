@@ -9,13 +9,10 @@ import { useLogicTable } from "./hooks/useLogicTable";
 import React from "react";
 import { FiltersProps } from "../../properties/content/Filters";
 import { UseMutateFunction } from "@tanstack/react-query";
+import { IOpenModal } from "@/src/hooks/modal/useModalUtils";
 
 interface RenderCellProps {
-    onDetails?: (item: string) => void;
-    onEdit?: (id: string) => void;
-    onAddParam?: (p: string) => void;
-    onDeleteParam?: (id: string) => void;
-    onGetParam?: (id: string) => void;
+    onOpenModal?: (meta: IOpenModal) => void
     onMutate?: UseMutateFunction<any, any, string, unknown>;
 };
 
@@ -25,7 +22,7 @@ export interface ApiResponse<T> {
 }
 
 interface TableContentProps<T> {
-    queryKey: string;
+    baseKey: String[];
     columns: ColumnsType;
     defaultVisibleColumns: (keyof T | string)[]
     renderCells: React.ComponentType<{ item: T; columnKey: React.Key } & RenderCellProps>;
@@ -45,7 +42,7 @@ export const options = [
 ]
 
 export default function TableContent<T>({
-    queryKey,
+    baseKey,
     renderCells,
     columns,
     defaultVisibleColumns,
@@ -59,18 +56,18 @@ export default function TableContent<T>({
 }: TableContentProps<T>) {
 
     const { data, meta, isLoading, search, setSearch } = useSearch<T>({
-        baseKey: queryKey,
+        baseKey: baseKey,
         functionService: (filters) => onList(filters),
     });
 
-    const { selectedKeys, setSelectedKeys, visibleColumns, setVisibleColumns, statusFilter, setStatusFilter, headerColumns } = useLogicTable({ defaultVisibleColumns, columns });
+    const { selectedKeys, setSelectedKeys, visibleColumns, setVisibleColumns, setStatusFilter, headerColumns } = useLogicTable({ defaultVisibleColumns, columns });
 
     const CellRenderer = renderCells;
     const Filters = renderFilters
     return (
         <Table
             isCompact
-            aria-label={`${queryKey} table`}
+            aria-label={`${baseKey} table`}
             bottomContent={<Pagination meta={meta} />}
             bottomContentPlacement="outside"
             selectedKeys={selectedKeys}
@@ -84,27 +81,23 @@ export default function TableContent<T>({
             topContent={
                 <TopContent
                     filterValue={search}
-                    messageButton={"Agregar propiedad"}
                     onSearchChange={(value) => setSearch(value)}
                     onClear={() => {
                         setSearch("");
                         setStatusFilter("all");
                     }}
                     total={meta?.totalItems || 1}
-                    renderFilters={
+                    renderFilters={(show) => (
                         <Filters
-                            statusFilter={statusFilter}
-                            setStatusFilter={setStatusFilter}
+                            show={show}
                             visibleColumns={visibleColumns}
                             setVisibleColumns={setVisibleColumns}
-                            statusOptions={options}
                             columns={columns}
-                            setFilterValue={setSearch}
                             onAddParam={onAddParam}
                             onDeleteParam={onDeleteParam}
                             onGetParam={onGetParam}
                         />
-                    }
+                    )}
                 />
             }
             topContentPlacement="outside"

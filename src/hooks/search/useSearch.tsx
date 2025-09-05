@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, QueryKey, useQuery } from "@tanstack/react-query";
 import { UseGetFilters, useGetFilters } from "./useGetFilters";
 import { Meta } from "@/src/schema/shared";
 import { useDebounce } from "../debounce/useDebounce";
@@ -13,8 +13,8 @@ interface ApiResponse<T> {
 }
 
 interface UseSearchProps<T> {
-  baseKey: string;
-  functionService: (filters : any) => Promise<ApiResponse<T> | undefined>
+  baseKey: String[];
+  functionService: (filters: any) => Promise<ApiResponse<T> | undefined>
 }
 
 export const useSearch = <T,>({
@@ -22,7 +22,6 @@ export const useSearch = <T,>({
   functionService
 }: UseSearchProps<T>) => {
 
-  const segment = baseKey ?? "key";
   const router = useRouter();
   const searchParams = useSearchParams();
   const { getParams } = useGetFilters()
@@ -42,7 +41,10 @@ export const useSearch = <T,>({
     router.push(`?${params.toString()}`);
   }, [debouncedSearch]);
 
-  const queryKey = useMemo(() => [baseKey, filters.query], [segment, filters]);
+  const queryKey = useMemo(
+    () => [...baseKey, filters.query],
+    [baseKey, filters]
+  );
 
   const { data: response, isFetching: isLoading } = useQuery({
     queryKey,

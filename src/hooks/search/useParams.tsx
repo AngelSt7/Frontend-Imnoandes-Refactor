@@ -18,9 +18,23 @@ export const useParams = () => {
         router.replace(`?${params.toString()}`)
     }
 
+    const clearParams = () => {
+        const params = new URLSearchParams(searchParmas.toString())
+        const exclude = ["page", "limit"]
+
+        Array.from(params.keys()).forEach(k => {
+            if(!exclude.includes(k)){
+                params.delete(k)
+            }
+        })
+
+        router.replace(`?${params.toString()}`)
+    }
+
     return {
         setParam,
         deleteParam,
-        getParam
+        getParam,
+        clearParams
     }
 }

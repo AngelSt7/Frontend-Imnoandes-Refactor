@@ -5,22 +5,24 @@ import { ChevronDownIcon } from 'lucide-react';
 import React, { useMemo } from 'react'
 
 interface FilterStateProps {
+    classNames: string
     onAddParam: (paramKey: string, paramValue: string) => void;
     onDeleteParam: (paramKey: string) => void;
     onGetParam: (key: string) => string | null
 }
 
 export default function FilterDepartment({
+    classNames,
     onAddParam,
     onDeleteParam,
     onGetParam
 }: FilterStateProps) {
 
-    const { getDepartmentButtonText, resolveLabelDepartment } = useFilterDepartment({onGetParam})
+    const { getDepartmentButtonText, resolveLabelDepartment } = useFilterDepartment({ onGetParam })
 
     return (
-        <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
+        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined}>
+            <DropdownTrigger className={`flex ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"

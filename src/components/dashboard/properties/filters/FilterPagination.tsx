@@ -1,26 +1,25 @@
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from '@heroui/react';
 import { ChevronDownIcon } from 'lucide-react';
-import React from 'react'
-import { currency, useFilterCurrency } from '@/src/hooks/ui/filter/currency/useFilterCurrency';
+import { Pagination, useFilterPagination } from '@/src/hooks/ui/filter/limit/useFilterPagination';
 
-interface FilterCurrencyProps {
+interface FilterLimitProps {
     classNames: string
     onGetParam: (key: string) => string | null
     onAddParam: (key: string, value: string) => void
     onDeleteParam: (key: string) => void
 }
 
-export default function FilterCurrency({
+export default function FilterPagination({
     classNames,
     onGetParam,
     onAddParam,
     onDeleteParam
-}: FilterCurrencyProps) {
+}: FilterLimitProps) {
 
-    const { resolveLabel, getCurrencyButtonText } = useFilterCurrency({ onGetParam })
+    const { resolveLabel, getCurrencyButtonText } = useFilterPagination({ onGetParam })
 
     return (
-        <Dropdown>
+        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined} className='w-fit'>
             <DropdownTrigger className={`flex ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
@@ -32,18 +31,18 @@ export default function FilterCurrency({
             </DropdownTrigger>
             <DropdownMenu
                 disallowEmptySelection
-                aria-label="ESTADOS"
+                aria-label="PAGINAR"
                 closeOnSelect={true}
-                selectedKeys={resolveLabel("currency")}
+                selectedKeys={resolveLabel("limit")}
                 selectionMode="single"
                 onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0];
-                    selectedKey === "all" ? onDeleteParam("currency") : onAddParam("currency", String(selectedKey));
+                    onAddParam("limit", String(selectedKey));
                 }}
             >
-                {currency.map((cu) => (
-                    <DropdownItem key={cu.key} className="capitalize">
-                        {cu.value}
+                {Pagination.map((pag) => (
+                    <DropdownItem key={pag.key} className="capitalize">
+                        {pag.value}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

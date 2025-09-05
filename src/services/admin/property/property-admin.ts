@@ -12,7 +12,7 @@ import { errorHttp } from "@/src/utils/resolves/error"
 const ROUTES = {
     CHANGE_STATUS: `/property-me/status`,
     CREATE: `/property-me`,
-    EDIT: `/property-me/edit`,
+    EDIT: `/property-me`,
     FIND: `/property-me`,
     LIST: `/property-me`,
     DETAILS: `/property-me/me/details`,
@@ -70,8 +70,8 @@ export class PropertyAdmin {
         try {
             const { id, ...rest } = formData
             const url = `${ROUTES.EDIT}/${id}`
-            const { data } = await api.patch(url, rest)
-            return data.message;
+            const { data } = await nest.patch(url, rest)
+            return data;
         } catch (error) { errorHttp(error) }
     }
 
@@ -89,8 +89,8 @@ export class PropertyAdmin {
     static changeStatus = async (id: AdminProperty['id']) => {
         try {
             const url = `${ROUTES.CHANGE_STATUS}/${id}`
-            const { data } = await api.put(url)
-            return data.message;
+            const { data } = await nest.patch(url)
+            return data;
         } catch (error) { errorHttp(error) }
     }
 

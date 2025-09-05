@@ -54,7 +54,7 @@ export function useGenericDrawer() {
 
         if (isDetails) {
             switch (entity) {
-                case "property": return <ImageManagerOrquest tittle={tittle} />
+                case "property": return <ImageManagerOrquest />
             }
         }
 

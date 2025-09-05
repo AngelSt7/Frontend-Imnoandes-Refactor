@@ -1,40 +1,49 @@
 import { useRouter, useSearchParams } from "next/navigation";
+
+const ValidParams = {
+    action: "action",
+    id: "id",
+    page: "page",
+    create: "create",
+    details: "details",
+    customImages: "custom-images",
+    edit: "edit",
+    changeStatus: "changeStatus",
+}
+
+export enum Actions {
+    action = "action",
+    id = "id",
+    page = "page",
+    create = "create",
+    details = "details",
+    customImages = "custom-images",
+    edit = "edit",
+    changeStatus = "changeStatus",
+}
+
+export interface IOpenModal {
+    action: Actions,
+    id?: string
+}
+
+interface useModalUtils {
+    openModal: ({ action, id }: IOpenModal) => void
+}
+
+
 export function useModalUtils() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const ValidParams = {
-        action: "action",
-        id: "id",
-        page: "page",
-        create: "create",
-        details: "details",
-        customImages: "custom-images",
-        edit: "edit",
-        changeStatus: "changeStatus",
-    }
 
     const getParam = (key: string) => searchParams.get(key)
 
-    const openModalCreate = () => {
+    const openModal = (meta: IOpenModal) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set(ValidParams.action, ValidParams.create);
+        params.set(ValidParams.action, meta.action);
+        if (meta.id) params.set(ValidParams.id, meta.id);
         router.replace(`?${params.toString()}`);
-    };
-
-    const openDetailsModal = (id: string) => {
-        console.log(id)
-        const params = new URLSearchParams(searchParams.toString());
-        params.set(ValidParams.action, ValidParams.customImages);
-        params.set("id", id);
-        router.replace(`?${params.toString()}`);
-    };
-
-    const openModalEdit = (id: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set(ValidParams.action, ValidParams.edit);
-        params.set("id", id);
-        router.replace(`?${params.toString()}`);
-    };
+    }
 
     const closeModal = () => {
         const params = new URLSearchParams(searchParams.toString());
@@ -50,5 +59,5 @@ export function useModalUtils() {
     };
 
 
-    return { openModalCreate, openDetailsModal, openModalEdit, closeModal, searchParams, getParam };
+    return { closeModal, searchParams, getParam, openModal };
 };

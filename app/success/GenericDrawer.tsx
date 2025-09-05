@@ -1,40 +1,40 @@
 'use client'
-import { useRef } from 'react';
-import { useGenericDrawer } from '@/src/hooks/drawer/useGenericDrawer';
+import { useAppStore } from '@/src/store/useAppStore';
+import { Button } from '@heroui/react';
 import { Drawer as DrawerComponent } from 'vaul';
+import { IoClose } from "react-icons/io5";
 
 interface DrawerProps {
-    width: string
-    descriptionDrawer: string
+    renderFilters: React.ReactNode;
 }
 
-export default function GenericDrawer({ width = '99', descriptionDrawer }: DrawerProps) {
-    const { getTitle, renderForm, closeModal, showModal } = useGenericDrawer()
-    
-    const styles = `right-2 top-2 bottom-2 fixed z-50 outline-none w-[99%] flex`
-    const tittle = getTitle();
-    
+export default function GenericDrawer({ renderFilters }: DrawerProps) {
+
+    const statusDrawer = useAppStore(state => state.statusDrawer)
+    const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
+
     return (
         <>
-            {showModal && (
-                <div 
-                    className="fixed inset-0 bg-black/0 z-40"
-                    onClick={closeModal} 
-                />
-            )}
-            
-            <DrawerComponent.Root 
-                modal={false} 
-                onClose={closeModal} 
-                open={showModal} 
-                direction="right"
-            >
+            <DrawerComponent.Root open={statusDrawer} onClose={onChangeDrawer} direction="right">
                 <DrawerComponent.Portal>
+                    <DrawerComponent.Overlay className="fixed inset-0 bg-black/40" />
                     <DrawerComponent.Content
-                        className={styles}
+                        className="right-2 top-2 bottom-2 fixed z-20 outline-none w-[310px] flex"
                         style={{ '--initial-transform': 'calc(100% + 8px)' } as React.CSSProperties}
                     >
-                        {renderForm({ tittle })}
+                        <div className="bg-zinc-50 h-full w-full grow p-5 flex flex-col rounded-[16px]">
+                            <div className=' space-y-3'>
+                                <div className=' flex justify-between items-center'>
+                                    <DrawerComponent.Title className="font-medium text-zinc-900">Filtros</DrawerComponent.Title>
+                                    <Button radius='md' isIconOnly onPress={onChangeDrawer} size="sm">
+                                        <IoClose className=' text-2xl' />
+                                    </Button>
+                                </div>
+                                <div id="drawer-filters" className=' flex flex-col gap-4 z-30'>
+                                    {renderFilters}
+                                </div>
+                            </div>
+                        </div>
                     </DrawerComponent.Content>
                 </DrawerComponent.Portal>
             </DrawerComponent.Root>

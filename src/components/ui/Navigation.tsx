@@ -4,10 +4,10 @@ import { usePathname } from 'next/navigation'
 import Menu from '../dashboard/ui/Menu'
 import { messages } from '@/src/utils/frontend/ui/messagesUtils'
 import { Button } from '@heroui/react'
-import { useModalUtils } from '../../hooks/modal/useModalUtils';
+import { Actions, useModalUtils } from '../../hooks/modal/useModalUtils';
 
 export default function Navigation() {
-    const { openModalCreate } = useModalUtils();
+    const { openModal } = useModalUtils();
     const path = usePathname()
 
     const getPageType = (path: string) => {
@@ -47,14 +47,13 @@ export default function Navigation() {
                     </div>
 
                     <div className=' flex gap-3 items-center'>
-                        
-                        <Button 
-                            onPress={openModalCreate}
+
+                        <Button
+                            onPress={() => openModal({ action: Actions.create })}
                             type='submit'
                             radius='full'
                             className='neu-button'
-
-                            >
+                        >
                             Agregar propiedad
                         </Button>
                         <Menu />

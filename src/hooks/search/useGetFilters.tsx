@@ -11,9 +11,9 @@ const validParams = [
     "currency",
     "propertyType",
     "departmentId",
-    "provinceId",
-    "districtId",
-    "availability"
+    "propertyCategory",
+    "availability",
+    "limit"
 ]
 
 export const useGetFilters = () => {

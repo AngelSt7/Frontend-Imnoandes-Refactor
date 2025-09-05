@@ -4,62 +4,119 @@ import FilterState from "../filters/FilterState";
 import FilterDepartment from "../filters/FilterDepartment";
 import FilterColumns from "../filters/FilterColumns";
 import FilterCurrency from "../filters/FilterCurrency";
+import { TopContentShow } from "../../ui/table/TopContent";
+import { useAppStore } from "@/src/store/useAppStore";
 import { Button } from "@heroui/react";
+import FilterPagination from "../filters/FilterPagination";
+import { useParams } from "@/src/hooks/search/useParams";
+import { Filter } from "lucide-react";
+import FilterPropertyType from "../filters/FilterPropertyType";
+import FilterPropertyCategory from "../filters/FilterPropertyCategory";
 
 export interface FiltersProps {
-    setFilterValue: (value: string) => void;
-    statusFilter: string;
-    setStatusFilter: Dispatch<SetStateAction<string>>;
+    show: TopContentShow[];
     visibleColumns: "all" | Set<string>;
     setVisibleColumns: Dispatch<SetStateAction<"all" | Set<string>>>;
-    statusOptions: { value: string; key: string; }[];
     columns: ColumnsType;
-    messageButton?: string;
     onAddParam: (key: string, value: string) => void
     onDeleteParam: (key: string) => void
     onGetParam: (key: string) => string | null
 }
 
 export default function Filters({
-    statusFilter,
-    setStatusFilter,
+    show,
     visibleColumns,
     setVisibleColumns,
-    statusOptions,
     columns,
-    messageButton,
     onAddParam,
     onDeleteParam,
     onGetParam
 }: FiltersProps) {
 
+    const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
+    const { clearParams } = useParams()
+    const classNames = 'border border-[#dbdada] dark:border-[#3b3b3b]'
     return (
-        <div className="flex gap-3">
+        <>
 
-            <FilterCurrency
-                onGetParam={onGetParam}
-                onAddParam={onAddParam}
-                onDeleteParam={onDeleteParam}
-            />
+            {show.includes("more-filters") && (
+                <Button onPress={onChangeDrawer} size="md" variant="flat" className="border border-[#dbdada] dark:border-[#3b3b3b]">
+                    Más filtros
+                </Button>
+            )}
 
-            <FilterState 
-                onGetParam={onGetParam}
-                onAddParam={onAddParam}
-                onDeleteParam={onDeleteParam}
-            />
+            {show.includes("clear") && (
+                <Button
+                    onPress={() => clearParams()}
+                    size="md" variant="flat" className="border border-[#dbdada] dark:border-[#3b3b3b]"
+                >
+                    Limpiar
+                </Button>
+            )}
 
-            <FilterColumns
-                columns={columns}
-                visibleColumns={visibleColumns}
-                setVisibleColumns={setVisibleColumns}
-            />
+            {show.includes("propertyCategory") &&
+                <FilterPropertyCategory
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            }
 
-            <FilterDepartment   
-                onAddParam={onAddParam}
-                onDeleteParam={onDeleteParam}
-                onGetParam={onGetParam}
-            />
+            {show.includes("propertyType") && (
+                <FilterPropertyType
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            )}
 
-        </div>
+            {show.includes("pagination") && (
+                <FilterPagination
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            )}
+
+            {show.includes("columns") && (
+                <FilterColumns
+                    classNames={classNames}
+                    columns={columns}
+                    visibleColumns={visibleColumns}
+                    setVisibleColumns={setVisibleColumns}
+                />
+            )}
+            {show.includes("currency") && (
+                <FilterCurrency
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            )}
+
+            {show.includes("departmentId") && (
+                <FilterDepartment
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            )}
+
+            {show.includes("state") && (
+                <FilterState
+                    classNames={classNames}
+                    onGetParam={onGetParam}
+                    onAddParam={onAddParam}
+                    onDeleteParam={onDeleteParam}
+                />
+            )}
+
+
+        </>
     )
 }

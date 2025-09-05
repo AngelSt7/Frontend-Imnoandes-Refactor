@@ -85,7 +85,7 @@ export const findPropertySchema = z.object({
   hasTerrace: z.boolean(),
   location: z.string(),
   description: z.string(),
-  availability: z.boolean(),
+  //availability: z.boolean(),
 
   districtId: z.string().uuid(),
   departmentId: z.string().uuid(),

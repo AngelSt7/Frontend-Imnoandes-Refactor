@@ -2,22 +2,24 @@ import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from '@
 import { ChevronDownIcon } from 'lucide-react';
 import React from 'react'
 import { currency, useFilterCurrency } from '@/src/hooks/ui/filter/currency/useFilterCurrency';
+import { useFilterPropertyType } from '@/src/hooks/ui/filter/propertyType/usePropertyType';
+import { PROPERTY_TYPE_SELECT } from '@/src/utils/resolves/bases/select';
 
-interface FilterCurrencyProps {
+interface FilterPropertyTypeProps {
     classNames: string
     onGetParam: (key: string) => string | null
     onAddParam: (key: string, value: string) => void
     onDeleteParam: (key: string) => void
 }
 
-export default function FilterCurrency({
+export default function FilterPropertyType({
     classNames,
     onGetParam,
     onAddParam,
     onDeleteParam
-}: FilterCurrencyProps) {
+}: FilterPropertyTypeProps) {
 
-    const { resolveLabel, getCurrencyButtonText } = useFilterCurrency({ onGetParam })
+    const { resolveLabel, getButtonText } = useFilterPropertyType({ onGetParam })
 
     return (
         <Dropdown>
@@ -27,23 +29,23 @@ export default function FilterCurrency({
                     variant="flat"
                     className="capitalize"
                 >
-                    {getCurrencyButtonText}
+                    {getButtonText}
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
                 disallowEmptySelection
                 aria-label="ESTADOS"
                 closeOnSelect={true}
-                selectedKeys={resolveLabel("currency")}
+                selectedKeys={resolveLabel("propertyType")}
                 selectionMode="single"
                 onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0];
-                    selectedKey === "all" ? onDeleteParam("currency") : onAddParam("currency", String(selectedKey));
+                    onAddParam("propertyType", String(selectedKey));
                 }}
             >
-                {currency.map((cu) => (
-                    <DropdownItem key={cu.key} className="capitalize">
-                        {cu.value}
+                {PROPERTY_TYPE_SELECT.map((pr) => (
+                    <DropdownItem key={pr.key} className="capitalize">
+                        {pr.label}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

@@ -2,18 +2,12 @@ import { StateCreator } from "zustand";
 import { PaginationType } from "../types/adminTypes/property";
 
 export type PropertySlice = {
-    deleteId: number | null;
-    take: number;
-    setChangeTake: (take: PaginationType['take']) => void;
-    setDeleteId: (id: number) => void;
-    removeDeleteId: () => void;
+    limit: number;
+    onChangelimit: (limit: number) => void;
 };
 
 
 export const createPropertySlice: StateCreator<PropertySlice> = (set, get) => ({
-    deleteId: null,
-    take: 10,
-    setChangeTake: (take) => { set(()=>({ take }))},
-    setDeleteId: (id)=> { set(()=>({ deleteId: id })) }, 
-    removeDeleteId: ()=> { set(()=>({ deleteId: null })) }, 
+    limit: 10,
+    onChangelimit: (limit) => { set(()=>({ limit }))},
 })

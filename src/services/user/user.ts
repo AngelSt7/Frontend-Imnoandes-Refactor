@@ -1,6 +1,5 @@
-import nest from "@/src/axios/nest"
-import { errorHttp } from "@/src/utils/resolves/error"
-import { cookies } from 'next/headers';
+import nest from "@/src/axios/nest";
+import { errorHttp } from "@/src/utils/resolves/error";
 
 const ROUTES = {
     INFO: `/auth`,

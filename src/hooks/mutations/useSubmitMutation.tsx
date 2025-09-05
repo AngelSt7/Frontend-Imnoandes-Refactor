@@ -1,32 +1,31 @@
 'use client'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter, redirect } from 'next/navigation';
+import { useMutation, useQueryClient, QueryKey } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-type QueryKey = readonly unknown[]
-
-type useCreateMutationProps<T> = {
+type UseCreateMutationProps<T> = {
   serviceFunction: (data: T) => Promise<any>,
   onErrorCallback?: () => any,
   onSuccessCallback?: (data: any) => any,
   onSuccessData?: (data: any) => void,
-  invalidateQuery?: QueryKey | QueryKey[],
-  message?: string
-  replace?: string
+  invalidateQueries?: QueryKey[],
+  message?: string,
+  replace?: string,
   cancelToast?: boolean
 }
 
 export default function useSubmitMutation<T>({
   serviceFunction,
-  invalidateQuery,
+  invalidateQueries,
   onSuccessCallback,
   onErrorCallback,
   message,
   replace,
   cancelToast = false
-}: useCreateMutationProps<T>) {
+}: UseCreateMutationProps<T>) {
   const queryClient = useQueryClient();
   const router = useRouter();
+
   const mutation = useMutation({
     mutationFn: serviceFunction,
     onError: (error: any) => {
@@ -34,20 +33,15 @@ export default function useSubmitMutation<T>({
       onErrorCallback?.();
     },
     onSuccess: (data) => {
-      if (invalidateQuery) {
-        const queriesToInvalidate = Array.isArray(invalidateQuery[0]) ? invalidateQuery : [invalidateQuery];
-        queriesToInvalidate.forEach((key) => {
-          queryClient.invalidateQueries({ queryKey: key as QueryKey });
-        });
-      }
+      invalidateQueries?.forEach((key) => {
+        queryClient.invalidateQueries({ queryKey: key });
+      });
+
       replace && router.replace(replace);
       cancelToast === false && toast.success(data.message ?? message);
       onSuccessCallback?.(data);
     }
-
   });
 
-  return {
-    ...mutation
-  };
+  return mutation;
 }

@@ -1,10 +1,16 @@
 import { UseImageManagerProps } from '../interfaces'
 import { readFileAsDataURL, resolveMB } from '../utils'
 
-export const useFileValidation = (props: Pick<UseImageManagerProps, 'maxFileSize' | 'minWidth' | 'minHeight' | 'maxWidth' | 'maxHeight' | 'onError'>) => {
+export const useFileValidation = (props: Pick<UseImageManagerProps, 'maxFileSize' | 'minWidth' | 'minHeight' | 'maxWidth' | 'maxHeight' | 'onError' | 'allowedTypes'>) => {
+
   const resolveMaxFileSize = resolveMB(props.maxFileSize || 10)
 
   const validateFile = async (file: File): Promise<boolean> => {
+    if (props.allowedTypes && !props.allowedTypes.includes(file.type)) {
+      props.onError?.(`El tipo de archivo ${file.type} no está permitido`);
+      return false;
+    }
+
     if (resolveMaxFileSize && file.size > resolveMaxFileSize) {
       props.onError?.(`El archivo ${file.name} excede el tamaño máximo (${(file.size / (1024 * 1024)).toFixed(1)} MB)`)
       return false

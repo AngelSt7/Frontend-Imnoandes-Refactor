@@ -20,6 +20,7 @@ export default function ImageGrid({ files, handleRemove, removingIds }: ImageGri
           {!file.isLoading && (
             <div>
               <button
+                type="button"
                 onClick={() => handleRemove(file.id)}
                 className="absolute top-[10px] left-2 z-10 w-6 h-6 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-200 shadow-lg"
                 title="Eliminar imagen"
@@ -36,11 +37,10 @@ export default function ImageGrid({ files, handleRemove, removingIds }: ImageGri
               <LoadingEffect file={file} />
             ) : (
               <img
-                src={file.preview || file.url} // Usar preview para files o url para URLs
+                src={file.preview || file.url}
                 alt={file.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  // Fallback si la imagen no carga
                   console.error(`Error loading image: ${file.name}`)
                 }}
               />

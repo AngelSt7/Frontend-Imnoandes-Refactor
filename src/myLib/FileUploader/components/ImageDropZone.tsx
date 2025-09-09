@@ -3,7 +3,7 @@ import ImageInfo from "./ImageInfo";
 import { ImageDropZoneProps } from "../interfaces";
 
 export default function ImageDropZone(props: ImageDropZoneProps) {
-    const { isSingle, multiple, selectedFiles, maxFiles, isDragOver, handleDragOver, handleDragLeave, handleDrop, openFileSelector, handleFileSelect, removingIds, handleRemove } = props;
+    const { isSingle, multiple, selectedFiles, maxFiles, isDragOver, handleDragOver, handleDragLeave, handleDrop, openFileSelector, handleFileSelect, removingIds, handleRemove, fileInputRef } = props;
     const shouldShowDropZone = multiple ? selectedFiles.length < maxFiles : true;
 
     if (!shouldShowDropZone) return null;
@@ -19,6 +19,7 @@ export default function ImageDropZone(props: ImageDropZoneProps) {
             onClick={openFileSelector}
         >
             <input
+                ref={fileInputRef}
                 type="file"
                 accept="image/*"
                 multiple={multiple}

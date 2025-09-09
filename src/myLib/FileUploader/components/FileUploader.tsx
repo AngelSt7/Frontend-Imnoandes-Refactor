@@ -4,10 +4,12 @@ import { useLogicManager } from "../hooks/useLogicManager";
 import ImageDropZone from "./ImageDropZone";
 import ImageGrid from "./ImageGrid";
 import DragCursor from "./DragCursor";
+import { ErrorComponentsRegistry } from "@/src/config/ErrorsComponents";
 
 
 export default function FileUploader<T extends FieldValues>(props: FileUploaderProps<T>) {
   const { controller: Controller, name, control, rules, errorComponent, onChange } = props
+  const ErrorComponent = ErrorComponentsRegistry[errorComponent ?? "default"];
   const maxFiles = props.maxFiles || 5;
   const multiple = props.multiple && props.maxFiles !== 1;
   const isSingle = !multiple || maxFiles === 1;
@@ -18,7 +20,7 @@ export default function FileUploader<T extends FieldValues>(props: FileUploaderP
       control={control}
       rules={rules}
       render={({ field: { onChange: rhfOnChange, value }, fieldState: { error } }) => {
-        const { selectedFiles, isDragOver, dragPosition, handleRemove, ...logic } = useLogicManager({
+        const { selectedFiles, isDragOver, dragPosition, handleRemove, fileInputRef, ...logic } = useLogicManager({
           ...props,
           value,
           onChange: (files) => {
@@ -29,13 +31,15 @@ export default function FileUploader<T extends FieldValues>(props: FileUploaderP
 
         return (
           <div className="p-4 mx-auto max-w-5xl">
+            {error && <ErrorComponent message={error.message} />}
             <DragCursor
               isDragOver={isDragOver}
               multiple={Boolean(multiple)}
               dragPosition={dragPosition}
             />
-            <div className="space-y-4">
+            <div className="space-y-4 mt-2">
               <ImageDropZone
+                fileInputRef={fileInputRef}
                 isSingle={isSingle}
                 multiple={Boolean(multiple)}
                 maxFiles={maxFiles}
@@ -51,11 +55,6 @@ export default function FileUploader<T extends FieldValues>(props: FileUploaderP
                   handleRemove={handleRemove} 
                   removingIds={logic.removingIds} 
                 />
-              )}
-              {error && (
-                <div className="text-red-500 text-sm mt-2">
-                  {errorComponent || error.message}
-                </div>
               )}
             </div>
           </div>

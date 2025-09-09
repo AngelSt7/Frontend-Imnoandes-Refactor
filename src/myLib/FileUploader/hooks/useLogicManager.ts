@@ -1,19 +1,21 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDragAndDrop, useFileProcessing, useFileRemoval, useFileValidation } from '.'
 import { ImageItem, UseImageManagerProps } from '../interfaces'
 
 export const useLogicManager = (props: UseImageManagerProps) => {
   const { maxFiles = 5, multiple, onError, value = [], onChange } = props
   const { validateFile } = useFileValidation(props)
-  const { 
-    selectedFiles, 
-    setSelectedFiles, 
-    createFileWithLoading, 
-    processFile, 
-    removeFile, 
-    replaceFile 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const {
+    selectedFiles,
+    setSelectedFiles,
+    createFileWithLoading,
+    processFile,
+    removeFile,
+    replaceFile
   } = useFileProcessing(onError)
-  
+
   const { isDragOver, setIsDragOver, dragPosition, handleDragOver, handleDragLeave } = useDragAndDrop()
   const { removingIds, handleRemove } = useFileRemoval()
 
@@ -21,9 +23,9 @@ export const useLogicManager = (props: UseImageManagerProps) => {
 
   const normalizeValue = useCallback((inputValue: string | File | (string | File)[]): ImageItem[] => {
     if (!inputValue) return []
-    
+
     const arrayValue = Array.isArray(inputValue) ? inputValue : [inputValue]
-    
+
     return arrayValue.map(item => {
       if (typeof item === 'string') {
         return {
@@ -36,7 +38,7 @@ export const useLogicManager = (props: UseImageManagerProps) => {
           preview: item
         }
       }
-      
+
       if (item instanceof File) {
         return {
           id: generateId(),
@@ -45,10 +47,10 @@ export const useLogicManager = (props: UseImageManagerProps) => {
           loadingProgress: 100,
           originalFile: item,
           name: item.name,
-          preview: undefined 
+          preview: undefined
         }
       }
-      
+
       return {
         id: generateId(),
         type: 'url' as const,
@@ -70,12 +72,12 @@ export const useLogicManager = (props: UseImageManagerProps) => {
         return item.originalFile
       }
       return item.url || ''
-    }).filter(item => item !== '') 
-    
+    }).filter(item => item !== '')
+
     if (wasOriginalSingle && denormalizedItems.length <= 1) {
       return denormalizedItems[0] || ''
     }
-    
+
     return denormalizedItems
   }, [wasOriginalSingle])
 
@@ -98,27 +100,27 @@ export const useLogicManager = (props: UseImageManagerProps) => {
     if (value !== undefined) {
       const isSingle = !Array.isArray(value)
       setWasOriginalSingle(isSingle)
-      
+
       const normalizedValue = normalizeValue(value)
-      
+
       const shouldUpdate = normalizedValue.length !== selectedFiles.length ||
         normalizedValue.some((item, index) => {
           const current = selectedFiles[index]
           if (!current) return true
-          
+
           if (item.type === 'url' && current.type === 'url') {
             return item.url !== current.url
           }
           if (item.type === 'file' && current.type === 'file') {
             return item.originalFile?.name !== current.originalFile?.name ||
-                   item.originalFile?.size !== current.originalFile?.size
+              item.originalFile?.size !== current.originalFile?.size
           }
           return item.type !== current.type
         })
-      
+
       if (shouldUpdate) {
         setSelectedFiles(normalizedValue)
-        
+
         normalizedValue.forEach(async (item) => {
           if (item.type === 'file' && item.originalFile && !item.preview) {
             try {
@@ -180,13 +182,16 @@ export const useLogicManager = (props: UseImageManagerProps) => {
   }, [processFiles])
 
   const openFileSelector = useCallback(() => {
-    const input = document.getElementById("fileInput") as HTMLInputElement | null
-    input?.click()
-  }, [])
+    fileInputRef.current?.click();
+  }, []);
 
   const handleRemoveFile = useCallback((fileId: string) => {
-    handleRemove(fileId, removeFile, selectedFiles)
-  }, [handleRemove, removeFile, selectedFiles])
+    handleRemove(fileId, () => {
+      const newFiles = selectedFiles.filter(f => f.id !== fileId)
+      updateFiles(newFiles)
+    }, selectedFiles)
+  }, [handleRemove, selectedFiles, updateFiles])
+
 
   return {
     selectedFiles,
@@ -200,6 +205,7 @@ export const useLogicManager = (props: UseImageManagerProps) => {
     dragPosition,
     replaceFile,
     removingIds,
-    handleRemove: handleRemoveFile
+    handleRemove: handleRemoveFile,
+    fileInputRef
   }
 }

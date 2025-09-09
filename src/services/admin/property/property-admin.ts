@@ -1,11 +1,10 @@
-import api from "@/src/axios/axios"
-import nest from "@/src/axios/nest"
+import nest from "@/src/axios/nest";
 import { ApiResponse } from "@/src/components/dashboard/ui/table/TableContent";
-import { UseGetFilters } from "@/src/hooks/search/useGetFilters"
-import { detailsPropertySchema, findPropertySchema, propertiesListSchema } from "@/src/schema/admin/property/property"
+import { UseGetFilters } from "@/src/hooks/search/useGetFilters";
+import { findPropertySchema, propertiesListSchema, propertyDetailsSchema, propertyImagesSchema } from "@/src/schema/admin/property/property";
 import { FormDataProperty, AdminProperty } from '@/src/types/adminTypes';
 import { FormDataImageMain, FormDataImagesGallery } from "@/src/types/image/image";
-import { errorHttp } from "@/src/utils/resolves/error"
+import { errorHttp } from "@/src/utils/resolves/error";
 
 
 // corregir rutas
@@ -15,7 +14,8 @@ const ROUTES = {
     EDIT: `/property-me`,
     FIND: `/property-me`,
     LIST: `/property-me`,
-    DETAILS: `/property-me/me/details`,
+    DETAILS: `/property-me`,
+    IMAGES: `/property-me/images`,
     IMAGE_MAIN: `/property-me/image-main`,
     IMAGES_GALLERY: `/property-me/images-gallery`
 }
@@ -26,13 +26,22 @@ export class PropertyAdmin {
         try {
             const url = ROUTES.CREATE
             const { data } = await nest.post(url, formData)
-            return data.message;
+            return data;
+        } catch (error) { errorHttp(error) }
+    }
+
+    static images = async (id: AdminProperty['id']) => {
+        try {
+            const url = `${ROUTES.IMAGES}/${id}`
+            const { data } = await nest(url)
+            const response = propertyImagesSchema.safeParse(data)
+            if (response.success) return response.data
         } catch (error) { errorHttp(error) }
     }
     
     static async createImageMain(formData: FormDataImageMain) {
         try {
-            const url = `${ROUTES.IMAGE_MAIN}`
+            const url = `${ROUTES.IMAGE_MAIN}/${formData.propertyId}`
             const { data } = await nest.post(url, formData)
             return data
         } catch (error) { errorHttp(error) }
@@ -40,7 +49,7 @@ export class PropertyAdmin {
 
     static async createImagesGallery(formData: FormDataImagesGallery) {
         try {
-            const url = `${ROUTES.IMAGES_GALLERY}`
+            const url = `${ROUTES.IMAGES_GALLERY}/${formData.propertyId}`
             const { data } = await nest.post(url, formData)
             return data
         } catch (error) { errorHttp(error) }
@@ -77,12 +86,10 @@ export class PropertyAdmin {
 
     static details = async (id: AdminProperty['id']) => {
         try {
-            const url = `${ROUTES.DETAILS}/${id}`
-            const { data } = await api(url)
-            const response = detailsPropertySchema.safeParse(data)
-            if (response.success) {
-                return response.data
-            }
+            const url = `${ROUTES.DETAILS}/${id}/details`
+            const { data } = await nest(url)
+            const response = propertyDetailsSchema.safeParse(data)
+            if (response.success) return response.data
         } catch (error) { errorHttp(error) }
     };
 

@@ -75,6 +75,9 @@ export const RenderCellProperty = ({
                             }}>
                                 Editar
                             </DropdownItem>
+                            <DropdownItem key="detail" onPress={() => onOpenModal?.({action: Actions.details, id: item.id})}>
+                                Ver detalles
+                            </DropdownItem>
                             <DropdownItem key="custom" onPress={() => onOpenModal?.({action: Actions.customImages, id: item.id})}>
                                 Personalizar propiedad
                             </DropdownItem>

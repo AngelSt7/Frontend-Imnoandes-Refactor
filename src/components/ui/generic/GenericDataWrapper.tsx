@@ -2,17 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import GenericModal from './GenericModal';
 import { User as UserInfo } from '@/src/types';
 
-type GenericDataWrapperProps<T> = {
+type GenericDataWrapperProps = {
   id: string;
   user?: UserInfo;
   closeModal: () => void;
-  serviceFunction: (id: string) => Promise<T>;
-  queryKey: string;
+  serviceFunction: (id: string) => Promise<any>;
+  queryKey: string[];
 };
 
-export default function GenericDataWrapper<T>({ id, user, serviceFunction, queryKey, closeModal}: GenericDataWrapperProps<T>) {
+export default function GenericDataWrapper({ id, user, serviceFunction, queryKey, closeModal}: GenericDataWrapperProps) {
+  console.log([...queryKey])
   const { data } = useQuery({
-    queryKey: [queryKey, id],
+    queryKey: [...queryKey],
     queryFn: () => serviceFunction(id),
     refetchOnWindowFocus: false,
     retry: false,

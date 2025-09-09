@@ -1,8 +1,8 @@
-import React from "react";
-import { Input } from "@heroui/react";
+import { DrawerHeader, Input } from "@heroui/react";
 import { SearchIcon } from "lucide-react";
 import { Meta } from "@/src/schema/shared";
 import GenericDrawer from "@/app/success/GenericDrawer";
+import DrawerHero from "@/app/success/DrawerHero";
 
 export type TopContentShow =
   | "currency"
@@ -15,7 +15,7 @@ export type TopContentShow =
   | "propertyType"
   | "propertyCategory"
   | "clear"
-  | "more-filters"
+  | "filters"
 
 interface TopContentProps {
   filterValue: string;
@@ -33,11 +33,11 @@ export const TopContent = ({
   renderFilters
 }: TopContentProps) => {
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 px-4 pt-4 pb-2">
       <div className="flex justify-between gap-3 items-end">
         <Input
           isClearable
-          className="w-full sm:max-w-[44%]"
+          className="w-full md:max-w-[44%]"
           placeholder="Buscar..."
           startContent={<SearchIcon />}
           value={filterValue}
@@ -45,16 +45,18 @@ export const TopContent = ({
           onValueChange={onSearchChange}
         />
 
-        <div className="hidden lg:flex items-center gap-3">{renderFilters(["more-filters", "departmentId", "clear", "pagination", "state"])}</div>
-
-        <GenericDrawer
-          renderFilters={renderFilters(["columns", "categories", "types", "departmentId", "propertyType", "propertyCategory", "clear", "pagination", "state"])}
-        />
+        <div className="hidden md:flex items-center gap-3">{renderFilters(["filters", "pagination", "state"])}</div>
 
       </div>
 
-      <span className="text-default-400 text-small">Total {total}</span>
+      <div className=" flex justify-between items-center">
+        <span className="text-default-400 text-small">Total {total}</span>
+        <div className="md:hidden">{renderFilters(["filters"])}</div>
+      </div>
 
+        <DrawerHero
+          renderFilters={renderFilters(["columns", "categories", "types", "departmentId", "propertyType", "propertyCategory", "clear", "pagination", "state"])}
+        />
     </div>
   );
 };

@@ -9,6 +9,7 @@ export const useParams = () => {
     const setParam = (key: string, value: string) => {
         const params = new URLSearchParams(searchParmas.toString())
         params.set(key, value)
+        console.log("agregando", key, value)
         router.replace(`?${params.toString()}`)
     }
 

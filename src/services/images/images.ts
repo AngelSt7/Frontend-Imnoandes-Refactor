@@ -1,7 +1,6 @@
 import nest from "@/src/axios/nest";
 import { FormDataImage, FormDataImageMain } from "@/src/types/image/image";
 import { errorHttp } from "@/src/utils/resolves/error";
-import async from '../../../app/auth/confirm-account/[token]/page';
 
 const ROUTES = {
     CREATE: `/images/create`,

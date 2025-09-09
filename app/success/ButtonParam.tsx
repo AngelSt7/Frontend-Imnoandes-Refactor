@@ -20,7 +20,6 @@ export default function ButtonParam() {
             .filter(([k, __])=> listParams.includes(k))
             .sort(([k], [y]) => k.localeCompare(y))
         const format = Object.fromEntries(clearParams)
-        console.log(format)
     }
 
     const addParam =  () => {

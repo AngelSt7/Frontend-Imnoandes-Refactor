@@ -30,7 +30,7 @@ export default function GenericDrawer({ renderFilters }: DrawerProps) {
                                         <IoClose className=' text-2xl' />
                                     </Button>
                                 </div>
-                                <div id="drawer-filters" className=' flex flex-col gap-4 z-30'>
+                                <div id="drawer-filters" className=' flex flex-col gap-4 z-50'>
                                     {renderFilters}
                                 </div>
                             </div>

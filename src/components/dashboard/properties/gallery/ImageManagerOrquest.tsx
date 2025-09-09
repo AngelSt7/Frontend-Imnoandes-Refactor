@@ -2,30 +2,48 @@
 
 import { ImageGallery as ImageGalleryType, ImageMain as ImageMainType } from "@/src/types/image/image";
 import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validate } from "uuid";
 import ControlTabs from "./ControlTabs";
 import ImageGallery from "./ImageGallery";
 import ImageMain from "./ImageMain";
+import { AdminPropertyImages } from "@/src/types";
 
 export interface MetaOrquest {
     imageMain: ImageMainType;
     imagesGallery: ImageGalleryType;
 }
 
-export default function ImageManagerOrquest() {
+interface ImageManagerOrquestProps {
+    defaultValues: AdminPropertyImages;
+}
+
+export default function ImageManagerOrquest({ defaultValues }: ImageManagerOrquestProps) {
+
+    console.log("datos desde el get", defaultValues)
     const { getParam } = useModalUtils();
     const propertyId = getParam("id");
+
+    const mainImage = defaultValues.find(image => image.type === 'MAIN');
+    const imagesGallery = defaultValues
+        .filter(image => image.type === 'GALLERY')
+        .map(image => image.url)
+        .filter((url): url is string => Boolean(url))
+
     const [activeTab, setActiveTab] = useState<string>("main");
     const [meta, setMeta] = useState<MetaOrquest>({
-        imageMain: null,
-        imagesGallery: []
+        imageMain: mainImage?.url ?? null,
+        imagesGallery
     });
+
+    useEffect(() => {
+        console.log(meta)
+    }, [meta, setMeta])
 
     if (propertyId && validate(propertyId)) return (
         <>
             <ControlTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab === "main" && <ImageMain propertyId={propertyId} setMeta={setMeta} meta={meta} />}
+            {activeTab === "main" && <ImageMain currentId={mainImage?.id ?? ''} propertyId={propertyId} setMeta={setMeta} meta={meta} />}
             {activeTab === "gallery" && <ImageGallery propertyId={propertyId} setMeta={setMeta} meta={meta} />}
         </>
     )

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { MetaOrquest } from './ImageManagerOrquest';
 import { Button } from '@heroui/react';
@@ -18,34 +18,62 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ meta, setMeta, propertyId }: ImageGalleryProps) {
 
-    const { handleSubmit, control } = useForm<{ imagesGallery: ImageGalleryType }>({
+    const { handleSubmit, control, reset } = useForm<{ imagesGallery: ImageGalleryType }>({
         mode: "onChange",
         defaultValues: { imagesGallery: meta?.imagesGallery || [] }
     });
 
+    useEffect(() => {
+        reset({ imagesGallery: meta?.imagesGallery || [] });
+    }, [meta.imagesGallery, reset]);
+
+    const formatPublicId = (url: string) => {
+        const formated = url.split('/');
+        const folder = `${formated.at(-2)}/${formated.at(-1)}`
+        return folder.slice(0, folder.indexOf('.'))
+    }
+
     const isValid = meta?.imagesGallery?.length === 0 || meta?.imagesGallery === null
 
     const onSubmit = (data: { imagesGallery: ImageGalleryType }) => {
-        const formData = new FormData();
-        const files = data.imagesGallery
-        if(Array.isArray(files)){
-            files.filter(file => file instanceof File).map(f => formData.append('images', f))
-        }
-        mutate({ formData, property_id: propertyId });
+        mutate({ data, propertyId });
     }
 
     const { mutate } = useSubmitMutation({
-        serviceFunction: async (data: { formData: FormData; property_id: AdminProperty['id'] }) => {
-            const uploadResult = await Image.create({ formData: data.formData, type: 'gallery' });
-            const propertyResult = await PropertyAdmin.createImagesGallery({
-                id: data.property_id,
-                url: uploadResult.urls
-            });
+        serviceFunction: async (data: { data: { imagesGallery: ImageGalleryType }; propertyId: AdminProperty['id'] }) => {
+            const preparedData = {
+                urls: Array.isArray(data.data.imagesGallery) ? data.data.imagesGallery.filter(url => typeof url === 'string') : [],
+                files: Array.isArray(data.data.imagesGallery) ? data.data.imagesGallery.filter(files => files instanceof File) : []
+            }
 
+            const filesFormData = new FormData();
+            preparedData.files.forEach((file) => {
+                filesFormData.append('images', file);
+            })
+
+            const uploadResult = preparedData.files.length > 0
+                ? await Image.create({ formData: filesFormData, type: 'gallery' })
+                : { urls: [] }
+
+            const formatUrls = preparedData.urls.map(url => ({
+                url,
+                publicId: formatPublicId(String(url))
+            }))
+
+
+            const payload = {
+                propertyId: data.propertyId,
+                images: [...formatUrls, ...uploadResult.urls]
+            }
+
+            const propertyResult = await PropertyAdmin.createImagesGallery(payload);
             return propertyResult;
         },
         cancelToast: true,
-        onSuccessCallback: () => {
+        invalidateQueries: [
+            ['property', "custom-images", propertyId]
+        ],
+        onSuccessCallback: (data) => {
             toast.success('Galería subida y vinculada correctamente');
         }
     });
@@ -66,6 +94,14 @@ export default function ImageGallery({ meta, setMeta, propertyId }: ImageGallery
             <FileUploader
                 controller={Controller}
                 name="imagesGallery"
+                allowedTypes={['image/jpeg', 'image/png', 'image/jpg']}
+                rules={{
+                    validate: {
+                        required: (files) => Array.isArray(files) && files.length > 0 || 'Por favor, selecciona al menos una imagen',
+                        min: (files) => Array.isArray(files) && files.length >= 2 || "Debes subir al menos 2 imágenes",
+                        max: (files) => Array.isArray(files) && files.length <= 5 || "Máximo 5 imágenes permitidas",
+                    }
+                }}
                 control={control}
                 multiple={true}
                 maxFiles={10}
@@ -82,7 +118,6 @@ export default function ImageGallery({ meta, setMeta, propertyId }: ImageGallery
                     }))
                 }
             />
-
 
         </form>
     )

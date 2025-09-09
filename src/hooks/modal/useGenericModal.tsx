@@ -1,11 +1,12 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { pluralToSingular } from "@/src/utils";
-import { User } from "@/src/types/userTypes/user";
+import { User as UserInfo } from "@/src/types/userTypes/user";
 import { CreateProperty, EditProperty } from "@/src/components";
 import ImageManagerOrquest from "@/src/components/dashboard/properties/gallery/ImageManagerOrquest";
+import DetailsProperty from "@/src/components/dashboard/properties/actions/DetailsProperty";
 
 interface GenericModalProps {
-    user?: User;
+    user?: UserInfo;
     defaultValues?: any;
     id?: string;
 }
@@ -22,8 +23,8 @@ export function useGenericModal({
 
     const entity = pluralToSingular[rawEntity];
 
-    const isDetails = action === "details" && !!entity
-    const isCustomImage = action === "custom-images" && !!entity
+    const isDetails = action === "details" && !!entity && !!id && !!defaultValues
+    const isCustomImage = action === "custom-images" && !!entity && !!defaultValues
     const isCreate = action === "create" && !!entity;
     const isEdit = action === "edit" && !!entity && !!defaultValues;
     const isChangeStatus = action === "changeStatus" && !!entity && !!defaultValues;
@@ -63,19 +64,19 @@ export function useGenericModal({
 
         if (isEdit) {
             switch (entity) {
-                case "property": return <EditProperty defaultValues={defaultValues} />
+                case "property": return <EditProperty user={user} defaultValues={defaultValues} />
             }
         }
 
         if (isDetails) {
             switch (entity) {
-                // case "property": return <ImageManagerOrquest tittle={"Galería"} />
+                case "property": return <DetailsProperty data={defaultValues}/>
             }
         }
 
         if(isCustomImage){
             switch(entity){
-                case "property": return <ImageManagerOrquest />
+                case "property": return <ImageManagerOrquest defaultValues={defaultValues}  />
             }
         }
 

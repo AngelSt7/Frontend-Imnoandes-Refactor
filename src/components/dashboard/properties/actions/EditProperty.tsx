@@ -1,6 +1,6 @@
 'use client'
 
-import { FormDataProperty } from '@/src/types';
+import { FormDataProperty, User } from '@/src/types';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 import equal from "fast-deep-equal";
 import { TabsForms } from '../../ui';
@@ -16,10 +16,11 @@ import toast from 'react-hot-toast';
 import { useModalUtils } from '@/src/hooks/modal/useModalUtils';
 
 interface EditPropertyProps {
+    user?: User
     defaultValues: FormDataProperty
 }
 
-export default function EditProperty({ defaultValues }: EditPropertyProps) {
+export default function EditProperty({ defaultValues, user }: EditPropertyProps) {
     const { closeModal } = useModalUtils();
     const { getStepsOnEdit } = useControlStep();
     
@@ -29,6 +30,11 @@ export default function EditProperty({ defaultValues }: EditPropertyProps) {
 
     const { mutate } = useSubmitMutation({
         serviceFunction: PropertyAdmin.edit,
+        invalidateQueries: [
+            ["property", "edit" ,defaultValues.id],
+            ["peroperty", "details", defaultValues.id],
+            ["properties", user?.id]
+        ],
         onSuccessCallback: () => {
             reset();
             closeModal();

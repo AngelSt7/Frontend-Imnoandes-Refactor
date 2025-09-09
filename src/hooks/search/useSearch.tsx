@@ -2,10 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { keepPreviousData, QueryKey, useQuery } from "@tanstack/react-query";
-import { UseGetFilters, useGetFilters } from "./useGetFilters";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useGetFilters } from "./useGetFilters";
 import { Meta } from "@/src/schema/shared";
 import { useDebounce } from "../debounce/useDebounce";
+import { useParams } from "./useParams";
 
 interface ApiResponse<T> {
   data: T[];
@@ -24,6 +25,7 @@ export const useSearch = <T,>({
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { getParam } = useParams()
   const { getParams } = useGetFilters()
 
   const [search, setSearch] = useState("");
@@ -53,6 +55,14 @@ export const useSearch = <T,>({
     refetchOnWindowFocus: false,
     retry: false,
   });
+
+  useEffect(() => {
+    if (response?.meta && Number(getParam("page")) > response.meta.totalPages) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("page", "1");
+      router.push(`?${params.toString()}`);
+    }
+  }, [response?.meta, searchParams, getParam, router]);
 
   return {
     search,

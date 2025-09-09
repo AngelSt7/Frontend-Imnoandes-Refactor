@@ -10,7 +10,6 @@ export default async function EditPage({ params }: { params: { id: string } }) {
 
     try {
         const data = await adminGetPropertyById({ id: Number(id), token })
-        console.log(id)
         if(data) {
             return (
                 <div className=" w-11/12 max-w-[700px] mx-auto bg-white dark:bg-[#121212] p-6 shadow-sm rounded-xl">

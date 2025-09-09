@@ -1,10 +1,10 @@
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/react";
 import { useGenericModal } from "@/src/hooks/modal/useGenericModal";
-import { User } from "@/src/types/userTypes/user";
+import { User as UserInfo } from "@/src/types/userTypes/user";
 
 type GenericModalProps = {
   id?: string;
-  user?: User;
+  user?: UserInfo;
   defaultValues?: any;
   closeModal?: () => void
 };

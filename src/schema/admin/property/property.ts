@@ -34,10 +34,10 @@ export const propertySchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   price: z.number(),
-  currency: z.enum(["PEN", "USD"]),
   phone: z.string(),
-  propertyType: z.enum(["RENT", "SALE"]),
-  propertyCategory: z.enum(["APARTMENT", "HOUSE", "OFFICE", "LAND", "COMMERCIAL", "WAREHOUSE"]),
+  propertyType: z.nativeEnum(PROPERTY_TYPE),
+  propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
+  currency: z.nativeEnum(CURRENCY),
   availability: z.boolean(),
   area: z.number(),
   yearBuilt: z.number().nullish(),
@@ -48,23 +48,44 @@ export const propertySchema = z.object({
   updatedAt: z.string().datetime(),
 });
 
-export const detailsPropertySchema = z.object({
-  id: z.number(),
-  location: z.string(),
+export const propertyImagesSchema = z.array(z.object({
+  id: z.string().nullish(),
+  url: z.string().nullish(),
+  type: z.enum(["MAIN", "GALLERY"]).nullish()
+}))
+
+export const propertyDetailsSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  propertyType: z.nativeEnum(PROPERTY_TYPE),
+  propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
+  currency: z.nativeEnum(CURRENCY),
+
   price: z.number(),
-  imageMain: z.string(),
+  yearBuilt: z.number().nullish(),
+
+  hasTerrace: z.boolean(),
+  location: z.string(),
+  description: z.string(),
   availability: z.boolean(),
-  type: z.object({ type: z.string() }),
-  bedrooms: z.number(),
-  bathrooms: z.number(),
+
+  floor: z.number().nullish(),
+  hasParking: z.boolean(),
+  parkingSpaces: z.number().nullish(),
+
+  bedrooms: z.number().nullish(),
+  bathrooms: z.number().nullish(),
   area: z.number(),
-  yearBuilt: z.number(),
-  publishedAt: z.string(),
-  district: z.object({ district: z.string() }),
-  departament: z.object({ departament: z.string() }),
-  currency: z.object({ currency: z.string() }),
-  serviceToProperty: z.array(z.object({ service: z.string() }))
-})
+
+  furnished: z.boolean(),
+  services: z.array(z.string()).nullish(),
+  province: z.string(),
+  district: z.string(),
+  departament: z.string(),
+
+  imageMain: z.string().nullish(),
+  
+});
 
 export const findPropertySchema = z.object({
   id: z.string().uuid(),

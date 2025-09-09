@@ -9,7 +9,6 @@ import { useAppStore } from "@/src/store/useAppStore";
 import { Button } from "@heroui/react";
 import FilterPagination from "../filters/FilterPagination";
 import { useParams } from "@/src/hooks/search/useParams";
-import { Filter } from "lucide-react";
 import FilterPropertyType from "../filters/FilterPropertyType";
 import FilterPropertyCategory from "../filters/FilterPropertyCategory";
 
@@ -35,20 +34,20 @@ export default function Filters({
 
     const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
     const { clearParams } = useParams()
-    const classNames = 'border border-[#dbdada] dark:border-[#3b3b3b]'
+    const classNames = 'border border-[#dbdada]'
     return (
         <>
 
-            {show.includes("more-filters") && (
-                <Button onPress={onChangeDrawer} size="md" variant="flat" className="border border-[#dbdada] dark:border-[#3b3b3b]">
-                    Más filtros
+            {show.includes("filters") && (
+                <Button onPress={onChangeDrawer} size="md" variant="flat" className="w-full border border-[#dbdada]">
+                    Filtrar
                 </Button>
             )}
 
             {show.includes("clear") && (
                 <Button
                     onPress={() => clearParams()}
-                    size="md" variant="flat" className="border border-[#dbdada] dark:border-[#3b3b3b]"
+                    size="md" variant="flat" className="w-full border border-[#dbdada]"
                 >
                     Limpiar
                 </Button>

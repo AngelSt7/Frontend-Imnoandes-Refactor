@@ -6,6 +6,7 @@ export interface UseImageManagerProps {
   maxWidth?: number
   maxHeight?: number
   maxFileSize?: number
+  allowedTypes: string[]
   onError?: (error: string) => void
   value?: string | File | (string | File)[] 
   onChange?: (files: string | File | (string | File)[]) => void;

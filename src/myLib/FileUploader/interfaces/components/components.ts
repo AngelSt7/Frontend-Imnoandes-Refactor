@@ -1,5 +1,5 @@
 import { Control, ControllerProps, FieldValues, Path, RegisterOptions } from "react-hook-form";
-import { ChangeEvent, DragEvent } from "react";
+import { ChangeEvent, DragEvent, RefObject } from "react";
 import { ImageItem } from "../data/data";
 import { ComponentType } from "react";
 
@@ -16,6 +16,7 @@ export interface FileUploaderProps<T extends FieldValues> {
   maxWidth?: number
   maxHeight?: number
   maxFileSize?: number
+  allowedTypes: string[];
   onError?: (error: string) => void
   onChange?: (files: string | File | (string | File)[]) => void
 }
@@ -31,6 +32,7 @@ export interface ImageDropZoneProps {
     handleDrop: (e: DragEvent<HTMLDivElement>) => void;
     openFileSelector: () => void;
     handleFileSelect: (e: ChangeEvent<HTMLInputElement>) => void;
+    fileInputRef: RefObject<HTMLInputElement | null>
     removingIds: Set<string>;
     handleRemove: (fileId: string) => void
 }

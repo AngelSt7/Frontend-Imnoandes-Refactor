@@ -1,11 +1,16 @@
 import { z } from "zod";
 
 export const FormDataImageMainSchema = z.object({
-    url: z.string(),
     id: z.string(),
+    url: z.string(),
+    propertyId: z.string(),
+    publicId: z.string()
 })
 
 export const FormDataImagesGallerySchema = z.object({
-    url: z.array(z.string()),
-    id: z.string(),
+    propertyId: z.string(),
+    images: z.array(z.object({
+        url: z.string(),
+        publicId: z.string()
+    })),
 })

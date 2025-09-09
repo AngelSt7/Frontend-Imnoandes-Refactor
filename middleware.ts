@@ -11,8 +11,8 @@ export async function middleware(req: NextRequest) {
     if (authRes) return authRes;
 
     // 2) Validación de params(puede redirigir a 404 o normalizar)
-    // const paramRes = withParamValidation(req);
-    // if (paramRes) return paramRes;
+    const paramRes = withParamValidation(req);
+    if (paramRes) return paramRes;
 
     // 3) Todo OK
     return NextResponse.next();

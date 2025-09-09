@@ -1,9 +1,7 @@
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from '@heroui/react';
 import { ChevronDownIcon } from 'lucide-react';
-import React from 'react'
-import { currency, useFilterCurrency } from '@/src/hooks/ui/filter/currency/useFilterCurrency';
-import { useFilterPropertyType } from '@/src/hooks/ui/filter/propertyType/usePropertyType';
-import { PROPERTY_CATEGORY_SELECT, PROPERTY_TYPE_SELECT } from '@/src/utils/resolves/bases/select';
+import { useRef } from 'react';
+import { PROPERTY_CATEGORY_SELECT } from '@/src/utils/resolves/bases/select';
 import { useFilterPropertyCategory } from '@/src/hooks/ui/filter/propertyCategory/usePropertyCategory';
 
 interface FilterPropertyCategoryProps {
@@ -19,12 +17,12 @@ export default function FilterPropertyCategory({
     onAddParam,
     onDeleteParam
 }: FilterPropertyCategoryProps) {
-
+    
     const { resolveLabel, getButtonText } = useFilterPropertyCategory({ onGetParam })
 
     return (
-        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined} className='w-fit'>
-            <DropdownTrigger  className={`flex ${classNames}`}>
+        <Dropdown className="w-full">
+            <DropdownTrigger className={`flex justify-between ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"

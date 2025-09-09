@@ -17,8 +17,8 @@ export default function FilterColumns({
     columns
 } : FilterColumnsProps) {
     return (
-        <Dropdown >
-            <DropdownTrigger className={`flex ${classNames}`}>
+         <Dropdown className="w-full">
+                <DropdownTrigger className={`flex justify-between ${classNames}`}>
                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
                     Columnas
                 </Button>

@@ -19,8 +19,8 @@ export default function FilterPagination({
     const { resolveLabel, getCurrencyButtonText } = useFilterPagination({ onGetParam })
 
     return (
-        <Dropdown portalContainer={document.querySelector("#drawer-filters") ?? undefined} className='w-fit'>
-            <DropdownTrigger className={`flex ${classNames}`}>
+         <Dropdown className="w-full">
+                <DropdownTrigger className={`flex justify-between ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"

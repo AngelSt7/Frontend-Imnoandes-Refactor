@@ -20,8 +20,8 @@ export default function FilterCurrency({
     const { resolveLabel, getCurrencyButtonText } = useFilterCurrency({ onGetParam })
 
     return (
-        <Dropdown>
-            <DropdownTrigger className={`flex ${classNames}`}>
+         <Dropdown className="w-full">
+                <DropdownTrigger className={`flex justify-between ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"

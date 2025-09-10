@@ -1,5 +1,5 @@
 export function formatDate(
-  dateString: string,
+  dateString: string | Date,
   style: "long" | "short" | "compact" = "short"
 ): string {
   const date = new Date(dateString);

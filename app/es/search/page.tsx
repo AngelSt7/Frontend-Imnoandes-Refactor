@@ -1,16 +1,16 @@
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { publicSearchProperties } from "@/src/services/client/properties/public/publicSearchProperties";
-import SearchHydrated from "@/src/components/es/search/searchHydrated/SearchHydrated";
-import { publicCarrouselProperties } from "@/src/services/client/properties/public/publicCarrouselProperties";
+import { buildMetadata } from "@/src/config/metadata/metadata";
+import { QueryClient } from "@tanstack/react-query";
+
+export const metadata = buildMetadata({
+  title: "Buscar propiedades en venta y alquiler",
+  description: "Explora miles de propiedades en venta y alquiler. Filtra por ubicación, precio y características para encontrar el hogar perfecto según tus necesidades.",
+  url: "https://mi-sitio.com/es/search",
+  image: "https://mi-sitio.com/preview-search.jpg",
+});
+
 
 export const searchFiltersArray = [
-    "districtId",
-    "typeId",
-    "currencyId",
-    "minBedroom",
-    "maxBedroom",
-    "minPrice",
-    "maxPrice"
+    "currency"
 ];
 
 type SearchParams = Record<string, string | undefined>;
@@ -23,24 +23,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
         Object.entries(params).filter(([key, value]) => value !== undefined && searchFiltersArray.includes(key))
     );
 
-    const queryConfigs = [
-        { key: ["searchProperties", searchFilters], fn: () => publicSearchProperties(searchFilters) },
-        { key: ["carouselProperties"], fn: () => publicCarrouselProperties('all') },
-    ];
 
-    await Promise.all(
-        queryConfigs.map(({ key, fn }) =>
-            queryClient.prefetchQuery({
-                queryKey: key,
-                queryFn: fn as any, //para devolver multiples formas de datos   
-                retry: false,
-            })
-        )
-    );
-
-    const dehydratedStates = queryConfigs.map(({ key }) => {
-        return dehydrate(queryClient);
-    });
-
-    return  <SearchHydrated stateSearch={dehydratedStates[0]} stateCarrousel={dehydratedStates[1]} />
+    return  <>
+    </>
 }

@@ -5,10 +5,9 @@ import { getServerSession } from 'next-auth'
 import React from 'react'
 
 export default async function layout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession()
   return (
     <div className=' min-h-screen flex flex-col'>
-      <HeaderNavigation session={session} />
+      <HeaderNavigation  />
       <ImageHeader />
       <main className=' flex flex-col flex-1 h-full'>
         {children}

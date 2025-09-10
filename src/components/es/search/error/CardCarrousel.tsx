@@ -1,23 +1,25 @@
-import { PublicCard as PublicCarrousel } from "@/src/types/publicTypes/publicProperty";
 import { Card, CardBody, Image } from "@heroui/react";
 import { Bath, Bed, Building2, Heart } from "lucide-react";
 import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
 import Link from "next/link";
+import { CarrouselItem } from "@/src/types";
+import { PROPERTY_CATEGORY_TRANSLATE, PROPERTY_TYPE_TRANSLATE } from "@/src/utils/resolves/bases/enums";
+import { formatDate } from "@/src/utils/frontend/format/dateUtils";
 
-type CardCarrouselProps = {
-    carrouselProperty: PublicCarrousel
+export type CardCarrouselProps = {
+    item: CarrouselItem
 }
 
-export default function CardCarrousel({ carrouselProperty }: CardCarrouselProps) {
+export default function CardCarrousel({ item }: CardCarrouselProps) {
     return (
         <Card
             isPressable
             isHoverable={true}
             shadow="sm"
         >
-            <Link href={`/es/propiedades/${carrouselProperty.id}`}>
-                <CardBody className="p-0">
-                    <div className="flex relative min-h-[200px] bg-red-100">
+            <Link href={item.url}>
+                <CardBody className="p-0 bg-[#f5f5f5]">
+                    <div className="flex relative min-h-[200px] max-[200px]: bg-red-100">
                         <Image
                             alt="Propiedad image"
                             height={"100%"}
@@ -26,42 +28,41 @@ export default function CardCarrousel({ carrouselProperty }: CardCarrouselProps)
                             radius="sm"
                             shadow="md"
                             fetchPriority="high"
-                            src={carrouselProperty.imageMain}
+                            src={'https://res.cloudinary.com/dihj0ezqt/image/upload/v1757214009/images/ebtb5rqotek7e1rv1f0e.jpg'}
                         />
                     </div>
-
-                    <div className="p-4 space-y-3">
-                        <div className="space-y-1">
+                    
+                    <div className="p-4 space-y-1">
+                        {/* Tipo de propiedad y precio */}
+                        <div className="space-y-2">
                             <div className="flex items-center gap-1">
                                 <span className="text-sm font-medium">
-                                    {carrouselProperty.type.type === 'venta' ? 'Venta' : 'Alquiler'}
+                                    {PROPERTY_TYPE_TRANSLATE[item.propertyType]} · {PROPERTY_CATEGORY_TRANSLATE[item.propertyCategory]}
                                 </span>
                             </div>
-
                             <div className="flex flex-col">
-                                <p className="text-xl font-bold">
-                                    {formatCurrency(carrouselProperty.price, carrouselProperty.currency.currency)}
+                                <p className="text-2xl font-bold">
+                                    {formatCurrency(item.price, item.currency)}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <p className="font-medium uppercase">{carrouselProperty.district.district}</p>
-                            <p className="text-sm text-neutral-600">{carrouselProperty.location}</p>
+                        {/* Ubicación */}
+                        <div className="">
+                            <p className="text-sm font-normal text-zinc-900">{item.location}</p>
+                            <p className="text-sm font-normal text-neutral-600 capitalize">{item.district}, {item.department}</p>
                         </div>
 
-                        <div className="flex items-center gap-4 text-neutral-600">
+                        {/* Características */}
+                        <div className="flex items-center gap-4 text-neutral-600 pt-1">
                             <div className="flex items-center gap-1">
-                                <Building2 size={16} />
-                                <span className="text-sm">{carrouselProperty.area}m²</span>
+                                <span className="text-sm">{item.area}m²</span>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Bed size={16} />
-                                <span className="text-sm">{carrouselProperty.bedrooms} Dorm</span>
+                                <span className="text-sm">{item.bedrooms} Dorm</span>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Bath size={16} />
-                                <span className="text-sm">{carrouselProperty.bathrooms} Baños</span>
+                                <span className="text-sm">{item.bathrooms} Baños</span>
                             </div>
                         </div>
                     </div>

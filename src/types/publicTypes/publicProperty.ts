@@ -1,9 +1,13 @@
-import { publicCardSchema, publicContactFormSchema, publicFilterBedroomsSchema, publicFilterPricesSchema, publicPropertyByIdSchema } from "@/src/schema/public/property";
+import { carrouselItemSchema, carrouselSchema, publicContactFormSchema, publicFilterBedroomsSchema, publicFilterPricesSchema } from "@/src/schema/public/property";
 import { z } from "zod";
 
-export type PublicCard = z.infer<typeof publicCardSchema>
 
-export type PublicPropertyById = z.infer<typeof publicPropertyByIdSchema>
+carrouselSchema
+carrouselItemSchema
+
+export type Carrousel = z.infer<typeof carrouselSchema>
+export type CarrouselItem = z.infer<typeof carrouselItemSchema>
+
 
 export type PublicContactForm = z.infer<typeof publicContactFormSchema>
 

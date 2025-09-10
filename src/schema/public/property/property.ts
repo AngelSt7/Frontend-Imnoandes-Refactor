@@ -1,5 +1,24 @@
 import z from 'zod'
 
+export const carrouselItemSchema = z.object({
+  price: z.number(),
+  currency: z.string(),
+  propertyType: z.string(),
+  propertyCategory: z.string(),
+  location: z.string(),
+  createdAt: z.union([z.string(), z.date()]),
+  bedrooms: z.number().nullish(),
+  bathrooms: z.number().nullish(),
+  area: z.number(),
+  image: z.string().url().nullish(),
+  department: z.string().nullish(),
+  district: z.string().nullish(),
+  url: z.string()
+});
+
+export const carrouselSchema = z.array(carrouselItemSchema);
+
+
 export const cardSchema = z.object({
   id: z.number().positive().min(1),
   district: z.object({ district: z.string() }),

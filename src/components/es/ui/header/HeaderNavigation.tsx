@@ -9,11 +9,9 @@ import Link from "next/link";
 import { signOut } from 'next-auth/react';
 import { usePathname } from "next/navigation";
 
-type HeaderNavigationProps = {
-    session?: Session | null
-}
 
-export default function HeaderNavigation({ session }: HeaderNavigationProps) {
+
+export default function HeaderNavigation() {
     const path = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -58,7 +56,7 @@ export default function HeaderNavigation({ session }: HeaderNavigationProps) {
             </NavbarContent>
 
             <NavbarContent justify="end">
-                {session ? (
+                {/* {session ? (
                     <>
                         <NavbarItem className="block">
                             <ButtonGroup>
@@ -80,7 +78,7 @@ export default function HeaderNavigation({ session }: HeaderNavigationProps) {
                             </Button>
                         </NavbarItem>
                     </>
-                )}
+                )} */}
                 <NavbarItem className=" hidden md:block">
                     <Switcher />
                 </NavbarItem>
@@ -96,7 +94,7 @@ export default function HeaderNavigation({ session }: HeaderNavigationProps) {
                         </Link>
                     </NavbarMenuItem>
                 ))}
-                {session && (
+                {/* {session && (
                     <>
                         <Link
                             className="w-full capitalize text-large"
@@ -111,8 +109,8 @@ export default function HeaderNavigation({ session }: HeaderNavigationProps) {
                             Cerrar Sesión
                         </button>
                     </>
-                )}
-                <Switcher />
+                )} */}
+                {/* <Switcher /> */}
             </NavbarMenu>
         </Navbar >
     )

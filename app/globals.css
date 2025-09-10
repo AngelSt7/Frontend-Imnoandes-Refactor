@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .light {
-  background-color: #F5F5F5;
+  background-color: #ffffff;
 }
 
 .dark {
@@ -45,6 +45,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.text-h2 {
+  @apply text-3xl font-bold text-gray-900 mb-6
+  /* O incluso: text-3xl font-bold text-gray-800 tracking-tight */
 }
 
 .custom-container {

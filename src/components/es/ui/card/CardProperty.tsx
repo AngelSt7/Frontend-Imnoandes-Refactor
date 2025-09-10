@@ -1,10 +1,10 @@
 import { Card, CardBody, Image } from "@heroui/react";
 import { PublicCard } from "@/src/types/publicTypes/publicProperty";
-import { formatDateLong } from "@/src/utils/frontend/format/dateUtils";
 import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
 import { Building2, Calendar, MapPin, Bath, Bed, Heart } from "lucide-react";
 import Link from "next/link";
 import ButtonFavorite from "../../property/ButtonFavorite";
+import { formatDate } from '@/src/utils/frontend/format/dateUtils';
 
 type CardPropertyProps = {
   property: PublicCard
@@ -43,7 +43,7 @@ export default function CardProperty({ property }: CardPropertyProps) {
 
                   <div className="flex items-center gap-1 text-foreground/70">
                     <Calendar size={16} />
-                    <p className="text-sm">{formatDateLong(property.publishedAt.toString())}</p>
+                    <p className="text-sm">{formatDate(property.publishedAt.toString(), 'short')}</p>
                   </div>
                   <div className="flex items-center gap-1 text-foreground/70">
                     <MapPin size={16} />

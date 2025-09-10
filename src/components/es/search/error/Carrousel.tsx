@@ -1,6 +1,5 @@
 'use client'
 
-import { publicCarrouselProperties } from '@/src/services/client/properties/public/publicCarrouselProperties';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,6 +8,7 @@ import CardCarrousel from './CardCarrousel';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+// import { publicCarrouselProperties } from '@/src/services/client/properties/public/publicCarrouselProperties';
 
 type CarrouselProps = {
     keyQuery: string,
@@ -19,15 +19,15 @@ export default function Carrousel({keyQuery, mode} : CarrouselProps) {
     console.log(keyQuery)
     console.log(mode)
 
-    const { data: CarrouselData } = useQuery({
-        queryFn: () => publicCarrouselProperties(mode),
-        queryKey: [keyQuery],
-        refetchOnWindowFocus: false,
-        placeholderData: keepPreviousData,
-        retry: false,
-    });
-    console.log("extrayendo datos del carrousel", CarrouselData)
-    if (CarrouselData) return (
+    // const { data: CarrouselData } = useQuery({
+    //     queryFn: () => publicCarrouselProperties(mode),
+    //     queryKey: [keyQuery],
+    //     refetchOnWindowFocus: false,
+    //     placeholderData: keepPreviousData,
+    //     retry: false,
+    // });
+    // if (CarrouselData) 
+        return (
         <>
             <p className="text-center font-semibold text-zinc-800 dark:text-slate-50 text-2xl">Propíedades destacadas</p>
             <div className="relative w-11/12 max-w-[1200px] mx-auto">
@@ -58,11 +58,13 @@ export default function Carrousel({keyQuery, mode} : CarrouselProps) {
                     }}
                     className="w-full px-2 sm:px-4 mt-8"
                 >
-                    {CarrouselData.map(item => (
+
+                    {/* {CarrouselData.map(item => (
                         <SwiperSlide key={item.id} className="flex justify-center">
                             <CardCarrousel carrouselProperty={item} />
                         </SwiperSlide>
-                    ))}
+                    ))} */}
+
                 </Swiper>
             </div >
         </>

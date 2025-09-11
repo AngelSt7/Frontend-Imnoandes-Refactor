@@ -1,6 +1,6 @@
 import { dehydrate } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import Search from './Search';
+import Search from '../../../../features/property/public/components/Search/Search';
 import Carrousel from '../error/Carrousel';
 
 type SearchHydratedProps = {

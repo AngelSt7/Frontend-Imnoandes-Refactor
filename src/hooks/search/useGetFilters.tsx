@@ -18,6 +18,8 @@ const validParams = [
 
 export const useGetFilters = () => {
 
+    
+
     const getParams = (searchParams: ReadonlyURLSearchParams): UseGetFilters => {
         const filters = Array.from(searchParams)
             .filter(([k, _v]) => validParams.includes(k))

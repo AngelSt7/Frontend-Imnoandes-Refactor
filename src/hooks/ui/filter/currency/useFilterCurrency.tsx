@@ -5,7 +5,7 @@ interface FilterCurrencyProps {
 }
 
 export const currency = [
-    { key: "all", value: "Cualquier moneda" },
+    { key: "ALL", value: "Cualquier moneda" },
     { key: "PEN", value: "Soles" },
     { key: "USD", value: "Dolares" },
 ]
@@ -22,7 +22,7 @@ export const useFilterCurrency = ({
                 case "USD":
                     return new Set(["USD"]);
                 default:
-                    return new Set(["all"]);
+                    return new Set(["ALL"]);
             }
         };
     

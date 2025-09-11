@@ -7,5 +7,6 @@ export const errorHttp = (error: unknown) => {
         const message = error.response.data.message;
         throw new Error(Array.isArray(message) ? message.join(', ') : message);
     }
+    console.log(error);
     throw new Error('Unexpected error');
 }

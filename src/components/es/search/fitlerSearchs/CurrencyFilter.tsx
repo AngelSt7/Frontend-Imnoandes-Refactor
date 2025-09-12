@@ -10,7 +10,7 @@ export default function CurrencyFilter() {
     const pathname = usePathname();
     const searchParams = useSearchParams()
 
-    const initPrices = { minPrice: '', maxPrice: '', currencyId: '' }
+    const initPrices = { minPrice: '', maxPrice: '', currency: '' }
     const [price, setPrice] = useState(initPrices)
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FilterPrices>();
@@ -50,7 +50,7 @@ export default function CurrencyFilter() {
             <PopoverTrigger>
                 <Button variant="flat" color="secondary">Precios</Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[240px]">
+            <PopoverContent className="w-[300px]">
                 {(titleProps) => (
                     <div className="px-1 py-2 w-full space-y-3">
                         <p className="text-small font-bold text-foreground" {...titleProps}>
@@ -58,19 +58,21 @@ export default function CurrencyFilter() {
                         </p>
                         <RadioGroup
                             orientation="horizontal"
-                            value={price.currencyId.toString()}
-                            onValueChange={(value) => handleSelectCurrency("currencyId", value)}
+                            value={price.currency.toString()}
+                            onValueChange={(value) => handleSelectCurrency("currency", value)}
                         >
-                            <Radio size="sm" value="1">Soles</Radio>
-                            <Radio size="sm" value="2">USD</Radio>
+                            <Radio size="sm" value="PEN">Soles</Radio>
+                            <Radio size="sm" value="USD">USD</Radio>
                         </RadioGroup>
-                        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-                            <div className="mt-2 flex flex-col gap-2 w-full">
+                        <form noValidate onSubmit={handleSubmit(onSubmit)}
+                            className="flex flex-col gap-5"
+                        > 
+                            <div className="mt-2 flex flex-row gap-3 w-full ">
                                 <Input
                                     htmlFor="minPrice"
                                     field="minPrice"
                                     type="number"
-                                    placeholder="Precio Mínimo"
+                                    label="Desde"
                                     variant="floating"
                                     register={register}
                                     rules={{
@@ -86,6 +88,7 @@ export default function CurrencyFilter() {
                                     htmlFor="maxPrice"
                                     field="maxPrice"
                                     type="number"
+                                    label="Hasta"
                                     placeholder="Precio Máximo"
                                     variant="floating"
                                     register={register}
@@ -99,22 +102,22 @@ export default function CurrencyFilter() {
                                     errorMessage={errors.maxPrice}
                                 />
                             </div>
-                            <div className="flex gap-3 mt-3">
-                                <Button
-                                    radius="sm"
-                                    color="warning"
-                                    fullWidth
-                                    onPress={handleClearParams}
+                            <div className="grid grid-cols-2 gap-3">
+                                <button
+                                    type="button"
+                                    onClick={handleClearParams}
+                                    className="w-full"
                                 >
                                     Limpiar
-                                </Button>
+                                </button>
+
                                 <Button
                                     radius="sm"
-                                    color="warning"
+                                    variant="bordered"
                                     fullWidth
                                     type="submit"
                                 >
-                                    Aplicar
+                                    Ver resultados
                                 </Button>
                             </div>
                         </form>

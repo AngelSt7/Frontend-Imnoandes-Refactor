@@ -3,6 +3,7 @@ import { Meta } from '../../../../../schema/shared/meta';
 import { CardProperty, PropertySearch } from '@/src/features/property';
 import ButtonFilter from '../Filter/ButtonFilter';
 import { currency } from '@/src/hooks/ui/filter/currency/useFilterCurrency';
+import { useRouter } from 'next/navigation';
 
 export interface ApiResponse<T> {
     data: T[];
@@ -14,11 +15,17 @@ interface SearchProps {
 }
 
 export function Search({ data }: SearchProps) {
-
+    const router = useRouter();
     return (
         <main className=" w-[98%] lg:w-[90%] max-w-[1600px] mx-auto space-y-6 mb-10 md:mt-5 mt-2  ">
+
+            <button
+                onClick={() => router.push('/es/search/venta-de-casas')}
+            >
+                Press me
+            </button>
             <ButtonFilter keyParam={'currency'} options={currency} />
-            <p className='text-zinc-800 font-medium'>{`Mostrando ${data.meta.itemsPerPage} propiedades de ${data.meta.totalItems}`}</p>
+            <p className='text-zinc-800 font-medium'>{`Mostrando ${data.meta.itemCount} propiedades de ${data.meta.totalItems}`}</p>
             {
                 data.data.length > 0 && (
                     <>

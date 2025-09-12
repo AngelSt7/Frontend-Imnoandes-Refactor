@@ -24,7 +24,7 @@ export class PropertyPublic {
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
             const data = await res.json()
             const parsed = propertiesSearchSchema.safeParse(data)
-            console.log(parsed.error)
+            console.log(parsed)
             if (parsed.success) { return parsed.data }
         } catch (error) { errorHttp(error) }
     }

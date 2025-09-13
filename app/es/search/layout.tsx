@@ -1,5 +1,5 @@
 'use client'
-import CurrencyFilter from '@/src/components/es/search/fitlerSearchs/CurrencyFilter'
+import CurrencyFilter from '@/src/features/property/public/components/Filters/components/Currency/CurrencyFilter'
 import Filters from '@/src/components/es/search/fitlerSearchs/Filters'
 import SelectFilter from '@/src/components/es/search/fitlerSearchs/SelectFilter'
 import React from 'react'

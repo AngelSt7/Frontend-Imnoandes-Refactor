@@ -13,9 +13,9 @@ export function useQueryParam() {
         router.push(`?${newParams.toString()}`);
     }, [params, router]);
 
-    const deleteParam = useCallback((key: string) => {
+    const deleteParams = useCallback((keys: string[]) => {
         const newParams = new URLSearchParams(params.toString());
-        newParams.delete(key);
+        keys.forEach((key) => { newParams.delete(key); });
         router.push(`?${newParams.toString()}`);
     }, [params, router]);
 
@@ -23,9 +23,17 @@ export function useQueryParam() {
         return params.get(key) ?? undefined;
     }, [params]);
 
+    
+    const clearParam = (key: string) => {
+        const newParams = new URLSearchParams(params.toString());
+        newParams.delete(key);
+        router.push(`?${newParams.toString()}`);
+    }
+
     return {
         setParam,
         getParam,
-        deleteParam
+        deleteParams,
+        clearParam
     };
 }

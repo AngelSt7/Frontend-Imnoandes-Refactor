@@ -10,8 +10,8 @@ import {
     useDisclosure,
 } from "@heroui/react";
 import SelectFilter from "../SelectFilter";
-import CurrencyFilter from "../CurrencyFilter";
-import BedroomFilter from "../BedroomFilter";
+import CurrencyFilter from "../../../../../features/property/public/components/Filters/components/Currency/CurrencyFilter";
+import BedroomFilter from "../../../../../features/property/public/components/Filters/components/Bedrooms/BedroomFilter";
 
 export default function ModalFilterts() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();

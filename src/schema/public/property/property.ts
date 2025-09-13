@@ -38,6 +38,12 @@ export const publicFilterPricesSchema = z.object({
   maxPrice: z.number()
 })
 
+export const publicFilterAreaSchema = z.object({
+  minArea: z.number(),
+  maxArea: z.number()
+})
+
+
 export const publicFilterBedroomsSchema = z.object({
   minBedroom: z.number(),
   maxBedroom: z.number()

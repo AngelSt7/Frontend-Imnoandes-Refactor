@@ -14,5 +14,5 @@ export const PropertyCategoryEnum : Record<string, string> = {
     terrenos: 'LAND',
     comercials: 'COMMERCIAL',
     oficinas: 'OFFICE',
-    almacens: 'WAREHOUSE',
+    almacenes: 'WAREHOUSE',
 }

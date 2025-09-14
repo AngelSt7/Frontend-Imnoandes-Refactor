@@ -25,9 +25,9 @@ export default function page() {
   return (
     <>
         <SelectSEO
-        regex={/(-de-)([^/]+?)(?=-en-|$)/}
-        mode="single"
-        options={options}
+          regex={/(-de-)([^/]+?)(?=-en-|$)/}
+          mode="single"
+          options={options}
         />
 
     </>

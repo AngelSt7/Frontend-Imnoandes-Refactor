@@ -19,7 +19,7 @@ export const Columns: ColumnsType = [
   { name: "Año Construcción", uid: "yearBuilt", sortable: true },
   { name: "Baños", uid: "bathrooms", sortable: true },
   { name: "Dormitorios", uid: "bedrooms", sortable: true },
-  { name: "Ubicación", uid: "location", sortable: true },
+  { name: "Ubicación", uid: "address", sortable: true },
   { name: "Creado", uid: "createdAt", sortable: true },
   { name: "Actualizado", uid: "updatedAt", sortable: true },
   { name: "Acciones", uid: "actions" },

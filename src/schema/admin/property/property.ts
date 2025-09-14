@@ -10,7 +10,7 @@ export const formDataPropertySchema = z.object({
   propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
   currency: z.nativeEnum(CURRENCY),
   price: z.number().positive(),
-  location: z.string(),
+  address: z.string(),
   description: z.string(),
   departmentId: z.string().uuid(),
   provinceId: z.string().uuid(),
@@ -43,7 +43,7 @@ export const propertySchema = z.object({
   yearBuilt: z.number().nullish(),
   bathrooms: z.number().nullish(),
   bedrooms: z.number().nullish(),
-  location: z.string(),
+  address: z.string(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
@@ -65,7 +65,7 @@ export const propertyDetailsSchema = z.object({
   yearBuilt: z.number().nullish(),
 
   hasTerrace: z.boolean(),
-  location: z.string(),
+  address: z.string(),
   description: z.string(),
   availability: z.boolean(),
 
@@ -104,7 +104,7 @@ export const findPropertySchema = z.object({
   longitude: z.number(),
 
   hasTerrace: z.boolean(),
-  location: z.string(),
+  address: z.string(),
   description: z.string(),
   //availability: z.boolean(),
 

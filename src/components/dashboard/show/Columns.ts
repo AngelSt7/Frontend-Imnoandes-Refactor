@@ -1,6 +1,6 @@
 export const columns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "LOCATION", uid: "location", sortable: true },
+    { name: "LOCATION", uid: "address", sortable: true },
     { name: "AREA", uid: "area", sortable: true },
     { name: "PRICE", uid: "price", sortable: true },
     { name: "TYPE", uid: "type" },

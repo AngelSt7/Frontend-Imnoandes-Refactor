@@ -1,23 +1,68 @@
 import CurrencyFilter from "@/src/features/property/public/components/Filters/components/Currency/CurrencyFilter"
 import { useQueryParam } from "@/src/hooks/searchParams/useQueryParam";
 import BedroomFilter from "./Bedrooms/BedroomFilter";
-import ButtonSegment from "../ButtonSegment";
 import AreaFilter from "./Area/AreaFilter";
 import SelectNumbers from "@/src/myLib/Filters/SelectNumbers";
 import ButtonFilter from "../ButtonFilter";
+import { SelectSEO } from "@/src/myLib";
+import { Building, Building2, Home, Store, Trees, Warehouse } from "lucide-react";
+import { Button } from "@heroui/react";
+import { useAppStore } from "@/src/store/useAppStore";
 
-export type AllowedFilters = 'currency' | 'bedrooms' | 'bathrooms' | 'propertyType' | 'propertyCategory' | 'area' | 'minBathrooms' | 'minParkingSpaces' | 'published'
+export type AllowedFilters = 'currency' | 'bedrooms' | 'bathrooms' | 'propertyType' | 'propertyCategory' | 'area' | 'minBathrooms' | 'minParkingSpaces' | 'published' | 'propertyCategory' | 'filters' | 'clear'
 
 export interface FiltersProps {
     show: AllowedFilters[]
 }
 
+const options = [
+    { key: "APARTMENT", icon: Building2, label: "Departamento", slug: "departamentos" },
+    { key: "HOUSE", icon: Home, label: "Casa", slug: "casas" },
+    { key: "WAREHOUSE", icon: Warehouse, label: "Almacenes", slug: "almacenes" },
+    { key: "LAND", icon: Trees, label: "Terreno / Lote", slug: "terrenos" },
+    { key: "OFFICE", icon: Building, label: "Oficina comercial", slug: "oficinas" },
+    { key: "COMMERCIAL", icon: Store, label: "Local comercial", slug: "locales-comerciales" },
+];
+
+
+const propertyTypes = [
+    { key: "SALE", icon: Building2, label: "Venta", slug: "venta" },
+    { key: "RENT", icon: Home, label: "Alquiler", slug: "alquiler" }
+];
+
 export default function Filters({ show }: FiltersProps) {
 
     const { setParam, getParam, deleteParams } = useQueryParam();
+    const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
 
     return (
         <>
+            {show.includes("filters") && (
+                <Button onPress={onChangeDrawer} size="md" variant="flat" className="w-full border border-[#dbdada]">
+                    Filtrar
+                </Button>
+            )}
+
+            {show.includes("clear") && (
+                <Button
+                    onPress={() => deleteParams([
+                        'currency',
+                        'bedrooms',
+                        'bathrooms',
+                        'propertyType',
+                        'propertyCategory',
+                        'area',
+                        'minBathrooms',
+                        'minParkingSpaces',
+                        'published',
+                        'propertyCategory',
+                    ])}
+                    size="md" variant="flat" className="w-full border border-[#dbdada]"
+                >
+                    Limpiar
+                </Button>
+            )}
+
             {show.includes('currency') && (
                 <CurrencyFilter
                     setParam={setParam}
@@ -35,9 +80,21 @@ export default function Filters({ show }: FiltersProps) {
             )}
 
             {show.includes('propertyType') && (
-                <ButtonSegment
+                <SelectSEO
+                    regex={/(^|\/)([^/]+?)(?=-de-)/}
+                    mode="single"
+                    options={propertyTypes}
                 />
             )}
+
+            {show.includes('propertyCategory') && (
+                <SelectSEO
+                    regex={/(-de-)([^/]+?)(?=-en-|$)/}
+                    mode="multiple"
+                    options={options}
+                />
+            )}
+
 
             {show.includes('area') && (
                 <AreaFilter

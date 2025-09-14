@@ -1,7 +1,6 @@
 import { buildMetadata } from "@/src/config/metadata/metadata";
 import { Search } from "@/src/features/property";
 
-import Filter from "@/src/features/property/public/components/Filters/components/Filters";
 import { PropertyPublic } from "@/src/features/property/public/services/propertyPublic.service";
 import { PropertyCategoryEnum, PropertyTypeEnum } from "@/src/utils/url/enum";
 
@@ -14,7 +13,8 @@ export const metadata = buildMetadata({
 
 
 export const searchFiltersArray = [
-  "currency"
+  "currency",
+  "minBathrooms",
 ];
 
 type SearchParams = Record<string, string | undefined>;

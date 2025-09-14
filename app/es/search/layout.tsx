@@ -1,7 +1,4 @@
 'use client'
-import CurrencyFilter from '@/src/features/property/public/components/Filters/components/Currency/CurrencyFilter'
-import Filters from '@/src/components/es/search/fitlerSearchs/Filters'
-import SelectFilter from '@/src/components/es/search/fitlerSearchs/SelectFilter'
 import React from 'react'
 
 export default function layout({ children }: { children: { children: React.ReactNode } }) {
@@ -9,7 +6,6 @@ export default function layout({ children }: { children: { children: React.React
         <>
             <div className="flex items-center gap-4 bg-white dark:bg-transparent p-2 ">
                 <div className='w-11/12 max-w-[1400px] mx-auto'>
-                    <Filters />
                 </div>
             </div>
             {children}

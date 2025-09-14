@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 export const DEFINE_STEPS = {
     stepOne: ['name', 'propertyType', 'propertyCategory', 'phone', 'currency', 'price'],
-    stepTwo: ['location', 'departmentId', 'provinceId', 'districtId', 'latitude', 'longitude'],
+    stepTwo: ['address', 'departmentId', 'provinceId', 'districtId', 'latitude', 'longitude'],
     stepThree: ['area', 'yearBuilt', 'bathrooms', 'floor', 'hasTerrace', 'furnished', 'hasParking', 'description', 'bedrooms', 'parkingSpaces'],
     stepFour: ['servicesId', 'extraInfo']
 }

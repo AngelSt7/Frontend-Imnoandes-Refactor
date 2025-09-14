@@ -36,7 +36,7 @@ export default function Map<T extends FieldValues>({
     setValue, watch, valueLatitude, valueLongitude, errorMessage
 }: MapProps<T>) {
 
-    const address = watch('location' as Path<T>);
+    const address = watch('address' as Path<T>);
     const latValue = watch(valueLatitude as Path<T>) as number || -12.0464;
     const lngValue = watch(valueLongitude as Path<T>) as number || -77.0428;
     const provider = new OpenStreetMapProvider();

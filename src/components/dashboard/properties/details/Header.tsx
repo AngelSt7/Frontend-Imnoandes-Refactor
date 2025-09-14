@@ -32,7 +32,7 @@ export default function Header({ data }: DetailsPropertyProps) {
                     </h1>
                     <div className="flex items-center gap-2 text-gray-600 mb-4">
                         <MapPin className="w-5 h-5" />
-                        <span className="text-lg">{data.location}</span>
+                        <span className="text-lg">{data.address}</span>
                     </div>
                     <div className="flex flex-wrap gap-3">
                         <span className="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">

@@ -4,6 +4,7 @@ import { MetaSchema } from '../../../../schema/shared/meta';
 export type PropertySearch = z.infer<typeof propertySearchSchema>;
 export type PropertiesSearch = z.infer<typeof propertiesSearchSchema>;
 
+
 export const propertySearchSchema = z.object({
   id: z.string(),
   slug: z.string(),
@@ -12,7 +13,7 @@ export const propertySearchSchema = z.object({
   propertyType: z.string(),
   description: z.string(),
   propertyCategory: z.string(),
-  location: z.string(),
+  address: z.string(),
   hasParking: z.boolean().nullish(),
   parkingSpaces: z.number().nullish(),
   createdAt: z.string().or(z.date()),

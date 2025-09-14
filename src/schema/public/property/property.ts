@@ -5,7 +5,7 @@ export const carrouselItemSchema = z.object({
   currency: z.string(),
   propertyType: z.string(),
   propertyCategory: z.string(),
-  location: z.string(),
+  address: z.string(),
   createdAt: z.union([z.string(), z.date()]),
   bedrooms: z.number().nullish(),
   bathrooms: z.number().nullish(),
@@ -23,7 +23,7 @@ export const cardSchema = z.object({
   id: z.number().positive().min(1),
   district: z.object({ district: z.string() }),
   area: z.number(),
-  location: z.string(),
+  address: z.string(),
   bedrooms: z.number(),
   bathrooms: z.number(),
   imageMain: z.string(),
@@ -52,7 +52,7 @@ export const publicFilterBedroomsSchema = z.object({
 
 export const findPropertySchema = z.object({
   id: z.number(),
-  location: z.string(),
+  address: z.string(),
   description: z.string(),
   imageMain: z.string().url(),
   area: z.number(),

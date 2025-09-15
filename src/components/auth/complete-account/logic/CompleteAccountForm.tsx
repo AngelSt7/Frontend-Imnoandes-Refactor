@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { User } from '@/src/types/userTypes/user';
 import { useSubmitMutation } from "@/src/hooks";
 import CountdownTimer from '../countdown/CountdownTimer';
-import Input from "../../../ui/inputs/Input";
+import Input from "../../../../myLib/components/input/Input";
 import { formatCompleteAccount } from "@/src/utils/resolves/format/completeAccount";
 
 type CompleteAccountProps = {

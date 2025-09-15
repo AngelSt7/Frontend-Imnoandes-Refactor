@@ -1,7 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form';
-import Input from '../../ui/inputs/Input';
+import Input from '../../../myLib/components/input/Input';
 import { AuthCreateAccount } from '@/src/types/auth/auth';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { Phone } from 'lucide-react';

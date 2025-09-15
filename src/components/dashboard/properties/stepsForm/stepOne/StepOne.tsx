@@ -1,4 +1,4 @@
-import Input from '@/src/components/ui/inputs/Input';
+import Input from '@/src/myLib/components/input/Input';
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { FormDataProperty } from '@/src/types/adminTypes/property';
 import { PiMapPinSimpleAreaFill } from "react-icons/pi";

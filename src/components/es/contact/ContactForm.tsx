@@ -1,6 +1,6 @@
 'use client'
 
-import Input from "../../ui/inputs/Input"
+import Input from "../../../myLib/components/input/Input"
 import { User, Mail, Phone } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { PublicContactForm } from "@/src/types/publicTypes/publicProperty";

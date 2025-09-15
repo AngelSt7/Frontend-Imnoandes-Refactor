@@ -1,5 +1,5 @@
 
-import ConfirmAccount from '@/src/components/auth/confirm-account/ConfirmAccount';
+import ConfirmAccount from '@/src/features/auth';
 import { Auth } from '@/src/services/auth';
 import { redirect } from 'next/navigation';
 import { validate } from 'uuid';

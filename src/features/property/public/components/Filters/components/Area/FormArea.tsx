@@ -1,4 +1,4 @@
-import Input from "@/src/components/ui/inputs/Input";
+import Input from "@/src/myLib/components/input/Input";
 import { FilterArea } from "@/src/types";
 import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 

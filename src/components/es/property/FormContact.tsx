@@ -1,7 +1,7 @@
 'use client'
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, User } from 'lucide-react';
-import Input from '../../ui/inputs/Input';
+import Input from '../../../myLib/components/input/Input';
 import { BiLogoGmail } from "react-icons/bi";
 import { ImWhatsapp } from "react-icons/im";
 import { PublicContactForm, PublicPropertyById } from '@/src/types/publicTypes/publicProperty';

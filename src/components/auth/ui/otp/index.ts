@@ -1,1 +1,1 @@
-export { default as InputOtp} from "./InputOtp";
+export { InputOtp} from "../../../../myLib/components/otp/components/InputOtp";

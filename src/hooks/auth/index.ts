@@ -1,1 +1,1 @@
-export { useStatusForm } from "./useStatusForm";
+export { useStatusForm } from "../../features/auth/components/login/hooks/useStatusForm";

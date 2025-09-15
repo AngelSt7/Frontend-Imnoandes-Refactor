@@ -1,5 +1,4 @@
-import LoginOrquestForm from '@/src/components/auth/login/logic/LoginOrquestForm'
-import LinkToAuth from '@/src/components/auth/ui/LinkToAuth'
+import { LoginOrquestForm, LinkToAuth } from '@/src/features/auth'
 
 export default async function LoginPage() {
     return (

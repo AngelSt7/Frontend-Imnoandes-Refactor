@@ -1,1 +1,1 @@
-export { useOtpUi } from "./useOtpUi";
+export { useOtpUi } from "../../../myLib/components/otp/hooks/useOtpUi";

@@ -3,7 +3,7 @@ import { FormDataProperty } from '@/src/types/adminTypes/property';
 import Fieldset from '../../../ui/Fieldset';
 import { Service } from '@/src/services/data/service';
 import { useGetAllData } from '@/src/hooks/data/useGetAllData';
-import Input from '@/src/components/ui/inputs/Input';
+import Input from '@/src/myLib/components/input/Input';
 import { PROPERTY_CATEGORY } from '@/src/utils/resolves/bases/enums';
 import { AutoCompleteWhitTabs } from '@/src/myLib/AutoCompleteWhitTabs';
 

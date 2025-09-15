@@ -1,33 +1,9 @@
 import z from 'zod'
 
-export const authCreateAccountGoogleSchema = z.object({
-  name: z.string(),
-  lastname: z.string(),
-  email: z.string(),
-  authProvider: z.enum(["google"]),
-  confirmed: z.boolean(),
-  birthDate: z.date(),
-  password: z.null(),
-  phone: z.number().nullable(),
-  createdAt: z.date(),
-})
-
-
-
-export const authConfirmAccountSchema = z.object({
-  token: z.string(),
-})
-
-
-
-
-
-// READY
 export const loginSchema = z.object({
   email: z.string(),
   password: z.string(),
 })
-
 
 export const checkEmailSchema = z.object({
   email: z.string(),
@@ -69,7 +45,6 @@ export const confirmAccessSchema = z.object({
 export const requestTokenSchema = z.object({
   email: z.string(),
 })
-
 
 export const completeAccountSchema = z.object({
   id: z.string(),

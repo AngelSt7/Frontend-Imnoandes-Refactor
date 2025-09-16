@@ -1,10 +1,10 @@
 'use client';
 
 import { Meta } from '../../../../../schema/shared/meta';
-import { CardProperty, PropertySearch } from '@/src/features/property';
+import { CardProperty, LocationsSearch, PropertySearch } from '@/src/features/property';
 import Filters from '../Filters/components/Filters';
 import FilterOrquest from '../Filters/components/FilterOrquest';
-import InputSearch from '../Location/Input/InputSearch';
+import InputSearch from './components/InputSearch';
 
 export interface ApiResponse<T> {
     data: T[];
@@ -13,14 +13,17 @@ export interface ApiResponse<T> {
 
 interface SearchProps {
     data: ApiResponse<PropertySearch>
+    locales: LocationsSearch | undefined
 }
 
-export function Search({ data }: SearchProps) {
+export function Search({ data, locales }: SearchProps) {
 
     return (
         <main className=" w-[98%] lg:w-[90%] max-w-[1600px] mx-auto space-y-6 mb-10 md:mt-5 mt-2  ">
 
-            <FilterOrquest renderFilters={(show) => (
+            <FilterOrquest
+                locales={locales}
+            renderFilters={(show) => (
                 <Filters show={show} />
                 )}
             />

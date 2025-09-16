@@ -6,40 +6,48 @@ interface UrlTransformerConfig {
   regex: RegExp;
   mode: "single" | "multiple";
   joiner?: string;
+  prefix?: string
 }
 
 export function useUrlTransformer({ regex, mode, joiner = "-o-" }: UrlTransformerConfig) {
   const pathname = usePathname();
   const params = useSearchParams();
 
-  // Memoizamos el match de la URL
   const matches = useMemo(() => {
-  const cleanPath = pathname.split("?")[0];
-  const match = cleanPath.match(regex);
-  if (!match) return [];
+    const cleanPath = pathname.split("?")[0];
+    const match = cleanPath.match(regex);
+    if (!match) return [];
 
-  const segment = match[2]; // ahora sí, es el grupo correcto
-  if (!segment) return [];
+    const segment = match[2];
+    if (!segment) return [];
 
-  return mode === "multiple" ? segment.split(joiner) : [segment];
-}, [pathname, regex, mode, joiner]);
+    return mode === "multiple" ? segment.split(joiner) : [segment];
+  }, [pathname, regex, mode, joiner]);
 
 
-  // Callback memoizado para construir URL
   const buildUrl = useCallback(
-    (replacements: string[]) => {
+    (replacements: string[], prefix: string) => {
       const cleanPath = pathname.split("?")[0];
+      const match = cleanPath.match(regex);
 
-      let newPath = cleanPath;
+      if (!match) return pathname;
 
-if (mode === "single") {
-  const replacement = replacements[0] ?? "";
-  newPath = cleanPath.replace(regex, `$1${replacement}`);
-} else {
-  const joined = replacements.join(joiner);
-  newPath = cleanPath.replace(regex, `$1${joined}`);
-}
+      const basePath = match[1]; // "http://localhost:3000/es/search/"
+      const currentSegment = match[2]; // "venta" o "alquiler" 
+      const restOfPath = match[3] || ""; // "-de-departamentos-o-casas-en-..."
 
+      const queryParams = match[4] || "";
+
+      let newPath;
+      if (mode === "single") {
+        const replacement = replacements[0] || currentSegment;
+        newPath = `${basePath}${replacement}${restOfPath}`;
+      } else {
+        // Para multiple, reemplaza completamente la sección
+        const joined = replacements.length > 0 ? `${prefix}${replacements.join(joiner)}` : "";
+        const restWithoutCategory = match[3] || ""; // parte -en-... si existe
+        newPath = `${match[1]}${joined}${restWithoutCategory}`;
+      }
 
       const query = params.toString();
       return query ? `${newPath}?${query}` : newPath;

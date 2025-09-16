@@ -20,13 +20,11 @@ export class PropertyPublic {
                 ? `${base}/${ROUTES.SEARCH}?${searchFilters.filters}`
                 : `${base}/${ROUTES.SEARCH}`
             // const res = await fetch(url, { next: { revalidate: 3600 } })
-            const res = await fetch(url)
             console.log(url)
+            const res = await fetch(url)
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
                 const data = await res.json()
             const parsed = propertiesSearchSchema.safeParse(data)
-            console.log(parsed.data)
-
             if (parsed.success) { return parsed.data }
         } catch (error) { errorHttp(error) }
     }

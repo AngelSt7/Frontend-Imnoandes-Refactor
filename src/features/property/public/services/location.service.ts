@@ -21,4 +21,18 @@ export class LocationService {
         } catch (error) { errorHttp(error) }
     }
 
+    static list = async (slugs : LocationSearch['slug']) : Promise<LocationsSearch | undefined>   => {
+        try {
+            const url = `${base}/location?slugs=${slugs}`
+
+            console.log(url)
+            // const res = await fetch(url, { next: { revalidate: 3600 } })
+            const res = await fetch(url)
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+            const data = await res.json()
+            const parsed = locationsSearchSchema.safeParse(data)
+            if (parsed.success) { return parsed.data }
+        } catch (error) { errorHttp(error) }
+    }
+
 }

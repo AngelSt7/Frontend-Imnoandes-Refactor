@@ -2,20 +2,21 @@ import DrawerHero from "@/app/success/DrawerHero";
 import { AllowedFilters } from "./Filters";
 import { Input } from "@heroui/react";
 import { SearchIcon } from "lucide-react";
-import InputSearch from "../../Location/Input/InputSearch";
+import InputSearch from "../../Search/components/InputSearch";
 
 export interface FilterOrquestProps {
+  locales?: any
   renderFilters: (show: AllowedFilters[]) => React.ReactNode;
 }
 
-export default function FilterOrquest({ renderFilters }: FilterOrquestProps) {
+export default function FilterOrquest({ renderFilters, locales }: FilterOrquestProps) {
 
   return (
     <div>
 
       <div className="flex flex-col gap-4 px-4 pt-4 pb-2">
         <div className="flex justify-between gap-3 items-end">
-          <InputSearch />
+          <InputSearch locales={locales}/>
 
           <div className="hidden md:flex items-center gap-3">{renderFilters(["propertyCategory" ,"propertyType","bathrooms", "filters"])}</div>
 

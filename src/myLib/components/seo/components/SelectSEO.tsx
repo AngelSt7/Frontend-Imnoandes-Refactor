@@ -4,7 +4,7 @@ import { Checkbox, Button, Popover, PopoverTrigger, PopoverContent } from "@hero
 import { useSEOSelect } from "../hooks/useSEOSelect";
 import { SelectSEOProps } from "../interfaces/interface";
 
-export function SelectSEO({ regex, mode, joiner, options }: SelectSEOProps) {
+export function SelectSEO({ regex, mode, joiner, options, prefix }: SelectSEOProps) {
   const {
     options: allOptions,
     tempKeys,
@@ -13,7 +13,7 @@ export function SelectSEO({ regex, mode, joiner, options }: SelectSEOProps) {
     clearSelection,
     toggleSelection,
     getButtonLabel,
-  } = useSEOSelect({ mode, regex, joiner, options });
+  } = useSEOSelect({ mode, regex, joiner, options, prefix });
 
   return (
     <Popover showArrow offset={10} placement="bottom" onOpenChange={syncTempSelection}>

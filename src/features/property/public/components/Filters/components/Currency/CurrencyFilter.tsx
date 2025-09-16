@@ -1,4 +1,4 @@
-import { Popover, PopoverTrigger, PopoverContent, Button, RadioGroup, Radio } from "@heroui/react";
+import { PopoverTrigger, PopoverContent, Button, RadioGroup, Radio, Popover } from "@heroui/react";
 import { useFormFilter } from "@/src/features/property/public/components/Filters/hooks/useFormFilter";
 import FormCurrency from "./FormCurrency";
 import { FilterPrices } from "@/src/types";
@@ -10,9 +10,12 @@ interface CurrencyProps {
 }
 
 export default function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
-    const initPrices = {  minPrice: Number(getParam("minPrice")),  maxPrice: Number(getParam("maxPrice")) }
+    const initPrices = {
+        minPrice: getParam("minPrice") && Number(getParam("minPrice")),
+        maxPrice: getParam("maxPrice") && Number(getParam("maxPrice")),
+    } as FilterPrices;
 
-    const { register, handleSubmit, errors , onSubmit, handleClearParams } = useFormFilter<FilterPrices>({
+    const { register, handleSubmit, errors, onSubmit, handleClearParams } = useFormFilter<FilterPrices>({
         defaultValues: initPrices,
         deleteParams,
         clearKeys: ["minPrice", "maxPrice", "currency"],
@@ -34,15 +37,15 @@ export default function CurrencyFilter({ setParam, getParam, deleteParams }: Cur
                             value={getParam("currency")}
                             onValueChange={(value) => setParam("currency", value)}
                         >
-                            <Radio 
-                                size="sm" 
-                                value="PEN" 
+                            <Radio
+                                size="sm"
+                                value="PEN"
                                 className="text-sm font-medium text-gray-600"
-                                >
-                                    Soles</Radio>
+                            >
+                                Soles</Radio>
                             <Radio size="sm" value="USD" className="text-sm font-medium text-gray-600">USD</Radio>
                         </RadioGroup>
-                        <FormCurrency 
+                        <FormCurrency
                             register={register}
                             handleSubmit={handleSubmit}
                             onSubmit={onSubmit}

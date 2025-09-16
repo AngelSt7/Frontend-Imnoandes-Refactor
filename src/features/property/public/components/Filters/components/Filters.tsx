@@ -81,17 +81,19 @@ export default function Filters({ show }: FiltersProps) {
 
             {show.includes('propertyType') && (
                 <SelectSEO
-                    regex={/(^|\/)([^/]+?)(?=-de-)/}
+                    regex={/^(.*\/search\/)([^\/\-]+)(-.*)?(\?.*)?$/} 
                     mode="single"
                     options={propertyTypes}
+                    prefix=""
                 />
             )}
 
             {show.includes('propertyCategory') && (
                 <SelectSEO
-                    regex={/(-de-)([^/]+?)(?=-en-|$)/}
+                    regex={/^(.*\/search\/[^\/]+)-de-([^\/\?]+?)(-en-.*)?(\?.*)?$/}
                     mode="multiple"
                     options={options}
+                    prefix="-de-"
                 />
             )}
 

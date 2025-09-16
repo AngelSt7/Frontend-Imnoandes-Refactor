@@ -12,6 +12,7 @@ export interface SelectSEOProps {
   mode: "single" | "multiple";
   joiner?: string;
   options: OptionSEO[];
+  prefix: string;
 }
 
 export interface UseSEOSelectProps {
@@ -19,4 +20,5 @@ export interface UseSEOSelectProps {
   mode: "single" | "multiple";
   joiner?: string;
   options: OptionSEO[];
+  prefix: string;
 }

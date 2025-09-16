@@ -18,18 +18,25 @@ export const useSearchLocation = <T,>({
 
   const queryKey = useMemo(() => [...baseKey, debouncedSearch], [baseKey, debouncedSearch]);
 
-  const { data: response, isFetching: isLoading } = useQuery({
+  const { data: response, isLoading, isFetching } = useQuery({
     queryKey,
     queryFn: () => functionService(debouncedSearch),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     retry: false,
+enabled: (debouncedSearch ?? "").length > 0
   });
+
+  const data = response ?? [];
+
+  const showNoResults = debouncedSearch.length > 0 && !isFetching && data.length === 0;
 
   return {
     search,
     setSearch,
-    data: response ?? [],
-    isLoading
+    data,
+    isLoading,
+    isFetching,
+    showNoResults
   };
 };

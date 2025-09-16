@@ -1,5 +1,5 @@
 import { buildMetadata } from "@/src/config/metadata/metadata";
-import { Search } from "@/src/features/property";
+import { LocationService, LocationsSearch, Search } from "@/src/features/property";
 
 import { PropertyPublic } from "@/src/features/property/public/services/propertyPublic.service";
 import { PropertyCategoryEnum, PropertyTypeEnum } from "@/src/utils/url/enum";
@@ -36,8 +36,6 @@ export default async function Page({ searchParams, params }: { searchParams: Sea
     categorias = match[2]
       .split("-o-")
       .map((item: string) => PropertyCategoryEnum[item.trim()])
-
-
     ubicaciones = match[3] ? match[3].split("-o-") : [];
   }
 
@@ -49,7 +47,7 @@ export default async function Page({ searchParams, params }: { searchParams: Sea
   // Agregar los filtros del slug
   if (tipo) searchFilters.set("propertyType", tipo);
   if (categorias.length > 0) searchFilters.set("propertyCategory", categorias.join(","));
-  if (ubicaciones.length > 0) searchFilters.set("locations", ubicaciones.join(","));
+  if (ubicaciones.length > 0) searchFilters.set("locationId", ubicaciones.join(","));
 
   // Resultado final
   const filters = {
@@ -58,10 +56,17 @@ export default async function Page({ searchParams, params }: { searchParams: Sea
   };
 
   const properties = await PropertyPublic.search(filters);
+  let locales : LocationsSearch | undefined = []
+  try {
+    locales = await LocationService.list(ubicaciones.join(",") ?? []);
+  } catch (error) {
+    console.log(error);
+  }
 
   if (properties) {
     return <Search
       data={properties}
+      locales={locales}
     />;
   }
 

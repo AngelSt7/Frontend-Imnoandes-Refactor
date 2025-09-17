@@ -1,6 +1,6 @@
 'use client'
 import { User, UserUpdatePassword } from "@/src/types/userTypes/user";
-import Input from "../../../myLib/components/input/Input";
+import Input from "../../../myLib/components/Input/Input";
 import { Button } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { Key } from "lucide-react";

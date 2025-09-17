@@ -9,7 +9,7 @@ interface CurrencyProps {
     deleteParams: (keys: string[]) => void
 }
 
-export default function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
+export function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
     const initPrices = {
         minPrice: getParam("minPrice") && Number(getParam("minPrice")),
         maxPrice: getParam("maxPrice") && Number(getParam("maxPrice")),

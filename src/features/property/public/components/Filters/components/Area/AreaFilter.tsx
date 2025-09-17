@@ -9,7 +9,7 @@ interface CurrencyProps {
     deleteParams: (keys: string[]) => void
 }
 
-export default function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
+export function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
     const tittle = "Área";
     const defaultValues = {  minArea: Number(getParam("minArea")),  maxArea: Number(getParam("maxArea")) }
 

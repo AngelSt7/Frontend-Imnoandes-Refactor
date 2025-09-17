@@ -1,7 +1,7 @@
 'use client';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { ChevronDownIcon } from 'lucide-react';
-import { useModeSegment, ModeOption } from '@/src/hooks/searchParams/useModeSegment';
+import { ModeOption, useModeSegment } from '@/src/myLib/hooks'
 
 const modeOptions: ModeOption[] = [
   { key: 'venta', value: 'En venta' },

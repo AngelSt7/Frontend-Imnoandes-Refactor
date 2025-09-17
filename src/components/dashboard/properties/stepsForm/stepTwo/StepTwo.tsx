@@ -1,4 +1,4 @@
-import Input from '@/src/myLib/components/input/Input'
+import Input from '@/src/myLib/components/Input/Input'
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { FormDataProperty } from '@/src/types/adminTypes/property'
 import Fieldset from '../../../ui/Fieldset'

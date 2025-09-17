@@ -1,4 +1,4 @@
-import Input from "@/src/myLib/components/input/Input";
+import { Input } from "@/src/myLib/components/Input/Input";
 import { FilterBedrooms } from "@/src/types";
 import { Button } from "@heroui/react";
 import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";

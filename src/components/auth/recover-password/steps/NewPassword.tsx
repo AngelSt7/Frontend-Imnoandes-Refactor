@@ -1,5 +1,5 @@
 import { AuthToken, RecoverPassword } from '@/src/types/auth/auth'
-import Input from '../../../../myLib/components/input/Input'
+import Input from '../../../../myLib/components/Input/Input'
 import { useForm } from 'react-hook-form';
 import { AiOutlineLock } from 'react-icons/ai';
 import { useSubmitMutation } from '@/src/hooks';

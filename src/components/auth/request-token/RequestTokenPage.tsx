@@ -1,7 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form';
-import Input from '../../../myLib/components/input/Input';
+import Input from '../../../myLib/components/Input/Input';
 import { AuthRequestToken } from '@/src/types/auth/auth';
 import { AiOutlineMail } from 'react-icons/ai';
 import { useSubmitMutation } from '@/src/hooks';

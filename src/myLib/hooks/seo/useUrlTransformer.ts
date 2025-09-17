@@ -32,9 +32,9 @@ export function useUrlTransformer({ regex, mode, joiner = "-o-" }: UrlTransforme
 
       if (!match) return pathname;
 
-      const basePath = match[1]; // "http://localhost:3000/es/search/"
-      const currentSegment = match[2]; // "venta" o "alquiler" 
-      const restOfPath = match[3] || ""; // "-de-departamentos-o-casas-en-..."
+      const basePath = match[1];
+      const currentSegment = match[2]; 
+      const restOfPath = match[3] || "";
 
       const queryParams = match[4] || "";
 
@@ -43,9 +43,8 @@ export function useUrlTransformer({ regex, mode, joiner = "-o-" }: UrlTransforme
         const replacement = replacements[0] || currentSegment;
         newPath = `${basePath}${replacement}${restOfPath}`;
       } else {
-        // Para multiple, reemplaza completamente la sección
         const joined = replacements.length > 0 ? `${prefix}${replacements.join(joiner)}` : "";
-        const restWithoutCategory = match[3] || ""; // parte -en-... si existe
+        const restWithoutCategory = match[3] || "";
         newPath = `${match[1]}${joined}${restWithoutCategory}`;
       }
 

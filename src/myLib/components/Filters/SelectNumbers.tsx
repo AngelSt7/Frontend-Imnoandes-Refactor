@@ -1,4 +1,4 @@
-import { useQueryParam } from "@/src/hooks/searchParams/useQueryParam";
+import { useQueryParam } from "@/src/myLib/hooks/searchParams/useQueryParam";
 
 interface SelectNumbersProps {
     keyParam: string
@@ -6,7 +6,7 @@ interface SelectNumbersProps {
     tittle: string
 }
 
-export default function SelectNumbers({ keyParam, options, tittle }: SelectNumbersProps) {
+export function SelectNumbers({ keyParam, options, tittle }: SelectNumbersProps) {
 
     const { getParam, setParam, clearParam } = useQueryParam();
 

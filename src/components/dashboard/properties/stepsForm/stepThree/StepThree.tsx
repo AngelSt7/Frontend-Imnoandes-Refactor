@@ -1,7 +1,7 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { FormDataProperty } from '@/src/types/adminTypes/property';
 import Fieldset from '../../../ui/Fieldset';
-import Input from '@/src/myLib/components/input/Input';
+import Input from '@/src/myLib/components/Input/Input';
 import { PROPERTY_CATEGORY } from '@/src/utils/resolves/bases/enums';
 import CheckBox from '@/src/components/ui/checkbox/CheckBox';
 

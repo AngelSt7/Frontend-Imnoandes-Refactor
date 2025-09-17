@@ -1,4 +1,4 @@
-import { useQueryParam } from "@/src/hooks/searchParams/useQueryParam";
+import { useQueryParam } from "@/src/myLib/hooks/searchParams/useQueryParam";
 
 export default function SelectNumbers() {
 

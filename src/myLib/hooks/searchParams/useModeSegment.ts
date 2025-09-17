@@ -1,11 +1,7 @@
 'use client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
-
-export interface ModeOption {
-  key: string; 
-  value: string;
-}
+import { ModeOption } from './interfaces';
 
 export function useModeSegment(options: ModeOption[], defaultLabel = "Seleccionar") {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useQueryParam } from "@/src/hooks/searchParams/useQueryParam";
+import { useQueryParam } from "@/src/myLib/hooks/searchParams/useQueryParam";
 import { SharedSelection } from "@heroui/react";
 
 export interface Option {

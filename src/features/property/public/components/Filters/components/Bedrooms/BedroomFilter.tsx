@@ -9,7 +9,7 @@ interface BedroomFilterProps {
     deleteParams: (keys: string[]) => void
 }
 
-export default function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilterProps) {
+export function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilterProps) {
     const defaultValues = { minBedroom: Number(getParam("minBedroom")), maxBedroom: Number(getParam("maxBedroom")) }
 
     const { register, handleSubmit,  errors , onSubmit, handleClearParams } = useFormFilter<FilterBedrooms>({

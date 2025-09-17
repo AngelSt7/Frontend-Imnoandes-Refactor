@@ -7,10 +7,11 @@ const ROUTES = {
 
 const base = 'http://localhost:4000/api'
 
-export class LocationService {
+export class Location {
 
-    static search = async (search: string) : Promise<LocationsSearch | undefined>  => {
+    static search = async (search: string): Promise<LocationsSearch | undefined> => {
         try {
+
             const url = `${base}/${ROUTES.SEARCH}?search=${search}`
             // const res = await fetch(url, { next: { revalidate: 3600 } })
             const res = await fetch(url)
@@ -21,10 +22,10 @@ export class LocationService {
         } catch (error) { errorHttp(error) }
     }
 
-    static list = async (slugs : LocationSearch['slug']) : Promise<LocationsSearch | undefined>   => {
+    static list = async (slugs: LocationSearch['slug'][]): Promise<LocationsSearch | undefined> => {
         try {
-            const url = `${base}/location?slugs=${slugs}`
-
+            if (!slugs || slugs.length === 0) return undefined;
+            const url = `${base}/location?slugs=${slugs.join(",")}`;
             console.log(url)
             // const res = await fetch(url, { next: { revalidate: 3600 } })
             const res = await fetch(url)

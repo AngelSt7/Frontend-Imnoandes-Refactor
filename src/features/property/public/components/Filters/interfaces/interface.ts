@@ -1,0 +1,1 @@
+export type AllowedFilters = 'currency' | 'bedrooms' | 'bathrooms' | 'propertyType' | 'propertyCategory' | 'area' | 'minBathrooms' | 'minParkingSpaces' | 'published' | 'propertyCategory' | 'filters' | 'clear'

@@ -1,5 +1,5 @@
 'use client'
-import { Option, useParamLabel } from '@/src/hooks/searchParams/useParamLabel';
+import { Option, useParamLabel } from '@/src/myLib/hooks/searchParams/useParamLabel';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { ChevronDownIcon } from 'lucide-react';
 
@@ -9,7 +9,7 @@ interface ButtonFilterProps {
     defaultLabel?: string
 }
 
-export default function ButtonFilter(props : ButtonFilterProps) {
+export function ButtonFilter(props : ButtonFilterProps) {
     const { getLabel, getText, handleChange } = useParamLabel(
         props.keyParam,
         props.options,

@@ -1,15 +1,10 @@
-import CurrencyFilter from "@/src/features/property/public/components/Filters/components/Currency/CurrencyFilter"
-import { useQueryParam } from "@/src/hooks/searchParams/useQueryParam";
-import BedroomFilter from "./Bedrooms/BedroomFilter";
-import AreaFilter from "./Area/AreaFilter";
-import SelectNumbers from "@/src/myLib/Filters/SelectNumbers";
-import ButtonFilter from "../ButtonFilter";
-import { SelectSEO } from "@/src/myLib";
 import { Building, Building2, Home, Store, Trees, Warehouse } from "lucide-react";
+import { useQueryParam } from "@/src/myLib/hooks/searchParams/useQueryParam";
+import { SelectSEO, SelectNumbers } from "@/src/myLib/components";
 import { Button } from "@heroui/react";
 import { useAppStore } from "@/src/store/useAppStore";
-
-export type AllowedFilters = 'currency' | 'bedrooms' | 'bathrooms' | 'propertyType' | 'propertyCategory' | 'area' | 'minBathrooms' | 'minParkingSpaces' | 'published' | 'propertyCategory' | 'filters' | 'clear'
+import { AreaFilter, BedroomFilter, CurrencyFilter, ButtonFilter } from '.';
+import { AllowedFilters } from "../interfaces/interface";
 
 export interface FiltersProps {
     show: AllowedFilters[]

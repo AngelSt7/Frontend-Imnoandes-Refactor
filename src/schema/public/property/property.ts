@@ -45,8 +45,8 @@ export const publicFilterAreaSchema = z.object({
 
 
 export const publicFilterBedroomsSchema = z.object({
-  minBedroom: z.number(),
-  maxBedroom: z.number()
+  minBedrooms: z.number(),
+  maxBedrooms: z.number()
 })
 
 

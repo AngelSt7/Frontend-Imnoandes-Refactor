@@ -13,6 +13,8 @@ export interface SelectSEOProps {
   joiner?: string;
   options: OptionSEO[];
   prefix: string;
+  inProvider?: boolean
+  onChange?: () => void
 }
 
 export interface UseSEOSelectProps {
@@ -21,4 +23,5 @@ export interface UseSEOSelectProps {
   joiner?: string;
   options: OptionSEO[];
   prefix: string;
+  onChange?: () => void
 }

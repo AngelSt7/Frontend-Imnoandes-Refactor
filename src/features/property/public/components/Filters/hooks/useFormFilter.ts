@@ -21,9 +21,10 @@ export const useFormFilter = <T extends FieldValues>({
   })
 
   const onSubmit = (data: T) => {
+
     const paramUrl = new URLSearchParams(searchParams.toString())
     Object.entries(data)
-      .filter(([__, v]) => v !== undefined && v !== "" && !isNaN(Number(v)))
+      .filter(([__, v]) => v !== null )
       .forEach(([key, value]) => {
         paramUrl.set(key, String(value))
       })

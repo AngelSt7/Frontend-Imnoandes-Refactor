@@ -5,8 +5,10 @@ import { DesktopNavigation } from "./components/DesktopNavigation";
 import { MobileMenuButton } from "./components/MobileMenuButton";
 import { MobileMenuOverlay } from "./components/MobileMenuOverlay";
 import { MobileMenuPanel } from "./components/MobileMenuPanel";
-import { HeaderMenuProps, NavLink } from "./interfaces/headerMenu.interface";
+import { HeaderMenuProps, NavLink } from "./interfaces/interface";
 import { useHeaderMenu } from "./hooks/useHeaderMenu";
+import { useHideOnScroll } from "../../hooks/content-header/useHideOnScroll";
+import { usePathname } from "next/navigation";
 
 const LinksDefault: NavLink[] = [
   { name: 'Home', href: '/' },
@@ -24,13 +26,24 @@ export function HeaderMenu({
 }: HeaderMenuProps) {
 
   const { isMenuOpen, showOverlay, toggleMenu, closeMenu } = useHeaderMenu();
-  // border-[#b81414]/20 border-[#b81414]/40
+  const path = usePathname();
+
+  const activeHideOnScroll = path.startsWith('/es/search')
+
+  const color = 'bg-[#f5f5f5]/90'
+  const transparent = 'bg-transparent'
+
+
+  const show = useHideOnScroll();
   const styles_header = `
-  sticky top-0 left-0 right-0 z-50 p-5 
-  border border-zinc-600 
-  backdrop-blur-md backdrop-saturate-150 
-  bg-transparent shadow-md border-b border-[#333030]/40
-`;
+    sticky top-0 left-0 right-0 p-5
+    border border-zinc-600
+    backdrop-blur-md backdrop-saturate-150
+    ${color} shadow-md  border-b
+    ${activeHideOnScroll ? 'border-zinc-300' : 'border-[#333030]/40'}
+    transition-all duration-500 ease-in-out z-50
+    ${activeHideOnScroll && !show ? '-translate-y-full' : 'translate-y-0'}
+  `;
 
   const transforms = `hover:scale-110 active:hover:scale-125 transition-transform`;
 

@@ -6,13 +6,13 @@ import { PropertyAdmin } from "@/src/services/admin";
 import { RenderCellProperty } from "@/src/components/dashboard/properties/cells/RenderCellProperty";
 import { Actions, useModalUtils } from "@/src/hooks/modal/useModalUtils";
 import { useParams } from "@/src/hooks/search/useParams";
-import { useSubmitMutation } from "@/src/hooks";
 import Filters from "./Filters";
 import GenericDataWrapper from "@/src/components/ui/generic/GenericDataWrapper";
 import GenericModal from "@/src/components/ui/generic/GenericModal";
 import TableContent from "@/src/components/dashboard/ui/table/TableContent";
 import { act } from "react";
 import { Button } from "@heroui/react";
+import { useSubmitMutation } from "@/src/myLib";
 
 interface ClientPagePropertiesProps {
     user: User

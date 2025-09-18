@@ -13,7 +13,7 @@ export function SelectNumbers({ keyParam, options, tittle }: SelectNumbersProps)
     const param = getParam(keyParam)
 
     return (
-        <div className="w-full max-w-md mx-auto p-6">
+        <div className="w-full mx-auto">
             <h3 className="text-lg font-medium text-gray-900 mb-4">{tittle}</h3>
 
             <div className="flex rounded-lg border border-gray-300 overflow-hidden">

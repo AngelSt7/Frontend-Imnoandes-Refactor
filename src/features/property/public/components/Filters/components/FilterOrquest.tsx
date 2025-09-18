@@ -1,35 +1,35 @@
 import DrawerHero from "@/app/success/DrawerHero";
-import { AllowedFilters } from "./Filters";
-import { Input } from "@heroui/react";
-import { SearchIcon } from "lucide-react";
-import InputSearch from "../../Search/components/InputSearch";
+import { InputSearch } from "@/src/features/property/public/components/Search";
+import { Filters } from './Filters';
 
 export interface FilterOrquestProps {
   locales?: any
-  renderFilters: (show: AllowedFilters[]) => React.ReactNode;
 }
 
-export default function FilterOrquest({ renderFilters, locales }: FilterOrquestProps) {
+export default function FilterOrquest({ locales }: FilterOrquestProps) {
 
   return (
-    <div>
+    <>
+      <div className="flex flex-col justify-center p-5 gap-3 xs:gap-0">
+        <div className="flex flex-col md:flex-row xs:justify-between gap-3 items-center">
+          <InputSearch locales={locales} />
 
-      <div className="flex flex-col gap-4 px-4 pt-4 pb-2">
-        <div className="flex justify-between gap-3 items-end">
-          <InputSearch locales={locales}/>
-
-          <div className="hidden md:flex items-center gap-3">{renderFilters(["propertyCategory" ,"propertyType","bathrooms", "filters"])}</div>
+          <div className="hidden w-full xs:flex md:justify-end gap-3">
+            {<Filters show={["propertyCategory", "propertyType", "filters"]} />}
+          </div>
 
         </div>
 
-        <div className=" flex justify-between items-center">
-          <div className="md:hidden">{renderFilters(["filters"])}</div>
-        </div>
+        <div className="xs:hidden">{
+          <Filters show={["filters"]} />
+        }</div>
 
         <DrawerHero
-          renderFilters={renderFilters(["area", "currency", "bathrooms", "minBathrooms", "minParkingSpaces", "propertyCategory", "propertyType", "published"])}
+          renderFilters={
+            <Filters show={["area", "currency", "bathrooms", "minBathrooms", "minParkingSpaces", "propertyCategory", "propertyType", "published", "bedrooms"]} />
+          }
         />
       </div>
-    </div>
+    </>
   )
 }

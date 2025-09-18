@@ -1,6 +1,5 @@
 import { Input } from "@/src/myLib/components/Input/Input";
 import { FilterBedrooms } from "@/src/types";
-import { Button } from "@heroui/react";
 import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 
 interface FormBedroomProps {
@@ -18,36 +17,36 @@ export default function FormBedroom({ register, handleSubmit, onSubmit, errors, 
         >
             <div className="mt-2 flex flex-row gap-3 w-full ">
                 <Input
-                    htmlFor="minBedroom"
-                    field="minBedroom"
-                    type="number"
-                    placeholder="Mínimo"
+                    htmlFor="minBedrooms"
+                    field="minBedrooms"
+                    inputMode="numeric"
+                    type="text"
+                    label="Mínimo"
                     variant="floating"
                     register={register}
                     rules={{
-                        valueAsNumber: true,
                         min: {
                             value: 1,
                             message: "El mínimo es 1 habitación"
                         }
                     }}
-                    errorMessage={errors.minBedroom}
+                    errorMessage={errors.minBedrooms}
                 />
                 <Input
-                    htmlFor="maxBedroom"
-                    field="maxBedroom"
-                    type="number"
-                    placeholder="Máximo"
+                    htmlFor="maxBedrooms"
+                    field="maxBedrooms"
+                    inputMode="numeric"
+                    type="text"
+                    label="Máximo"
                     variant="floating"
                     register={register}
                     rules={{
-                        valueAsNumber: true,
                         max: {
-                            value: 3,
-                            message: "El máximo es 3 habitaciones"
+                            value: 10,
+                            message: "El máximo es 10 habitaciones"
                         }
                     }}
-                    errorMessage={errors.maxBedroom}
+                    errorMessage={errors.maxBedrooms}
                 />
             </div>
             <div className="grid grid-cols-2 gap-3">

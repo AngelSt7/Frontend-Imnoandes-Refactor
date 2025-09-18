@@ -4,15 +4,15 @@ export function useParseSearchSlug(slug: string) {
   const regex = /^(.*?)-de-(.*?)(?:-en-(.*))?$/;
   const match = slug.match(regex);
 
-  let tipo: string | undefined;
-  let categorias: string[] = [];
-  let ubicaciones: string[] = [];
+  let type: string | undefined;
+  let categories: string[] = [];
+  let locations: string[] = [];
 
   if (match) {
-    tipo = PropertyTypeEnum[match[1]];
-    categorias = match[2].split("-o-").map((item) => PropertyCategoryEnum[item.trim()]);
-    ubicaciones = match[3] ? match[3].split("-o-") : [];
+    type = PropertyTypeEnum[match[1]];
+    categories = match[2].split("-o-").map((item) => PropertyCategoryEnum[item.trim()]);
+    locations = match[3] ? match[3].split("-o-") : [];
   }
 
-  return { tipo, categorias, ubicaciones };
+  return { type, categories, locations };
 }

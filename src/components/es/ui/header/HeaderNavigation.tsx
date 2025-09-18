@@ -4,12 +4,8 @@ import Switcher from "@/src/components/ui/darkMode/SwitchMode";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, ButtonGroup } from "@heroui/react";
 import { useState } from "react";
 import { LogoInmoAndes } from "./Logo";
-import { Session } from "next-auth";
 import Link from "next/link";
-import { signOut } from 'next-auth/react';
 import { usePathname } from "next/navigation";
-
-
 
 export default function HeaderNavigation() {
     const path = usePathname()

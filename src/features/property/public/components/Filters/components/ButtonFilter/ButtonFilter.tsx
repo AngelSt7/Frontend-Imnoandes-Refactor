@@ -7,6 +7,7 @@ interface ButtonFilterProps {
     keyParam: string
     options: Option[]
     defaultLabel?: string
+    text: string
 }
 
 export function ButtonFilter(props : ButtonFilterProps) {
@@ -17,13 +18,16 @@ export function ButtonFilter(props : ButtonFilterProps) {
     );
 
     return (
+        <>
+        <h3 className="text-lg font-medium text-gray-900">{props.text}</h3>
+
         <Dropdown className="w-full">
             <DropdownTrigger className={`flex justify-between `}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}
                     variant="flat"
                     className="capitalize"
-                >
+                    >
                     {getText}
                 </Button>
             </DropdownTrigger>
@@ -42,5 +46,6 @@ export function ButtonFilter(props : ButtonFilterProps) {
                 ))}
             </DropdownMenu>
         </Dropdown>
+                </>
     )
 }

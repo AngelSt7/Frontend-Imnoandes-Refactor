@@ -21,7 +21,7 @@ export default function FilterPropertyCategory({
     const { resolveLabel, getButtonText } = useFilterPropertyCategory({ onGetParam })
 
     return (
-        <Dropdown className="w-full">
+        <Dropdown>
             <DropdownTrigger className={`flex justify-between ${classNames}`}>
                 <Button
                     endContent={<ChevronDownIcon className="text-small" />}

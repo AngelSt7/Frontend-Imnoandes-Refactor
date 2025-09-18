@@ -19,6 +19,10 @@ export async function withAuth(req: NextRequest): Promise<NextResponse | null> {
   const url = req.nextUrl;
   const pathname = url.pathname;
 
+  if (!url.pathname.startsWith("/dashboard/properties")) {
+    return null
+  }
+
   const SESSION = req.cookies.get("SESSION")?.value ?? null;
   const TEMP = req.cookies.get("TEMP")?.value ?? null;
 

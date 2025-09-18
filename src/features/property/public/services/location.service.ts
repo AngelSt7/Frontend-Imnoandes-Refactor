@@ -26,7 +26,6 @@ export class Location {
         try {
             if (!slugs || slugs.length === 0) return undefined;
             const url = `${base}/location?slugs=${slugs.join(",")}`;
-            console.log(url)
             // const res = await fetch(url, { next: { revalidate: 3600 } })
             const res = await fetch(url)
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)

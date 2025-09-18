@@ -7,11 +7,11 @@ export default function SelectNumbers() {
     const param = getParam("minBathrooms")
 
     const options = [
-     { key: "1", value: "1+" },
-    { key: "2", value: "2+" },
-    { key: "3", value: "3+" },
-    { key: "4", value: "4+" },
-    { key: "5", value: "5+" },
+        { key: "1", value: "1+" },
+        { key: "2", value: "2+" },
+        { key: "3", value: "3+" },
+        { key: "4", value: "4+" },
+        { key: "5", value: "5+" },
     ]
 
     return (
@@ -30,8 +30,8 @@ export default function SelectNumbers() {
                             }
                         }}
                         className={`flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 ${param === option.key
-                                ? "bg-teal-700 text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-50"
+                            ? "bg-teal-700 text-white"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
                             } ${option !== options[options.length - 1] ? "border-r border-gray-300" : ""
                             }`}
                     >
@@ -39,7 +39,7 @@ export default function SelectNumbers() {
                     </button>
                 ))}
             </div>
-            
+
         </div>
     );
 }

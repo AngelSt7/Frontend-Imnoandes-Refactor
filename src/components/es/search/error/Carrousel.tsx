@@ -16,8 +16,6 @@ type CarrouselProps = {
 }
 
 export default function Carrousel({keyQuery, mode} : CarrouselProps) {
-    console.log(keyQuery)
-    console.log(mode)
 
     // const { data: CarrouselData } = useQuery({
     //     queryFn: () => publicCarrouselProperties(mode),

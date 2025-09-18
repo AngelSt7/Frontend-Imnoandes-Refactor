@@ -1,35 +1,37 @@
 'use client'
 
-import { SelectSEO } from "@/src/myLib/components";
-import { Building2, Home, Warehouse, Trees, Building, Store } from "lucide-react";
 
+import { HeaderMenu, StickyContent } from "@/src/myLib";
+import Input from "./InputFloating";
 
-const options = [
-  { key: "APARTMENT", icon: Building2, label: "Departamento", slug: "departamentos" },
-  { key: "HOUSE", icon: Home, label: "Casa", slug: "casas" },
-  { key: "WAREHOUSE", icon: Warehouse, label: "Almacenes", slug: "almacenes" },
-  { key: "LAND", icon: Trees, label: "Terreno / Lote", slug: "terrenos" },
-  { key: "OFFICE", icon: Building, label: "Oficina comercial", slug: "oficinas" },
-  { key: "COMMERCIAL", icon: Store, label: "Local comercial", slug: "locales-comerciales" },
-];
+const getContent = (lines: number) => {
+  return Array.from({ length: lines }, (_, i) => (
+    <p key={i}>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae deleniti blanditiis tenetur.
+      Asperiores suscipit expedita sit quaerat temporibus, sapiente minima eveniet saepe fuga ipsa
+      harum quia nisi cum aspernatur ratione!
+    </p>
+  ));
+};
 
-const propertyTypes = [
-  { key: "SALE", icon: Building2, label: "Venta", slug: "venta" },
-  { key: "RENT", icon: Home, label: "Alquiler", slug: "alquiler" }
-];
-
-export default function page() {
-
-    // regex de optiones /(-de-)([^/]+?)(?=-en-|$)/}
-    
+export default function Page() {
   return (
     <>
-        <SelectSEO
-          regex={/(-de-)([^/]+?)(?=-en-|$)/}
-          mode="single"
-          options={options}
+      {/* Contenido */}
+      <div className="mx-auto max-w-7xl mt-5">
+        <Input
+          htmlFor="input"
+          type="text"
+          label="Label"
+          placeholder="Placeholder"
+          variant="floating"
+          // errorMessage="Error message"
         />
-
+        <p className="text-gray-800 text-large font-bold">
+          Primea linea del contenido
+        </p>
+        {getContent(50)}
+      </div>
     </>
-  )
+  );
 }

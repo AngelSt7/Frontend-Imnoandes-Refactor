@@ -1,7 +1,7 @@
 'use client'
 
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
-import { MobileMenuButtonProps } from "../interfaces/headerMenu.interface";
+import { MobileMenuButtonProps } from "../interfaces/interface";
 
 const transforms = `hover:scale-110 active:hover:scale-125 transition-transform`;
 

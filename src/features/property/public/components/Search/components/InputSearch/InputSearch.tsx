@@ -4,7 +4,7 @@ import { SearchIcon } from "lucide-react";
 import { useInputSearch } from "./useInputSearch";
 import { PopoverSearch } from "../PopoverSearch/PopoverSearch";
 
-export default function InputSearch({ locales }: { locales: LocationSearch[] }) {
+export function InputSearch({ locales }: { locales: LocationSearch[] }) {
   const {
     search,
     setSearch,
@@ -20,10 +20,10 @@ export default function InputSearch({ locales }: { locales: LocationSearch[] }) 
   } = useInputSearch({ initialLocales: locales });
 
   return (
-    <div className="relative w-full">
+    <div className="w-full">
       <Input
         isClearable
-        className="w-full min-h-24"
+        className="w-full md:w-[300px] border border-zinc-400 rounded-xl"
         placeholder="Buscar..."
         startContent={<SearchIcon />}
         value={search}

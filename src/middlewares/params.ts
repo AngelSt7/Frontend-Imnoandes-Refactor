@@ -8,6 +8,11 @@ import { PROPERTY_CATEGORY, PROPERTY_TYPE } from "../components/dashboard/proper
 
 export function withParamValidation(req: NextRequest) {
   const url = req.nextUrl.clone();
+
+  if (!url.pathname.startsWith("/dashboard/properties")) {
+    return null
+  }
+
   let changed = false;
 
   for (const [key] of url.searchParams.entries()) {

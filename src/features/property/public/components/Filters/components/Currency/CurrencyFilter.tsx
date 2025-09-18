@@ -22,38 +22,36 @@ export function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyPro
     })
 
     return (
-        <Popover showArrow offset={10} placement="bottom">
+        <Popover className="w-full" showArrow offset={10} placement="bottom">
             <PopoverTrigger>
-                <Button variant="flat" color="secondary">Precios</Button>
+                <Button variant="flat" className=" text-center">Precios</Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[300px]">
-                {(titleProps) => (
-                    <div className="px-1 py-2 w-full space-y-3">
-                        <p className="text-lg font-medium text-gray-900 mb-4" {...titleProps}>
-                            Precio y Moneda
-                        </p>
-                        <RadioGroup
-                            orientation="horizontal"
-                            value={getParam("currency")}
-                            onValueChange={(value) => setParam("currency", value)}
+            <PopoverContent className="w-[280px]">
+                <div className="w-full">
+                    <header className="px-3 py-2 mb-3 border-b border-gray-200">
+                        <h3 className="text-lg font-medium text-gray-900 ">     Precio y Moneda</h3>
+                    </header>
+                    <RadioGroup
+                        orientation="horizontal"
+                        value={getParam("currency")}
+                        onValueChange={(value) => setParam("currency", value)}
+                    >
+                        <Radio
+                            size="sm"
+                            value="PEN"
+                            className="text-sm font-medium text-gray-600"
                         >
-                            <Radio
-                                size="sm"
-                                value="PEN"
-                                className="text-sm font-medium text-gray-600"
-                            >
-                                Soles</Radio>
-                            <Radio size="sm" value="USD" className="text-sm font-medium text-gray-600">USD</Radio>
-                        </RadioGroup>
-                        <FormCurrency
-                            register={register}
-                            handleSubmit={handleSubmit}
-                            onSubmit={onSubmit}
-                            errors={errors}
-                            handleClearParams={handleClearParams}
-                        />
-                    </div>
-                )}
+                            Soles</Radio>
+                        <Radio size="sm" value="USD" className="text-sm font-medium text-gray-600">USD</Radio>
+                    </RadioGroup>
+                    <FormCurrency
+                        register={register}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        errors={errors}
+                        handleClearParams={handleClearParams}
+                    />
+                </div>
             </PopoverContent>
         </Popover>
     )

@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import { useAppStore } from "@/src/store/useAppStore";
 import { AreaFilter, BedroomFilter, CurrencyFilter, ButtonFilter } from '.';
 import { AllowedFilters } from "../interfaces/interface";
+import { useDrawerContext } from "@/app/success/DrawerContext";
 
 export interface FiltersProps {
     show: AllowedFilters[]
@@ -25,15 +26,16 @@ const propertyTypes = [
     { key: "RENT", icon: Home, label: "Alquiler", slug: "alquiler" }
 ];
 
-export default function Filters({ show }: FiltersProps) {
+export function Filters({ show }: FiltersProps) {
 
     const { setParam, getParam, deleteParams } = useQueryParam();
     const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
+    const { isInDrawer: inProvider } = useDrawerContext();
 
     return (
         <>
             {show.includes("filters") && (
-                <Button onPress={onChangeDrawer} size="md" variant="flat" className="w-full border border-[#dbdada]">
+                <Button onPress={onChangeDrawer} size="md" variant="flat" className="w-full md:w-fit border border-[#dbdada]">
                     Filtrar
                 </Button>
             )}
@@ -76,10 +78,12 @@ export default function Filters({ show }: FiltersProps) {
 
             {show.includes('propertyType') && (
                 <SelectSEO
-                    regex={/^(.*\/search\/)([^\/\-]+)(-.*)?(\?.*)?$/} 
+                    regex={/^(.*\/search\/)([^\/\-]+)(-.*)?(\?.*)?$/}
                     mode="single"
                     options={propertyTypes}
                     prefix=""
+                    inProvider={inProvider}
+                    onChange={onChangeDrawer}
                 />
             )}
 
@@ -89,6 +93,8 @@ export default function Filters({ show }: FiltersProps) {
                     mode="multiple"
                     options={options}
                     prefix="-de-"
+                    inProvider={inProvider}
+                    onChange={onChangeDrawer}
                 />
             )}
 
@@ -129,9 +135,9 @@ export default function Filters({ show }: FiltersProps) {
                 />
             )}
 
-
             {show.includes('published') && (
                 <ButtonFilter
+                    text="Publicado"
                     keyParam="published"
                     options={[
                         { key: "ALL", value: "Cualquier momento" },
@@ -139,7 +145,7 @@ export default function Filters({ show }: FiltersProps) {
                         { key: "3", value: "Últimos 3 días" },
                         { key: "7", value: "Últimos 7 días" },
                     ]}
-                    defaultLabel="Todos"
+                    defaultLabel="En cualquier momento"
                 />
             )}
         </>

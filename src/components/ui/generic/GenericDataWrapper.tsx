@@ -11,7 +11,6 @@ type GenericDataWrapperProps = {
 };
 
 export default function GenericDataWrapper({ id, user, serviceFunction, queryKey, closeModal}: GenericDataWrapperProps) {
-  console.log([...queryKey])
   const { data } = useQuery({
     queryKey: [...queryKey],
     queryFn: () => serviceFunction(id),

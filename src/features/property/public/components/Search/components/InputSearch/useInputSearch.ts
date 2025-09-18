@@ -1,9 +1,11 @@
+'use client'
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LocationService } from "@/src/features/property/public/services";
 import { useUrlTransformer } from "@/src/myLib";
 import { LocationSearch } from "@/src/features/property/public/schemas";
 import { useSearchLocation } from "../../../Location/hooks/useSearchLocation";
+import { Location } from '@/src/features/property/public/services';
 
 interface UseInputSearchProps {
   initialLocales?: LocationSearch[];
@@ -14,7 +16,7 @@ export function useInputSearch({ initialLocales = [] }: UseInputSearchProps) {
 
   const { search, setSearch, data, showNoResults } = useSearchLocation<LocationSearch>({
     baseKey: ["location"],
-    functionService: LocationService.search,
+    functionService: Location.search,
   });
 
   const regex = /^(.*\/search\/[^?]+?)(-en-[^?]*)?(\?.*)?$/;

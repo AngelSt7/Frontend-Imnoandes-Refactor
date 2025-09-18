@@ -13,7 +13,6 @@ export interface InputProps<T extends FieldValues> {
   inputMode?: 'text' | 'numeric' | 'decimal' | 'tel' | 'email' | 'url';
   max?: number;
   maxLength?: number;
-  pattern?: string;
   register: UseFormRegister<T>;
   rules?: RegisterOptions<T>;
   variant?: 'default' | 'floating';

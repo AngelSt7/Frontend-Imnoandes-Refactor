@@ -1,34 +1,46 @@
 'use client';
-import React from "react";
 import { Checkbox, Button, Popover, PopoverTrigger, PopoverContent } from "@heroui/react";
 import { useSEOSelect } from "../hooks/useSEOSelect";
 import { SelectSEOProps } from "../interfaces/interface";
+import { ButtonsToSEO } from "@/src/features/property/public/components/Filters/components/Buttons/ButtonsToSEO";
+import { usePopoverControl } from "../hooks/usePopoverControl";
 
-export function SelectSEO({ regex, mode, joiner, options, prefix }: SelectSEOProps) {
+export function SelectSEO({ regex, mode, joiner, options, prefix, inProvider, onChange }: SelectSEOProps) {
+
   const {
     options: allOptions,
     tempKeys,
-    syncTempSelection,
     applySelection,
     clearSelection,
     toggleSelection,
     getButtonLabel,
-  } = useSEOSelect({ mode, regex, joiner, options, prefix });
+  } = useSEOSelect({ mode, regex, joiner, options, prefix, onChange });
+
+  const { open, setOpen } = usePopoverControl({ applySelection });
+
+  const buttonClasses = inProvider
+    ? "w-full flex justify-center"
+    : "w-full md:w-min-[200px] md:w-fit flex justify-center";
 
   return (
-    <Popover showArrow offset={10} placement="bottom" onOpenChange={syncTempSelection}>
+    <Popover
+      isOpen={open}
+      onOpenChange={setOpen}
+      showArrow
+      offset={10}
+      placement="bottom"
+    >
       <PopoverTrigger>
-        <Button variant="flat" color="secondary">
+        <Button variant="flat" className={buttonClasses}>
           {getButtonLabel()}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[280px]">
         <div className="w-full">
           <header className="px-3 py-2 border-b border-gray-200">
-            <h3 className="font-medium text-gray-900 text-sm">Tipo de inmueble</h3>
+            <h3 className="text-lg font-medium text-gray-900">Tipo de inmueble</h3>
           </header>
-
-          <div className="p-2 space-y-1 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-teal-200 scrollbar-track-gray-100">
+          <main className="p-2 space-y-1 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-teal-200 scrollbar-track-gray-100">
             {allOptions.map((opt) => (
               <Checkbox
                 key={opt.key}
@@ -46,16 +58,13 @@ export function SelectSEO({ regex, mode, joiner, options, prefix }: SelectSEOPro
                 </div>
               </Checkbox>
             ))}
-          </div>
-
-          <footer className="flex justify-between gap-2 p-2 border-t border-gray-200">
-            <Button variant="light" onPress={clearSelection} size="sm" className="text-gray-600">
-              Limpiar
-            </Button>
-            <Button onPress={applySelection} size="sm" className="bg-teal-600 text-white hover:bg-teal-700 transition-colors">
-              Ver resultados
-            </Button>
-          </footer>
+          </main>
+          
+          <ButtonsToSEO
+            onSubmit={() => {
+              applySelection();
+              setOpen(false);
+            }}/>
         </div>
       </PopoverContent>
     </Popover>

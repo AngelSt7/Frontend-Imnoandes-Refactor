@@ -2,7 +2,7 @@
 'use client'
 
 import Link from "next/link";
-import { MobileNavigationProps } from "../interfaces/headerMenu.interface";
+import { MobileNavigationProps } from "../interfaces/interface";
 
 export function MobileNavigation({ navLinks, isMenuOpen, closeMenu }: MobileNavigationProps) {
   return (

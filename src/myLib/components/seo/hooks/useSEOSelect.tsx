@@ -3,7 +3,7 @@ import React from "react";
 import { useUrlTransformer } from "../../../hooks/seo/useUrlTransformer";
 import { UseSEOSelectProps } from "../interfaces/interface";
 
-export function useSEOSelect({ regex, mode, joiner, options, prefix }: UseSEOSelectProps) {
+export function useSEOSelect({ regex, mode, joiner, options, prefix, onChange }: UseSEOSelectProps) {
   const router = useRouter();
   const { matches, buildUrl } = useUrlTransformer({ regex, mode, joiner });
 
@@ -27,6 +27,8 @@ export function useSEOSelect({ regex, mode, joiner, options, prefix }: UseSEOSel
 
     const newUrl = buildUrl(selectedItems.map(opt => opt.slug), prefix);
     router.push(newUrl);
+
+    onChange?.();
   }, [options, tempKeys, buildUrl, router]);
 
   const clearSelection = React.useCallback(

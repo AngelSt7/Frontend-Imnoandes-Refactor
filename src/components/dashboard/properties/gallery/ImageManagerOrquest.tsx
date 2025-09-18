@@ -20,7 +20,6 @@ interface ImageManagerOrquestProps {
 
 export default function ImageManagerOrquest({ defaultValues }: ImageManagerOrquestProps) {
 
-    console.log("datos desde el get", defaultValues)
     const { getParam } = useModalUtils();
     const propertyId = getParam("id");
 
@@ -37,7 +36,6 @@ export default function ImageManagerOrquest({ defaultValues }: ImageManagerOrque
     });
 
     useEffect(() => {
-        console.log(meta)
     }, [meta, setMeta])
 
     if (propertyId && validate(propertyId)) return (

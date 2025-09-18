@@ -1,6 +1,6 @@
 'use client'
 
-import { MobileMenuOverlayProps } from "../interfaces/headerMenu.interface";
+import { MobileMenuOverlayProps } from "../interfaces/interface";
 
 export function MobileMenuOverlay({ showOverlay, isMenuOpen, closeMenu }: MobileMenuOverlayProps) {
   if (!showOverlay) return null;

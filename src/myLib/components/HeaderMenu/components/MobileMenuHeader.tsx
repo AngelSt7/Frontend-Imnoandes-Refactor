@@ -1,7 +1,7 @@
 'use client'
 
 import { RiAppleLine, RiCloseLine } from "react-icons/ri";
-import { MobileMenuHeaderProps } from "../interfaces/headerMenu.interface";
+import { MobileMenuHeaderProps } from "../interfaces/interface";
 
 export function MobileMenuHeader({ closeMenu }: MobileMenuHeaderProps) {
   return (

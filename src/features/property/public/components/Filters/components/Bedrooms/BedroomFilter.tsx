@@ -10,7 +10,10 @@ interface BedroomFilterProps {
 }
 
 export function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilterProps) {
-    const defaultValues = { minBedroom: Number(getParam("minBedroom")), maxBedroom: Number(getParam("maxBedroom")) }
+    const defaultValues = { 
+        minBedrooms: getParam("minBedrooms") &&Number(getParam("minBedrooms")), 
+        maxBedrooms: getParam("maxBedrooms") && Number(getParam("maxBedrooms")) 
+    } as FilterBedrooms
 
     const { register, handleSubmit,  errors , onSubmit, handleClearParams } = useFormFilter<FilterBedrooms>({
         defaultValues,
@@ -20,7 +23,7 @@ export function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilte
     return (
         <Popover showArrow offset={10} placement="bottom">
             <PopoverTrigger>
-                <Button variant="flat" color="secondary">Habitaciones</Button>
+                <Button variant="flat">Habitaciones</Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px]">
                 {(titleProps) => (

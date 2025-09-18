@@ -14,20 +14,15 @@ export const metadata = buildMetadata({
 });
 
 
-export const searchFiltersArray = [
-  "currency",
-  "minBathrooms",
-];
-
-export default async function Page({ searchParams, params }: { searchParams: Record<string,string|undefined>, params: any }) {
+export default async function Page({ searchParams, params }: { searchParams: Record<string, string | undefined>, params: any }) {
   const awaitedParams = await params
   const awaitedSearchParams = await searchParams
 
-  const { tipo, categorias, ubicaciones } = useParseSearchSlug(awaitedParams.search);
-  const filters = useBuildSearchFilters(awaitedSearchParams, tipo, categorias, ubicaciones);
+  const { type, categories, locations } = useParseSearchSlug(awaitedParams.search);
+  const filters = useBuildSearchFilters(awaitedSearchParams, type, categories, locations);
 
-  const promises: Promise<any>[] = [ PropertyPublic.search(filters) ];
-  if (ubicaciones.length > 0) promises.push(Location.list(ubicaciones));
+  const promises: Promise<any>[] = [PropertyPublic.search(filters)];
+  if (locations.length > 0) promises.push(Location.list(locations));
 
   try {
     const [propertiesData, localesData] = await Promise.all(promises);

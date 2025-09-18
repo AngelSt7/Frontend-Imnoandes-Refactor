@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { DesktopNavigationProps } from "../interfaces/headerMenu.interface";
+import { DesktopNavigationProps } from "../interfaces/interface";
 
 const transforms = `hover:scale-110 active:hover:scale-125 transition-transform`;
 

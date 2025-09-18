@@ -20,7 +20,7 @@ export function CardProperty({ property }: CardPropertyProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavoriteClick = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); setIsFavorite(!isFavorite); };
-  const handleWhatsAppClick = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); window.open(`https://wa.me/?text=${encodeURIComponent(`Hola, estoy interesado en la propiedad: ${property.location} - ${formatCurrency(property.price, property.currency)}`)}`, '_blank'); };
+  const handleWhatsAppClick = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); window.open(`https://wa.me/?text=${encodeURIComponent(`Hola, estoy interesado en la propiedad ubicada en ${property.address} - ${formatCurrency(property.price, property.currency)}`)}`, '_blank'); };
   const handleContactClick = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); console.log('Contactar para propiedad:', property.id); };
 
   return (
@@ -37,10 +37,10 @@ export function CardProperty({ property }: CardPropertyProps) {
               url: 'https://res.cloudinary.com/dihj0ezqt/image/upload/v1757214009/images/ebtb5rqotek7e1rv1f0e.jpg',
               type: 'GALLERY',
             },
-          ]} location={property.location} />
+          ]} location={property.address} />
           <div className="space-y-1 p-4 flex-1 flex flex-col justify-between">
             <PropertyHeader type={property.propertyType} category={property.propertyCategory} price={property.price} currency={property.currency} />
-            <PropertyLocation location={property.location} district={property.district!} department={property.department!} />
+            <PropertyLocation location={property.address} district={property.district!} department={property.department!} />
             <PropertyDescription description={property.description} />
             <PropertyDetails createdAt={property.createdAt} area={property.area!} bedrooms={property.bedrooms!} bathrooms={property.bathrooms!} />
             <PropertyActions onWhatsApp={handleWhatsAppClick} onContact={handleContactClick} />

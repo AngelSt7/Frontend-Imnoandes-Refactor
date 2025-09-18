@@ -1,7 +1,7 @@
 // components/MobileMenuPanel.tsx
 'use client'
 
-import { MobileMenuPanelProps } from "../interfaces/headerMenu.interface";
+import { MobileMenuPanelProps } from "../interfaces/interface";
 import { MobileMenuHeader } from "./MobileMenuHeader";
 import { MobileNavigation } from "./MobileNavigation";
 

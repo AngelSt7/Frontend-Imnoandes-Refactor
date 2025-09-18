@@ -11,7 +11,10 @@ interface CurrencyProps {
 
 export function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
     const tittle = "Área";
-    const defaultValues = {  minArea: Number(getParam("minArea")),  maxArea: Number(getParam("maxArea")) }
+    const defaultValues = { 
+        minArea: getParam("minArea") && Number(getParam("minArea")),  
+        maxArea: getParam("maxArea") && Number(getParam("maxArea")) 
+    } as FilterArea
 
     const { register, handleSubmit, errors , onSubmit, handleClearParams } = useFormFilter<FilterArea>({
         defaultValues,
@@ -22,14 +25,14 @@ export function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) 
     return (
         <Popover showArrow offset={10} placement="bottom">
             <PopoverTrigger>
-                <Button variant="flat" color="secondary">{tittle}</Button>
+                <Button variant="flat">{tittle}</Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px]">
                 {(titleProps) => (
-                    <div className="px-1 py-2 w-full space-y-3">
-                        <p className="text-lg font-medium text-gray-900 mb-4" {...titleProps}>
+                    <div className="px-1 py-2 w-full space-y-3 border-b border-gray-200">
+                        <h3 className="text-lg font-medium text-gray-900 mb-4 " {...titleProps}>
                             {tittle}
-                        </p>
+                        </h3>
                         <FormArea 
                             register={register}
                             handleSubmit={handleSubmit}

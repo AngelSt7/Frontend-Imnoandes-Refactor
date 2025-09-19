@@ -1,21 +1,22 @@
 'use client'
+
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, User } from 'lucide-react';
-import Input from '../../../myLib/components/Input/Input';
 import { BiLogoGmail } from "react-icons/bi";
 import { ImWhatsapp } from "react-icons/im";
-import { PublicContactForm, PublicPropertyById } from '@/src/types/publicTypes/publicProperty';
+import { PublicContactForm } from '@/src/types/publicTypes/publicProperty';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import { publicSendEmail } from '@/src/services/client/properties/public/publicSendEmail';
 import toast from 'react-hot-toast';
+import { Input } from '@/src/myLib';
 
 type FormContactProps = {
     direction: string,
-    phoneUser: PublicPropertyById['user']['phone']
+    phone: number
 }
 
-export default function FormContact({ direction, phoneUser }: FormContactProps) {
+export default function FormContact({ direction, phone }: FormContactProps) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<Omit<PublicContactForm, 'direction'>>();
 
     const { mutate } = useMutation({
@@ -26,7 +27,7 @@ export default function FormContact({ direction, phoneUser }: FormContactProps) 
 
     const message = `Hola, me interesa la propiedad ubicada en ${direction}, estará disponible aún?`
     const preparedMessage = encodeURIComponent(message);
-    const messageFormated = `https://wa.me/51${phoneUser}?text=${preparedMessage}`
+    const messageFormated = `https://wa.me/51${phone}?text=${preparedMessage}`
 
     const onSubmit = async (data: Omit<PublicContactForm, 'direction'>) => {
         const directionProperty = direction
@@ -34,82 +35,101 @@ export default function FormContact({ direction, phoneUser }: FormContactProps) 
     }
 
     return (
-        <div className=' bg-[#f1f1f1] p-3 dark:bg-[#181818] border border-[#C8C8C8] dark:border-[#343434] rounded-lg'>
-            <fieldset className=' font-bold text-zinc-800 dark:text-gray-100 mb-3'>Contacta al vendedor</fieldset>
+        <div className='bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm'>
+            <fieldset className='font-medium text-gray-800 dark:text-gray-200 mb-5 text-base'>
+                Contacta al vendedor
+            </fieldset>
+            
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <div className='flex flex-col gap-3 mb-4'>
-                    <Input
-                        variant="floating"
-                        htmlFor="email"
-                        field="email"
-                        type="email"
-                        placeholder="Tu email"
-                        Icon={Mail}
-                        register={register}
-                        rules={{
-                            required: "El email es obligatorio",
-                            pattern: {
-                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                message: "Ingrese un email válido",
-                            },
-                        }}
-                        errorMessage={errors.email}
-                    />
-
-                    <Input
-                        variant="floating"
-                        htmlFor="phone"
-                        field="phone"
-                        type="tel"
-                        placeholder="Tu teléfono"
-                        Icon={Phone}
-                        register={register}
-                        rules={{
-                            required: "El teléfono es obligatorio",
-                            pattern: {
-                                value: /^[0-9]{9}$/,
-                                message: "Ingrese un número de 9 dígitos",
-                            },
-                        }}
-                        errorMessage={errors.phone}
-                    />
-
-                    <div className="flex w-full gap-2">
+                <div className='flex flex-col gap-8 mb-5'>
+                    <div className='relative'>
                         <Input
                             variant="floating"
-                            htmlFor="name"
-                            field="name"
-                            type="text"
-                            placeholder="Tu nombre"
-                            Icon={User}
+                            htmlFor="email"
+                            field="email"
+                            label='Email'
+                            type="email"
+                            placeholder="Tu email"
+                            Icon={Mail}
                             register={register}
                             rules={{
-                                required: "El nombre es obligatorio",
+                                required: "El email es obligatorio",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                    message: "Ingrese un email válido",
+                                },
                             }}
-                            errorMessage={errors.name}
+                            errorMessage={errors.email}
+                            className="w-full"
                         />
+                    </div>
+
+                    <div className='relative'>
                         <Input
                             variant="floating"
-                            htmlFor="lastname"
-                            field="lastname"
-                            type="text"
-                            placeholder="Tu apellido"
-                            Icon={User}
+                            htmlFor="phone"
+                            field="phone"
+                            label='Teléfono'
+                            type="tel"
+                            placeholder="Tu teléfono"
+                            Icon={Phone}
                             register={register}
                             rules={{
-                                required: "El apellido es obligatorio",
+                                required: "El teléfono es obligatorio",
+                                pattern: {
+                                    value: /^[0-9]{9}$/,
+                                    message: "Ingrese un número de 9 dígitos",
+                                },
                             }}
-                            errorMessage={errors.lastname}
+                            errorMessage={errors.phone}
+                            className="w-full"
                         />
+                    </div>
+
+                    <div className="flex w-full gap-3">
+                        <div className='relative flex-1'>
+                            <Input
+                                variant="floating"
+                                htmlFor="name"
+                                field="name"
+                                label='Nombre'
+                                type="text"
+                                placeholder="Tu nombre"
+                                Icon={User}
+                                register={register}
+                                rules={{
+                                    required: "El nombre es obligatorio",
+                                }}
+                                errorMessage={errors.name}
+                                className="w-full"
+                            />
+                        </div>
+                        <div className='relative flex-1'>
+                            <Input
+                                variant="floating"
+                                htmlFor="lastname"
+                                field="lastname"
+                                label='Apellido'
+                                type="text"
+                                placeholder="Tu apellido"
+                                Icon={User}
+                                register={register}
+                                rules={{
+                                    required: "El apellido es obligatorio",
+                                }}
+                                errorMessage={errors.lastname}
+                                className="w-full"
+                            />
+                        </div>
                     </div>
                 </div>
 
                 <button
                     type='submit'
-                    className="flex items-center justify-center gap-3 bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 text-white font-medium py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out w-full mb-3"
+                    className="flex items-center justify-center gap-3 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium py-3 px-4 rounded-md border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-200 w-full mb-3 group"
                 >
-                    Contactar por Email
-                    <BiLogoGmail className="text-white text-xl" />
+                    <span>Contactar por Email</span>
+                    <BiLogoGmail className="text-gray-500 dark:text-gray-400 text-lg group-hover:text-red-500 transition-colors duration-200" />
                 </button>
             </form>
 
@@ -117,10 +137,10 @@ export default function FormContact({ direction, phoneUser }: FormContactProps) 
                 href={messageFormated}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 bg-green-600 dark:bg-green-700 hover:bg-green-700 dark:hover:bg-green-800 text-white font-medium py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out w-full"
+                className="flex items-center justify-center gap-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium py-4 px-6 rounded-xl shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.8)] dark:shadow-[4px_4px_8px_rgba(0,0,0,0.3),-4px_-4px_8px_rgba(255,255,255,0.05)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.8)] dark:hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(255,255,255,0.05)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.1),inset_-4px_-4px_8px_rgba(255,255,255,0.8)] dark:active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(255,255,255,0.05)] transition-all duration-200 ease-in-out w-full group"
             >
-                Escribir directamente
-                <ImWhatsapp className="text-white text-xl" />
+                <span>Escribir directamente</span>
+                <ImWhatsapp className="text-gray-500 dark:text-gray-400 text-lg group-hover:text-green-500 transition-colors duration-200" />
             </Link>
         </div>
     )

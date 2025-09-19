@@ -41,7 +41,7 @@ export function HeaderMenu({
     backdrop-blur-md backdrop-saturate-150
     ${color} shadow-md  border-b
     ${activeHideOnScroll ? 'border-zinc-300' : 'border-[#333030]/40'}
-    transition-all duration-500 ease-in-out z-50
+    transition-all duration-500 ease-in-out z-30
     ${activeHideOnScroll && !show ? '-translate-y-full' : 'translate-y-0'}
   `;
 

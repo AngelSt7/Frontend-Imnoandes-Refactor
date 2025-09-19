@@ -1,26 +1,20 @@
-import { PropertyPublic } from "@/src/features/property";
+'use client'
+
 import { useState } from "react";
-import {
-    FaRulerCombined,
-    FaBed,
-    FaBath,
-    FaCalendarAlt,
-    FaCarAlt,
-    FaCouch,
-    FaBuilding
-} from "react-icons/fa";
 import { MdBalcony } from "react-icons/md";
+import { PropertyPublic } from "@/src/features/property";
+import { FaBath, FaBed, FaBuilding, FaCalendarAlt, FaCarAlt, FaCouch, FaRulerCombined } from 'react-icons/fa';
 
 type CharacteristicsyProps = {
     property: PropertyPublic
 }
 
-export default function Characteristics({ property }: CharacteristicsyProps) {
+export const usePropertyCharacteristics = ({ property }: CharacteristicsyProps) => {
     const [showAll, setShowAll] = useState(false);
 
     const year = new Date().getFullYear();
 
-    let dataProperty = [];
+    const dataProperty = [];
 
     if (property.area) {
         dataProperty.push({
@@ -87,34 +81,11 @@ export default function Characteristics({ property }: CharacteristicsyProps) {
     }
 
     const itemsToShow = showAll ? dataProperty : dataProperty.slice(0, 6);
-    return (
-        <div className="w-full">
-            <h3>Características</h3>
 
-            <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-4">
-                {itemsToShow.map((item) => (
-                    <div
-                        key={item.name}
-                        className="flex justify-center items-center flex-col w-full gap-2"
-                    >
-                        <div className="text-3xl text-zinc-800 dark:text-gray-200">
-                            {item.icon}
-                        </div>
-                        <div className="text-xs sm:text-sm font-semibold text-zinc-900 dark:text-gray-100">
-                            {item.name}: {item.quantity}
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {dataProperty.length > 6 && (
-                <button
-                    onClick={() => setShowAll(!showAll)}
-                    className="text-blue-800 text-sm font-medium hover:underline"
-                >
-                    {showAll ? "Ver menos" : "Ver más"}
-                </button>
-            )}
-        </div>
-    );
+    return {
+        showAll,
+        setShowAll,
+        itemsToShow,
+        data: dataProperty
+    }
 }

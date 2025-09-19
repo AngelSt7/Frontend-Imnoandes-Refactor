@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { buildMetadata } from "@/src/config/metadata/metadata";
-import { PropertyPublic, Location } from "@/src/features/property/public";
 
 import { Search } from "@/src/features/property/public/components";
 import { useBuildSearchFilters, useParseSearchSlug } from "@/src/features/property/public/components/Search/hooks";
+import { PropertyPublic, Location } from "@/src/features/property/public/services";
 
 
 export const metadata = buildMetadata({
@@ -12,7 +12,6 @@ export const metadata = buildMetadata({
   url: "https://mi-sitio.com/es/search",
   image: "https://mi-sitio.com/preview-search.jpg",
 });
-
 
 export default async function Page({ searchParams, params }: { searchParams: Record<string, string | undefined>, params: any }) {
   const awaitedParams = await params

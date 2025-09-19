@@ -25,7 +25,7 @@ export function CardProperty({ property }: CardPropertyProps) {
 
   return (
     <article className="bg-[#f5f5f5] rounded-lg shadow-sm border border-gray-200 md:h-[295px] overflow-hidden transition-all duration-200 hover:shadow-md hover:border-gray-300 group relative">
-      <Link href={property.url} className="flex w-full h-full">
+      <Link href={property.url} className="flex w-full h-full" target="_blank">
         <div className="flex flex-col md:flex-row w-full h-full">
           <PropertyImage images={[
             {

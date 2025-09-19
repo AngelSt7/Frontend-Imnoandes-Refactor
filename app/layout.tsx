@@ -41,7 +41,8 @@ export default function RootLayout({
   `
 }} />
 
-        <link rel="icon" href="./BienesRaicesLogo.png" type="image/png" />
+        <link rel="icon" href="/BienesRaicesLogo.png" type="image/png" />
+
       </head>
 
       <body

@@ -47,6 +47,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.leaflet-container {
+  z-index: 0 !important;
+}
+
 .text-h2 {
   @apply text-3xl font-bold text-gray-900 mb-6
   /* O incluso: text-3xl font-bold text-gray-800 tracking-tight */

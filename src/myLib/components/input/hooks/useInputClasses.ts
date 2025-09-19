@@ -9,7 +9,7 @@ export function useInputClasses(errorMessage?: unknown, variant?: string, isText
     }`;
 
     return variant === "floating"
-      ? `${base} peer px-3 pt-3`
+      ? `${base} peer px-3 pt-4`
       : `${base} px-3 py-2.5 pr-10 ${isTextArea ? "min-h-[120px]" : "h-[50px]"}`;
   }, [errorMessage, variant, isTextArea]);
 }

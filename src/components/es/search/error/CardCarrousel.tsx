@@ -1,10 +1,8 @@
 import { Card, CardBody, Image } from "@heroui/react";
-import { Bath, Bed, Building2, Heart } from "lucide-react";
 import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
 import Link from "next/link";
 import { CarrouselItem } from "@/src/types";
 import { PROPERTY_CATEGORY_TRANSLATE, PROPERTY_TYPE_TRANSLATE } from "@/src/utils/resolves/bases/enums";
-import { formatDate } from "@/src/utils/frontend/format/dateUtils";
 
 export type CardCarrouselProps = {
     item: CarrouselItem
@@ -49,7 +47,7 @@ export default function CardCarrousel({ item }: CardCarrouselProps) {
 
                         {/* Ubicación */}
                         <div className="">
-                            <p className="text-sm font-normal text-zinc-900">{item.location}</p>
+                            <p className="text-sm font-normal text-zinc-900">{item.address}</p>
                             <p className="text-sm font-normal text-neutral-600 capitalize">{item.district}, {item.department}</p>
                         </div>
 

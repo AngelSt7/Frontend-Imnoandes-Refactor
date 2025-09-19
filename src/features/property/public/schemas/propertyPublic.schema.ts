@@ -1,8 +1,48 @@
 import { z } from "zod";
 import { MetaSchema } from '../../../../schema/shared/meta';
+import { CURRENCY, PROPERTY_TYPE, PROPERTY_CATEGORY } from "@/src/utils/resolves/bases/enums";
 
 export type PropertySearch = z.infer<typeof propertySearchSchema>;
 export type PropertiesSearch = z.infer<typeof propertiesSearchSchema>;
+export type PropertyPublic = z.infer<typeof propertySchema>;
+
+export const propertySchema = z.object({
+  name: z.string(),
+  address: z.string(),
+  latitude: z.number(),
+  longitude: z.number(),
+  price: z.number(),
+  currency: z.nativeEnum(CURRENCY),
+  availability: z.boolean(),
+  propertyType: z.nativeEnum(PROPERTY_TYPE),
+  propertyCategory: z.nativeEnum(PROPERTY_CATEGORY),
+  floor: z.number().nullable().optional(),
+  hasParking: z.boolean().nullable().optional(),
+  parkingSpaces: z.number().nullable().optional(),
+  bedrooms: z.number().nullable().optional(),
+  bathrooms: z.number().nullable().optional(),
+  area: z.number().nullable().optional(),
+  furnished: z.boolean().nullable().optional(),
+  hasTerrace: z.boolean().nullable().optional(),
+  createdAt: z.string().transform((str) => new Date(str)),
+  updatedAt: z.string().transform((str) => new Date(str)),
+  yearBuilt: z.number().nullable(),
+  description: z.string(),
+  extraInfo: z.string().nullable(),
+  phone: z.string(),
+  department: z.string().nullable(),
+  province: z.string().nullable(),
+  district: z.string().nullable(),
+  services: z.array(z.string()),
+  images: z.array(
+    z.object({
+      url: z.string(),
+      type: z.string().nullable().optional(),
+    })
+  ),
+  url: z.string(),
+})
+
 
 
 export const propertySearchSchema = z.object({

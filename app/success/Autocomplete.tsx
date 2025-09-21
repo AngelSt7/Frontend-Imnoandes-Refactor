@@ -1,4 +1,4 @@
-import Errors from "@/src/components/ui/errors/Errors";
+import Errors from "@/src/components/ui/Errors/Errors";
 import { Autocomplete as Auto, AutocompleteItem, Merge } from '@heroui/react';
 import { useRef } from "react";
 import { FieldValues, Path, UseFormRegisterReturn, UseFormSetValue, UseFormWatch, FieldError, FieldErrorsImpl, PathValue } from "react-hook-form";

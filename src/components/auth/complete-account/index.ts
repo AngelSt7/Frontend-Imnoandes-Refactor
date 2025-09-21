@@ -1,3 +1,3 @@
-export * from "./logic";
-export * from "./countdown";
-export * from "./date";
+export * from "../../../features/auth/subfeatures/CompleteAccount";
+export * from "../../../features/auth/subfeatures/CompleteAccount/components/Countdown";
+export * from "../../../features/auth/subfeatures/CompleteAccount/components/Date";

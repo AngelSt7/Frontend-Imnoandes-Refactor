@@ -1,4 +1,4 @@
-import ForgotPasswordForm from '@/src/components/auth/forgot-password/ForgotPasswordForm'
+import { ForgotPasswordForm } from '@/src/features/auth/subfeatures/ForgotPassword'
 import LinkToAuth from '@/src/components/auth/ui/LinkToAuth'
 
 export default function ForgotPasswordPage() {

@@ -5,7 +5,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, PathValue, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import Errors from '../errors/Errors';
+import Errors from '../Errors/Errors';
 import { useState, useCallback } from 'react';
 
 const customIcon = new L.Icon({

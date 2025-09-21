@@ -5,7 +5,7 @@ import { FormDataProperty } from '@/src/types/adminTypes/property';
 import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Merge } from '@heroui/react';
-import Errors from '@/src/components/ui/errors/Errors';
+import Errors from '@/src/components/ui/Errors/Errors';
 
 type ImageType = {
   file: File;

@@ -1,5 +1,5 @@
 import { FieldValues } from "react-hook-form";
-import Errors from "../../../components/ui/errors/Errors";
+import Errors from "../../../components/ui/Errors/Errors";
 import { InputProps } from "./interfaces/interface";
 import { useInputClasses } from "./hooks/useInputClasses";
 import { InputLabel } from "./components/InputLabel";

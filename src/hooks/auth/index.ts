@@ -1,1 +1,1 @@
-export { useStatusForm } from "../../features/auth/components/login/hooks/useStatusForm";
+export { useStatusForm } from "../../features/auth/subfeatures/LoginOrquest/hooks/useStatusForm";

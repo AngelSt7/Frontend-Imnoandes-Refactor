@@ -1,0 +1,1 @@
+export { AssignPassword } from "./AssignPassword";

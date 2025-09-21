@@ -1,11 +1,10 @@
-import CreateAccountForm from '@/src/components/auth/create-account/CreateAccountForm'
-import LinkToAuth from '@/src/components/auth/ui/LinkToAuth'
-import React from 'react'
+import { CreateAccount } from '@/src/features/auth/subfeatures/CreateAccount'
+import { LinkToAuth } from '@/src/features/auth/components/ui'
 
 export default function CreateAccountPage() {
   return (
     <>
-      <CreateAccountForm />
+      <CreateAccount />
       <div className=' my-4 flex flex-col sm:flex-row justify-between px-6 gap-2'>
         <LinkToAuth
           href="/auth/login"

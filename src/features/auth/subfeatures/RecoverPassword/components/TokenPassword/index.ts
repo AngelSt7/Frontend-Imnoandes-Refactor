@@ -1,0 +1,1 @@
+export { TokenPassword } from "./TokenPassword";

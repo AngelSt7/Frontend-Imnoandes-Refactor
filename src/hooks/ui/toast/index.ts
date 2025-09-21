@@ -1,1 +1,1 @@
-export { useErrorToast } from "../../../features/auth/components/login/hooks/useErrorToast";
+export { useErrorToast } from "../../../features/auth/subfeatures/LoginOrquest/hooks/useErrorToast";

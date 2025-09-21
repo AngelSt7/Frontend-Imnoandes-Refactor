@@ -1,6 +1,6 @@
 import { Select, SelectItem as HeroSelectItem } from "@heroui/react";
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, PathValue, UseFormRegisterReturn, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import Errors from "../errors/Errors";
+import Errors from "../Errors/Errors";
 
 interface Option { 
   key: string | number; 

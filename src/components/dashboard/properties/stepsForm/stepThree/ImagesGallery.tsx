@@ -4,7 +4,7 @@ import { TbPhotoPlus, TbTrash } from 'react-icons/tb'
 import { AdminFormDataProperty } from '@/src/types/adminTypes/property'
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
-import Errors from '@/src/components/ui/errors/Errors'
+import Errors from '@/src/components/ui/Errors/Errors'
 
 type ImagesGalleryProps = {
     setValue: UseFormSetValue<AdminFormDataProperty>

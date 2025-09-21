@@ -1,5 +1,6 @@
-import CompleteAccountForm from '@/src/components/auth/complete-account/logic/CompleteAccountForm'
-import { User } from '@/src/features/property/admin/services';
+
+import { CompleteAccountForm } from '@/src/features/auth/subfeatures/CompleteAccount';
+import { User } from '@/src/features/shared/services';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -17,3 +18,4 @@ export default async function page() {
     return redirect('/404');
   }
 }
+  

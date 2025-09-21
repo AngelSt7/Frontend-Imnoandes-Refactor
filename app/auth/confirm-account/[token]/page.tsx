@@ -1,6 +1,5 @@
-
-import ConfirmAccount from '@/src/features/auth';
-import { Auth } from '@/src/services/auth';
+import { Auth } from '@/src/features/auth/services';
+import { ConfirmAccount } from '@/src/features/auth/subfeatures/ConfirmAccount';
 import { redirect } from 'next/navigation';
 import { validate } from 'uuid';
 

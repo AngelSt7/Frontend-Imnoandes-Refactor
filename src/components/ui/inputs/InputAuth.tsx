@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister } from 'react-hook-form'
-import ErrorsAuth from '../errors/ErrorsAuth'
+import ErrorsAuth from '../Errors/ErrorsAuth'
 
 type InputProps<T extends FieldValues> = {
     type: string

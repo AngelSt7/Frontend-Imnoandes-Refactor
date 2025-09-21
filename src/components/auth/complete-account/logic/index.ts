@@ -1,1 +1,0 @@
-export {default as CompleteAccountForm} from "./CompleteAccountForm";

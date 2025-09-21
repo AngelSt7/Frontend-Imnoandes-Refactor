@@ -23,7 +23,7 @@ export function Input<T extends FieldValues>({
   field,
 }: InputProps<T>) {
   const isTextArea = type === "textarea";
-  const isNumeric = inputMode === "numeric" || type === "number";
+  const isNumeric = inputMode === "numeric" || type === "number" || type === "tel";
 
   const finalRules = isNumeric
     ? { ...rules, setValueAs: (v: string) => (v === "" || v == null ? null : Number(v)) }

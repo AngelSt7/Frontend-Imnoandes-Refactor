@@ -8,21 +8,17 @@ const ROUTES = {
     SEARCH: `property-public/search`
 }
 
-const base = 'http://localhost:4000/api'
+const base = `${process.env.NEXT_PUBLIC_NEST_URL}`
 
 export class PropertyPublic {
-
 
     static carrousel = async (type: string = 'SALE', quantity: number = 3) => {
         try {
             const url = `${base}/${ROUTES.CARROUSEL}?propertyType=${type}&quantity=${quantity}`
-            // const res = await fetch(url, { next: { revalidate: 3600 } })
-            const res = await fetch(url)
-            console.log(url)
+            const res = await fetch(url, { next: { tags: ["carrousel", type] ,revalidate: 3600 } })
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
             const data = await res.json()
             const parsed = carrouselSchema.safeParse(data)
-            console.log(parsed.error)
             if (parsed.success) { return parsed.data }
         } catch (error) { errorHttp(error) }
     }
@@ -33,8 +29,7 @@ export class PropertyPublic {
             const url = searchFilters.hasFilters
                 ? `${base}/${ROUTES.SEARCH}?${searchFilters.filters}`
                 : `${base}/${ROUTES.SEARCH}`
-            // const res = await fetch(url, { next: { tags: ["properties", searchFilters.tag] , revalidate: 300 } })
-            const res = await fetch(url)
+            const res = await fetch(url, { next: { tags: ["properties", searchFilters.tag] , revalidate: 300 } })
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
             const data = await res.json()
             const parsed = propertiesSearchSchema.safeParse(data)
@@ -45,7 +40,7 @@ export class PropertyPublic {
     static find = async (id: string) => {
         try {
             const url = `${base}/property-public/${id}`
-            const res = await fetch(url, { next: { tags: [id], revalidate: 3600 } })
+            const res = await fetch(url, { next: { tags: ["property", id], revalidate: 3600 } })
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
             const data = await res.json()
             const parsed = propertySchema.safeParse(data)

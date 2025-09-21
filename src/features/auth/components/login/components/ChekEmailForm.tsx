@@ -7,19 +7,26 @@ import { Auth } from '@/src/services/auth';
 import { AuthCheckEmail } from '@/src/features/auth';
 import { useSubmitMutation } from '@/src/myLib'
 import { Input } from '@/src/myLib/components';
+import { useRouter } from 'next/navigation';
 
-export default function CheckEmailForm({ statusForm, setStatusForm }: CheckEmailFormProps) {
+export default function CheckEmailForm({ setStatusForm }: CheckEmailFormProps) {
     const { register, handleSubmit, formState: { errors }, reset, getValues } = useForm<AuthCheckEmail>();
+    const router = useRouter()
 
     const { mutate } = useSubmitMutation({
         serviceFunction: Auth.checkEmail,
         onErrorCallback: () => reset(),
-        onSuccessCallback: (data) => setStatusForm({
-            requiredOtp: data.requiredOtp,
-            requiredPassword: data?.requiredPassword,
-            init: false,
-            meta: { email: getValues("email") }
-        })
+        onSuccessCallback: (data) => {
+            if (data.status === 'INCOMPLETE_PROFILE' && data.redirect) {
+                router.replace(data.redirect)
+            }
+            setStatusForm({
+                requiredOtp: data.requiredOtp,
+                requiredPassword: data?.requiredPassword,
+                init: false,
+                meta: { email: getValues("email") },
+            })
+        }
     });
 
     const onSubmit = async (data: AuthCheckEmail) => mutate(data)

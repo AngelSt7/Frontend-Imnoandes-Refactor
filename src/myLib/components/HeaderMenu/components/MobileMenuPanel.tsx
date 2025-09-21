@@ -10,7 +10,9 @@ export function MobileMenuPanel({
   menuWidth, 
   fadeOnClose, 
   navLinks, 
-  closeMenu 
+  closeMenu,
+  user,
+  routeLogin
 }: MobileMenuPanelProps) {
   const getMenuWidth = () => {
     if (menuWidth === 'auto') return 'w-full sm:w-80';
@@ -24,7 +26,7 @@ export function MobileMenuPanel({
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full z-[70] ${getMenuWidth()} bg-white shadow-2xl transform transition-all duration-500 ease-in-out
+      className={`fixed top-0 right-0 h-full z-[70] ${getMenuWidth()} flex flex-col bg-white shadow-2xl transform transition-all duration-500 ease-in-out
         ${isMenuOpen
           ? "translate-x-0 opacity-100"
           : fadeOnClose
@@ -37,7 +39,9 @@ export function MobileMenuPanel({
       <MobileNavigation 
         navLinks={navLinks} 
         isMenuOpen={isMenuOpen} 
-        closeMenu={closeMenu} 
+        closeMenu={closeMenu}
+        user={user}
+        routeLogin={routeLogin}
       />
     </div>
   );

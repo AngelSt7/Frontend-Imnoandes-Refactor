@@ -1,14 +1,11 @@
 'use client'
 import { User, UserUpdateEmail } from "@/src/types/userTypes/user";
-import Input from "../../../myLib/components/Input/Input";
 import { Button } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { userUpdateEmail } from "@/src/services/client/user/UserUpdateEmail";
-import { signOut } from "next-auth/react";
-
+import { Input, useSubmitMutation } from "@/src/myLib";
+import { User as UserService } from "@/src/features/property/admin/services";
+ 
 type UserFormProps = { user: User }
 
 export default function EmailForm({ user }: UserFormProps) {
@@ -18,16 +15,9 @@ export default function EmailForm({ user }: UserFormProps) {
         }
     });
 
-    const { mutate } = useMutation({
-        mutationFn: userUpdateEmail,
-        onError: (error) => {
-            toast.error(error.message);
-        },
-        onSuccess: (data) => {
-            toast.success(data);
-            signOut({ callbackUrl: "/auth/login" });
-        }
-    });
+    const { mutate } = useSubmitMutation({
+        serviceFunction: UserService.updateEmail
+    })
 
     const onSubmit = (data: UserUpdateEmail) => mutate(data)
 
@@ -52,8 +42,8 @@ export default function EmailForm({ user }: UserFormProps) {
                 errorMessage={errors.email}
                 Icon={Mail}
             />
-            <div className="flex gap-2 justify-end">
-                <Button type="submit" fullWidth color="warning" variant="flat">
+            <div className="flex gap-2 ">
+                <Button type='submit' radius='md' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-full'>
                     Actualizar Email
                 </Button>
             </div>

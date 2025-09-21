@@ -12,6 +12,7 @@ export const propertySchema = z.object({
   latitude: z.number(),
   longitude: z.number(),
   price: z.number(),
+  email: z.string(),
   currency: z.nativeEnum(CURRENCY),
   availability: z.boolean(),
   propertyType: z.nativeEnum(PROPERTY_TYPE),

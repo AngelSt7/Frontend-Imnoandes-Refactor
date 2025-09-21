@@ -4,24 +4,17 @@ import { useAppStore } from "@/src/store/useAppStore";
 import { Modal, ModalContent, ModalFooter, Button } from "@heroui/react";
 import FormContact from "./FormContact";
 
-export default function ModalContact({ phone, direction }: any) {
+export default function ModalContact({ phone, address, ownerEmail }: any) {
   const modalContact = useAppStore(state => state.modalContact)
-
-  if(!modalContact) return null
-
   const changeStatusModal = useAppStore(state => state.changeStatusModal)
+  if(!modalContact) return null
   return (
     <>
       <Modal isOpen={modalContact}  onOpenChange={() => changeStatusModal()}>
         <ModalContent>
           {(onClose) => (
             <>
-              <FormContact direction={direction} phone={phone} />
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={() => changeStatusModal()}>
-                  Cerrar
-                </Button>
-              </ModalFooter>
+              <FormContact address={address} phone={phone} ownerEmail={ownerEmail} />
             </>
           )}
         </ModalContent>

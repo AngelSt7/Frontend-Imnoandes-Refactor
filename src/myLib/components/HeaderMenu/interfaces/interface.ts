@@ -1,9 +1,13 @@
+import { User } from "@/src/types";
+
 export interface NavLink {
   name: string;
   href: string;
 }
 
 export interface HeaderMenuProps {
+  routeLogin: string;
+  user: User
   bgColor?: string;
   navLinks?: NavLink[];
   menuWidth?: string;
@@ -12,6 +16,8 @@ export interface HeaderMenuProps {
 
 export interface DesktopNavigationProps {
   navLinks: NavLink[];
+  user?: User
+  routeLogin: string
 }
 
 export interface MobileMenuButtonProps {
@@ -31,6 +37,8 @@ export interface MobileMenuPanelProps {
   fadeOnClose: boolean;
   navLinks: NavLink[];
   closeMenu: () => void;
+  user?: User
+  routeLogin: string
 }
 
 export interface MobileMenuHeaderProps {
@@ -41,4 +49,6 @@ export interface MobileNavigationProps {
   navLinks: NavLink[];
   isMenuOpen: boolean;
   closeMenu: () => void;
+  user?: User
+  routeLogin: string
 }

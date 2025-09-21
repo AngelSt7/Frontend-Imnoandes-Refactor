@@ -1,6 +1,5 @@
 'use client'
 
-import { RiAppleLine } from "react-icons/ri";
 import { DesktopNavigation } from "./components/DesktopNavigation";
 import { MobileMenuButton } from "./components/MobileMenuButton";
 import { MobileMenuOverlay } from "./components/MobileMenuOverlay";
@@ -9,16 +8,18 @@ import { HeaderMenuProps, NavLink } from "./interfaces/interface";
 import { useHeaderMenu } from "./hooks/useHeaderMenu";
 import { useHideOnScroll } from "../../hooks/content-header/useHideOnScroll";
 import { usePathname } from "next/navigation";
+import { LogoImnoandes } from "./components/LogoImnoandes";
 
 const LinksDefault: NavLink[] = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
-  { name: 'Portfolio', href: '/portfolio' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Inicio', href: '/' },
+  { name: 'Busqueda', href: '/es/search/venta-de-departametos?page=1' },
+  { name: 'Contacto', href: '/es/contact' },
+  { name: 'Preguntas', href: '/es/fqa' },
 ];
 
 export function HeaderMenu({
+  routeLogin,
+  user,
   bgColor = '#e2ded2',
   navLinks = LinksDefault,
   menuWidth = 'auto',
@@ -50,9 +51,9 @@ export function HeaderMenu({
   return (
     <>
       <header className={`${styles_header} flex justify-between items-center`}>
-        <RiAppleLine className={`${transforms} w-10 h-10`} />
 
-        <DesktopNavigation navLinks={navLinks} />
+        <LogoImnoandes />
+        <DesktopNavigation user={user} navLinks={navLinks} routeLogin={routeLogin} />
 
         <MobileMenuButton
           isMenuOpen={isMenuOpen}
@@ -72,6 +73,8 @@ export function HeaderMenu({
         fadeOnClose={fadeOnClose}
         navLinks={navLinks}
         closeMenu={closeMenu}
+        user={user}
+        routeLogin={routeLogin}
       />
     </>
   );

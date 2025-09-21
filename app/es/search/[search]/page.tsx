@@ -33,6 +33,6 @@ export default async function Page({ searchParams, params }: { searchParams: Rec
 
     return <Search data={properties} locales={locales} />;
   } catch (error) {
-    redirect('http://localhost:3000/es/search/venta-de-departamentos');
+    redirect(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/es/search/venta-de-departamentos`);
   }
 }

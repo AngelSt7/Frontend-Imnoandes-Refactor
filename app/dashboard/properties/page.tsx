@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import ClientPageProperties from "@/src/components/dashboard/properties/content/ClientPageProperties";
 import { cookies } from "next/headers";
-import { User } from "@/src/services";
+import { User } from "@/src/features/property/admin/services";
 
 export const ValidParams = [
   "action",

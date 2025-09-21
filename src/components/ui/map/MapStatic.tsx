@@ -27,7 +27,8 @@ export function MapInteractive({ latitude, longitude, address }: MapProps) {
   const coords: [number, number] = [latitude, longitude]
 
   return (
-    <div className="w-full h-[350px] rounded-lg overflow-hidden z-0">
+    <figure className="w-full h-[350px] rounded-lg overflow-hidden mb-4 space-y-2 pb-2 border-b border-gray-200">
+      <h2 className='text-xl font-bold mb-2 text-gray-900'>Ubicación</h2>
       <MapContainer
         center={coords}
         zoom={15}
@@ -42,9 +43,15 @@ export function MapInteractive({ latitude, longitude, address }: MapProps) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker position={coords} icon={customIcon}>
-          {address && <Popup className='text-large font-semibold'>{address}</Popup>}
+          {address && <Popup className="text-base font-medium">{address}</Popup>}
         </Marker>
       </MapContainer>
-    </div>
+
+      {address && (
+        <figcaption className="text-sm text-gray-600 mt-2">
+          {address}
+        </figcaption>
+      )}
+    </figure>
   )
 }

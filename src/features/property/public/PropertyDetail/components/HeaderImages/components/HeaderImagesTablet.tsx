@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image"
 import { PropertyPublic } from "../../../../schemas"
 
 interface HeaderImagesTabletProps {
@@ -18,24 +19,37 @@ export function HeaderImagesTablet({
   return (
     <div className="hidden md:flex lg:hidden md:gap-2 md:h-[350px]">
       {/* Imagen principal */}
-      <div className="flex-[2] group cursor-pointer overflow-hidden rounded-lg">
-        <img
+      <figure className="flex-[2] group cursor-pointer overflow-hidden rounded-lg relative">
+        <Image
           src={mainImage.url}
-          alt="Imagen principal"
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          alt="Imagen principal de la propiedad"
+          fill
+          sizes="70vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
           onClick={() => onImageClick(mainImage)}
+          priority
         />
-      </div>
+        <figcaption className="sr-only">Imagen principal de la propiedad</figcaption>
+      </figure>
 
+      {/* Galería lateral */}
       <div className="flex-1 flex flex-col gap-2">
         {galleryImages.slice(0, 3).map((image, index) => (
-          <div key={index} className="flex-1 group cursor-pointer overflow-hidden rounded-lg relative">
-            <img
+          <figure
+            key={index}
+            className="flex-1 group cursor-pointer overflow-hidden rounded-lg relative"
+          >
+            <Image
               src={image.url}
-              alt={`Galería ${index + 1}`}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              alt={`Imagen de galería ${index + 1}`}
+              fill
+              sizes="30vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               onClick={() => onImageClick(image)}
             />
+            <figcaption className="sr-only">
+              Imagen {index + 1} de la galería
+            </figcaption>
 
             {index === 2 && remainingCount > 0 && (
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
@@ -44,7 +58,7 @@ export function HeaderImagesTablet({
                 </span>
               </div>
             )}
-          </div>
+          </figure>
         ))}
       </div>
     </div>

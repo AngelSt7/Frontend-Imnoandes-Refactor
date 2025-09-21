@@ -6,7 +6,6 @@ import { isAxiosError } from 'axios';
 export const userGetInfo = async (formData : {token: string}) => {
     try {
         const url = `/user/me`;
-        console.log(url)
         const { data } = await api(url, {
             headers: {
                 'Cookie': `next-auth.session-token=${formData.token}`,

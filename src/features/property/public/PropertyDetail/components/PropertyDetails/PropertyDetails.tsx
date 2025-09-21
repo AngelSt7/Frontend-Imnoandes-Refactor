@@ -15,44 +15,54 @@ interface PropertyDetailsProps {
 
 export function PropertyDetails({ property }: PropertyDetailsProps) {
     const address = `${property.address}, ${property.district}, ${property.department}`
+
     return (
         <section className="w-full py-6 flex gap-8">
 
-            <div className=" w-full">
-                <p>{
-                    PROPERTY_CATEGORY_TRANSLATE[property.propertyCategory]}
-                    ·{' '}
-                    {property.area} m²
-                    ·{' '}
-                    {property.bedrooms && `${property.bedrooms} Dormitorios`}
-                </p>
-                <h1 className="text-2xl font-bold mb-2">{property.name}</h1>
-                <p>{PROPERTY_TYPE_TRANSLATE[property.propertyType]}
-                    <span className="text-lg font-semibold mt-4">{formatCurrency(property.price, property.currency)}</span></p>
+            <article className="w-full">
+                <header className="mb-4 space-y-2 pb-2 border-b border-gray-200">
+                    <p>
+                        {PROPERTY_CATEGORY_TRANSLATE[property.propertyCategory]} ·{" "}
+                        {property.area} m² ·{" "}
+                        {property.bedrooms && `${property.bedrooms} Dormitorios`}
+                    </p>
+                    <h1 className="text-3xl font-bold mb-2">{property.name}</h1>
+                    <p className="font-bold text-xl">
+                        {PROPERTY_TYPE_TRANSLATE[property.propertyType]}
+                        <span className="text-xl font-semibold mt-4 ">
+                            {" "}
+                            {formatCurrency(property.price, property.currency)}
+                        </span>
+                    </p>
+                </header>
 
                 <MapInteractive
                     latitude={property.latitude}
                     longitude={property.longitude}
-                    address={`${property.address}, ${property.district}, ${property.department}`}
+                    address={address}
                 />
 
                 <PropertyCharacteristics property={property} />
-
                 <ToopLipContact />
-                <ModalContact />
-
                 <PropertyDescription property={property} />
-
                 <PropertyServices services={property.services} />
-            </div>
+                
+            </article>
 
             <aside className="hidden xl:block xl:min-w-[320px]">
                 <div className="sticky top-[92px]">
-                    <FormContact phone={Number(property.phone)} direction={address} />
-                    <ModalContact phone={Number(property.phone)} direction={address} />
+                    <FormContact
+                        phone={property.phone}
+                        address={address}
+                        ownerEmail={property.email}
+                    />
+                    <ModalContact
+                        phone={property.phone}
+                        address={address}
+                        ownerEmail={property.email}
+                    />
                 </div>
             </aside>
-
         </section>
     )
 }

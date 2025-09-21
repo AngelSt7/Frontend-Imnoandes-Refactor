@@ -17,7 +17,9 @@ export function PropertyCarrousel({ data }: CarrouselProps) {
 
     return (
 
-        <div className="relative ">
+        <section className="relative ">
+
+            <h2 className='text-2xl font-bold mb-2 text-gray-900 text-center'>Propiedades similares</h2>
 
             <button className="custom-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/30 dark:bg-gray-800/30 text-gray-700 dark:text-gray-200 p-2 rounded-full hover:bg-white/70 dark:hover:bg-gray-800/70 transition-all duration-300 backdrop-blur-sm">
                 <ChevronLeft className="w-5 h-5" />
@@ -40,9 +42,9 @@ export function PropertyCarrousel({ data }: CarrouselProps) {
                     0: { slidesPerView: 1.2, spaceBetween: 20 },
                     550: { slidesPerView: 1.7, spaceBetween: 20 },
                     700: { slidesPerView: 2.4, spaceBetween: 20 },
-                    768: { slidesPerView: 1.2, spaceBetween: 20 },
-                    950: { slidesPerView: 1.5, spaceBetween: 20 },
-                    1100: { slidesPerView: 1.8, spaceBetween: 20 },
+                    768: { slidesPerView: 2.3, spaceBetween: 20 },
+                    950: { slidesPerView: 3.1, spaceBetween: 20 },
+                    1100: { slidesPerView: 3.5, spaceBetween: 20 },
                     1400: { slidesPerView: 4.2, spaceBetween: 20 },
                 }}
                 className="w-full mt-8"
@@ -55,6 +57,6 @@ export function PropertyCarrousel({ data }: CarrouselProps) {
                 ))}
 
             </Swiper>
-        </div >
+        </section>
     )
 }

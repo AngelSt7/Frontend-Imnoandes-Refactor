@@ -8,7 +8,7 @@ export const userSchema = z.object({
     name: z.string(),
     lastname: z.string(),
     email: z.string().email(),
-    authProvider: z.enum(["LOCAL", "GOOGLE", "FACEBOOK"]), 
+    authProvider: z.enum(["LOCAL", "GOOGLE"]), 
     confirmed: z.boolean(),
     birthDate: z.preprocess((val) => new Date(val as string), z.date()), 
     phone: z.number().int().min(phoneMin).max(phoneMax).nullable(),
@@ -26,7 +26,8 @@ export const userUpdateEmailSchema = z.object({
 })
 
 export const userUpdatePasswordSchema = z.object({
-    password: z.string().min(6), 
-    currentPassword: z.string().min(6), 
-    repeatPassword: z.string().min(6)
+    email: z.string().email(),
+    currentPassword: z.string(), 
+    newPassword: z.string(),
+    repeatPassword: z.string()
 })

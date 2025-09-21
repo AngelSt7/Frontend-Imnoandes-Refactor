@@ -9,8 +9,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn.heroui.dev", // Agrega el dominio de Hero UI
+        hostname: "cdn.heroui.dev", 
       },
+      {
+        protocol: "https",
+        hostname: "images.adsttc.com",
+      }
     ],
   },
 };

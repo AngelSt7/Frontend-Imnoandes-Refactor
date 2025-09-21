@@ -1,16 +1,11 @@
 import { buildMetadata } from "@/src/config/metadata/metadata";
 import { HeaderImages, PropertyCarrousel, PropertyDetails } from "@/src/features/property";
+import { isValidUuidSegment } from "@/src/features/property/public/PropertyDetail/utils";
 import { PropertyPublic } from "@/src/features/property/public/services";
 import { PropertyTypeEnum } from "@/src/utils/url/enum";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { CarrouselItem } from '../../../../../src/types/publicTypes/publicProperty';
-import CardCarrousel from "@/src/components/es/search/error/CardCarrousel";
-import Carrousel from "@/src/components/es/Carrousel/Carrousel";
 
-function isValidUuidSegment(segment: string) {
-    return /^[0-9a-f]{8}$/i.test(segment) ? "true" : "false";
-}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     const awaitedParams = await params;
@@ -43,7 +38,7 @@ export default async function page({ params }: { params: { slug: string } }) {
     if (!property || !carrousel) redirect('/404')
 
     return (
-        <div className="max-w-[95%] mx-auto w-11/12 space-y-3">
+        <div className="max-w-[95%] mx-auto w-11/12 space-y-3 mt-3">
             <HeaderImages images={property.images} />
             <PropertyDetails property={property} />
             <PropertyCarrousel data={carrousel} />

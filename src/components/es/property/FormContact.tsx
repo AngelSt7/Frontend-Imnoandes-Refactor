@@ -6,36 +6,40 @@ import { BiLogoGmail } from "react-icons/bi";
 import { ImWhatsapp } from "react-icons/im";
 import { PublicContactForm } from '@/src/types/publicTypes/publicProperty';
 import Link from 'next/link';
-import { useMutation } from '@tanstack/react-query';
-import { publicSendEmail } from '@/src/services/client/properties/public/publicSendEmail';
-import toast from 'react-hot-toast';
-import { Input } from '@/src/myLib';
+import { Input, useSubmitMutation } from '@/src/myLib';
+import { Email } from '@/src/services/email/email.service';
 
 type FormContactProps = {
-    direction: string,
-    phone: number
+    address: string,
+    phone: string,
+    ownerEmail: string
 }
 
-export default function FormContact({ direction, phone }: FormContactProps) {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<Omit<PublicContactForm, 'direction'>>();
+export default function FormContact({ address, phone, ownerEmail }: FormContactProps) {
+    const message = `Hola, me interesa la propiedad ubicada en ${address}, estará disponible aún?`
 
-    const { mutate } = useMutation({
-        mutationFn: publicSendEmail,
-        onError: (error) => { toast.error(error.message) },
-        onSuccess: (data) => { reset(), toast.success(data) }
-    })
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<PublicContactForm>({
+        defaultValues: {
+            ownerEmail,
+            address,
+            message
+        }
+    });
 
-    const message = `Hola, me interesa la propiedad ubicada en ${direction}, estará disponible aún?`
+    const { mutate } = useSubmitMutation({
+        serviceFunction: Email.contactOwner,
+        onSuccessCallback: () => reset()
+    }) 
+
     const preparedMessage = encodeURIComponent(message);
     const messageFormated = `https://wa.me/51${phone}?text=${preparedMessage}`
 
-    const onSubmit = async (data: Omit<PublicContactForm, 'direction'>) => {
-        const directionProperty = direction
-        mutate({ ...data, direction: directionProperty })
+    const onSubmit = async (data: PublicContactForm) => {
+        mutate(data)
     }
 
     return (
-        <div className='bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm'>
+        <div className='bg-white p-6 rounded-lg border border-gray-200 shadow-sm'>
             <fieldset className='font-medium text-gray-800 dark:text-gray-200 mb-5 text-base'>
                 Contacta al vendedor
             </fieldset>
@@ -68,6 +72,7 @@ export default function FormContact({ direction, phone }: FormContactProps) {
                         <Input
                             variant="floating"
                             htmlFor="phone"
+                            inputMode='numeric'
                             field="phone"
                             label='Teléfono'
                             type="tel"
@@ -87,40 +92,21 @@ export default function FormContact({ direction, phone }: FormContactProps) {
                     </div>
 
                     <div className="flex w-full gap-3">
-                        <div className='relative flex-1'>
                             <Input
                                 variant="floating"
-                                htmlFor="name"
-                                field="name"
+                                htmlFor="fullName"
+                                field="fullName"
                                 label='Nombre'
                                 type="text"
-                                placeholder="Tu nombre"
+                                placeholder="Ingrese su nombre completo"
                                 Icon={User}
                                 register={register}
                                 rules={{
                                     required: "El nombre es obligatorio",
                                 }}
-                                errorMessage={errors.name}
+                                errorMessage={errors.fullName}
                                 className="w-full"
                             />
-                        </div>
-                        <div className='relative flex-1'>
-                            <Input
-                                variant="floating"
-                                htmlFor="lastname"
-                                field="lastname"
-                                label='Apellido'
-                                type="text"
-                                placeholder="Tu apellido"
-                                Icon={User}
-                                register={register}
-                                rules={{
-                                    required: "El apellido es obligatorio",
-                                }}
-                                errorMessage={errors.lastname}
-                                className="w-full"
-                            />
-                        </div>
                     </div>
                 </div>
 

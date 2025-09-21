@@ -98,13 +98,20 @@ export const findPropertySchema = z.object({
 
 export const cardsSchema = z.array(cardSchema)
 
+export const contactInfoSchema = z.object({
+  fullName: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  message: z.string()
+})
+
 export const publicContactFormSchema = z.object({
-  name: z.string(),
-  lastname: z.string(),
+  fullName: z.string(),
   email: z.string(),
   phone: z.string(),
   message: z.string(),
-  direction: z.string()
+  address: z.string(),
+  ownerEmail: z.string()
 })
 
 export const publicCardsSearchSchema = z.object({

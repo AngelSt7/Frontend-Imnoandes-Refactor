@@ -1,12 +1,13 @@
 'use client'
 
-import { RiAppleLine, RiCloseLine } from "react-icons/ri";
+import { RiCloseLine } from "react-icons/ri";
 import { MobileMenuHeaderProps } from "../interfaces/interface";
+import { LogoImnoandes } from "./LogoImnoandes";
 
 export function MobileMenuHeader({ closeMenu }: MobileMenuHeaderProps) {
   return (
     <div className="flex justify-between items-center p-6 border-b border-gray-200">
-      <RiAppleLine className="w-8 h-8 text-zinc-900" />
+      <LogoImnoandes />
       <button
         onClick={closeMenu}
         className="w-10 h-10 flex items-center justify-center text-zinc-900 hover:bg-gray-100 rounded-full transition-colors"

@@ -26,18 +26,21 @@ export function HeaderImagesOverlay({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Visor de imágenes ampliadas"
       className="fixed top-0 left-0 w-dvw h-dvh bg-black bg-opacity-90 flex items-center justify-center z-40"
       onClick={closeOverlay}
     >
-     
-     <ControlButtons controlButton='close' closeOverlay={closeOverlay}/>
-      
+
+      <ControlButtons controlButton='close' closeOverlay={closeOverlay} />
+
       <div className="absolute top-6 left-1/2 -translate-x-1/2 text-white text-lg font-medium z-50">
         {currentIndex + 1} / {images.length}
       </div>
 
       <ControlButtons controlButton='prev' showPrev={showPrev} />
-      
+
       <div
         className="flex items-center justify-center max-h-[80vh] max-w-[90vw] z-40"
         onClick={(e) => e.stopPropagation()}

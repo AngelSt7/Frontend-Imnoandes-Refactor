@@ -1,30 +1,20 @@
 'use client'
-import { User, UserUpdatePassword } from "@/src/types/userTypes/user";
-import Input from "../../../myLib/components/Input/Input";
+import { User, UserUpdatePassword } from "@/src/types";
 import { Button } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { Key } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { userUpdatePassword } from "@/src/services/client/user/UserUpdatePassword";
+import { Input, useSubmitMutation } from "@/src/myLib";
+import { User as UserService } from "@/src/features/property/admin/services";
 
-type UserFormProps = { user: User }
-
-export default function PasswordForm({ user }: UserFormProps) {
+export default function PasswordForm({ user }: { user: User }) {
     const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<UserUpdatePassword>();
 
-    const { mutate } = useMutation({
-        mutationFn: userUpdatePassword,
-        onError: (error) => {
-            toast.error(error.message)
-        },
-        onSuccess: (data) => {
-            reset()
-            toast.success(data)
-        }
+    const { mutate } = useSubmitMutation({
+        serviceFunction: UserService.updatePassword,
+        onSuccessCallback: () => reset(),
     })
 
-    const onSubmit = (data: UserUpdatePassword) => mutate(data)
+    const onSubmit = (data: UserUpdatePassword) => mutate({...data, email: user.email})
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 h-full">
@@ -32,13 +22,14 @@ export default function PasswordForm({ user }: UserFormProps) {
                 htmlFor="currentPassword"
                 field="currentPassword"
                 variant="floating"
+                label="Contraseña actual"
                 placeholder="Tu contraseña actual"
                 type="password"
                 register={register}
                 rules={{
                     required: "La contraseña es obligatoria",
                     minLength: {
-                        value: 6,
+                        value: 8,
                         message: "La contraseña debe tener mínimo 6 caracteres"
                     }
                 }}
@@ -46,20 +37,21 @@ export default function PasswordForm({ user }: UserFormProps) {
                 Icon={Key}
             />
             <Input
-                htmlFor="password"
-                field="password"
+                htmlFor="newPassword"
+                field="newPassword"
                 variant="floating"
+                label="Nueva contraseña"
                 placeholder="Nueva contraseña"
                 type="password"
                 register={register}
                 rules={{
                     required: "La contraseña es obligatoria",
                     minLength: {
-                        value: 6,
+                        value: 8,
                         message: "La contraseña debe tener mínimo 6 caracteres"
                     }
                 }}
-                errorMessage={errors.password}
+                errorMessage={errors.newPassword}
                 Icon={Key}
             />
 
@@ -67,20 +59,21 @@ export default function PasswordForm({ user }: UserFormProps) {
                 htmlFor="repeatPassword"
                 field="repeatPassword"
                 variant="floating"
+                label="Repetir contraseña"
                 placeholder="Repite tu contraseña"
                 type="password"
                 register={register}
                 rules={{
                     required: "Debes confirmar la contraseña",
                     validate: (value) =>
-                        value === getValues("password") || "Las contraseñas no coinciden"
+                        value === getValues("newPassword") || "Las contraseñas no coinciden"
                 }}
                 errorMessage={errors.repeatPassword}
                 Icon={Key}
             />
-            <div className="flex gap-2 justify-end">
-                <Button type="submit" fullWidth color="warning" variant="flat">
-                    Actualizar credenciales
+            <div className="flex gap-2 ">
+                <Button type='submit' radius='md' className='bg-zinc-800 text-white font-semibold py-2 transition-all hover:bg-zinc-700 focus:ring-2 focus:ring-zinc-400 w-full'>
+                    Actualizar contraseña
                 </Button>
             </div>
         </form>

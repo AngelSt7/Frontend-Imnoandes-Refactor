@@ -1,11 +1,11 @@
 import { errorHttp } from "@/src/utils/resolves/error"
-import { LocationSearch, locationSearchSchema, LocationsSearch, locationsSearchSchema } from "../schemas"
+import { LocationSearch, LocationsSearch, locationsSearchSchema } from "../schemas"
 
 const ROUTES = {
     SEARCH: `location/search`
 }
 
-const base = 'http://localhost:4000/api'
+const base = `${process.env.NEXT_PUBLIC_NEST_URL}`
 
 export class Location {
 

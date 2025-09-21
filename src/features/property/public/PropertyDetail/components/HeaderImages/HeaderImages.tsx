@@ -31,7 +31,7 @@ export function HeaderImages({ images }: Props) {
   } = useHeaderImagesOverlay(imagesArray)
 
   return (
-    <div className="w-full">
+    <section aria-label="Galería de imágenes de la propiedad" className="w-full">
       <HeaderImagesDesktop
         mainImage={mainImage}
         images={visibleGalleryImages}
@@ -60,6 +60,6 @@ export function HeaderImages({ images }: Props) {
           showNext={showNext}
         />
       )}
-    </div>
+    </section>
   )
 }

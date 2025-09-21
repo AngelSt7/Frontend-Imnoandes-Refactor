@@ -1,12 +1,14 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Menu from '../dashboard/ui/Menu'
 import { messages } from '@/src/utils/frontend/ui/messagesUtils'
 import { Button } from '@heroui/react'
-import { Actions, useModalUtils } from '../../hooks/modal/useModalUtils';
+import { Actions, useModalUtils } from '../../hooks/modal/useModalUtils'
+import { MenuPopover } from '@/src/myLib'
+import { LinksMenu } from '@/src/config/links'
+import { User } from '@/src/types'
 
-export default function Navigation() {
+export default function Navigation({ user }: { user: User }) {
     const { openModal } = useModalUtils();
     const path = usePathname()
 
@@ -57,10 +59,17 @@ export default function Navigation() {
                                 Agregar propiedad
                             </Button>
                         </div>
-                        <Menu />
+                        <MenuPopover 
+                            icon="/dance-goku.gif"
+                            position="bottom-start"
+                            links={LinksMenu}
+                            user={{ userName: user.name, email: user.email, message: "Session iniciada como:" }}
+                            whitUser={false}
+                        />
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+

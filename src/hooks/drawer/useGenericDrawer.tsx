@@ -1,7 +1,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { pluralToSingular } from "@/src/utils";
 import { User } from "@/src/types/userTypes/user";
-import { useModalUtils } from "../modal/useModalUtils";
+import { useModalUtils } from "../../myLib/hooks/modal/useModalUtils/useModalUtils";
 import ImageManagerOrquest from "@/src/components/dashboard/properties/gallery/ImageManagerOrquest";
 import { Dispatch, SetStateAction } from "react";
 

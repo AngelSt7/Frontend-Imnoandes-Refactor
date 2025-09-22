@@ -1,27 +1,9 @@
-import { notFound, redirect } from "next/navigation";
-import ClientPageProperties from "@/src/components/dashboard/properties/content/ClientPageProperties";
+import { ClientPageProperties } from "@/src/features/property/admin/subfeatures/ClientPage";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { User } from "@/src/features/property/admin/services";
 
-export const ValidParams = [
-  "action",
-  "id",
-  "page",
-  "create",
-  "details",
-  "custom-images",
-  "edit",
-  "changeStatus",
-  "limit",
-  "departmentId",
-  "propertyCategory",
-  "propertyType",
-  "availability",
-  "state",
-  "search",
-]
-
-export default async function PageProperties() {
+export default async function page() {
 
   const cookieStore = await cookies();
   const jwt = cookieStore.get("SESSION")?.value;

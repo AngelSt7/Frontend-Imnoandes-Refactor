@@ -4,13 +4,14 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@
 import { ChevronDownIcon } from 'lucide-react';
 
 interface ButtonFilterProps {
+    classNames?: string
     keyParam: string
     options: Option[]
     defaultLabel?: string
-    text: string
+    text?: string
 }
 
-export function ButtonFilter(props : ButtonFilterProps) {
+export function ButtonFilter(props: ButtonFilterProps) {
     const { getLabel, getText, handleChange } = useParamLabel(
         props.keyParam,
         props.options,
@@ -19,33 +20,33 @@ export function ButtonFilter(props : ButtonFilterProps) {
 
     return (
         <>
-        <h3 className="text-lg font-medium text-gray-900">{props.text}</h3>
+            {props.text && props.text !== '' && <h3 className="text-lg font-medium text-gray-900">{props.text}</h3>}
 
-        <Dropdown className="w-full">
-            <DropdownTrigger className={`flex justify-between `}>
-                <Button
-                    endContent={<ChevronDownIcon className="text-small" />}
-                    variant="flat"
-                    className="capitalize"
+            <Dropdown className="w-full">
+                <DropdownTrigger className={`flex justify-between ${props.classNames}`}>
+                    <Button
+                        endContent={<ChevronDownIcon className="text-small" />}
+                        variant="flat"
+                        className="capitalize"
                     >
-                    {getText}
-                </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-                disallowEmptySelection
-                aria-label="ESTADOS"
-                closeOnSelect={true}
-                selectedKeys={(getLabel())}
-                selectionMode="single"
-                onSelectionChange={(k) => handleChange(k)}
-            >
-                {props.options.map((option) => (
-                    <DropdownItem key={option.key} className="capitalize">
-                        {option.value}
-                    </DropdownItem>
-                ))}
-            </DropdownMenu>
-        </Dropdown>
-                </>
+                        {getText}
+                    </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                    disallowEmptySelection
+                    aria-label={props.keyParam}
+                    closeOnSelect={true}
+                    selectedKeys={(getLabel())}
+                    selectionMode="single"
+                    onSelectionChange={(k) => handleChange(k)}
+                >
+                    {props.options.map((option) => (
+                        <DropdownItem key={option.key} className="capitalize">
+                            {option.value}
+                        </DropdownItem>
+                    ))}
+                </DropdownMenu>
+            </Dropdown>
+        </>
     )
 }

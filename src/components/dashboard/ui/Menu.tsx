@@ -5,7 +5,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Home, User as UserIcon, ShoppingBag, LogOut, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Switcher from '../../ui/darkMode/SwitchMode';
-import { useModalUtils } from '@/src/hooks/modal/useModalUtils';
+import { useModalUtils } from '@/src/myLib/hooks/modal/useModalUtils/useModalUtils';
 
 const links = [
     {

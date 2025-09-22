@@ -1,2 +1,2 @@
 import { useGenericModal } from "./useGenericModal";
-import { useModalUtils } from "./useModalUtils";
+import { useModalUtils } from "../../myLib/hooks/modal/useModalUtils/useModalUtils";

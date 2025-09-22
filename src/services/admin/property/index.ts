@@ -1,1 +1,1 @@
-export * from './property-admin'
+export * from '../../../features/property/admin/services/property-admin.service'

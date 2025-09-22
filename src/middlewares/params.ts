@@ -2,9 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validate as isUUID } from "uuid";
 import { CURRENCY } from "../utils/resolves/bases/enums";
-import { options } from "../components/dashboard/ui/table/TableContent";
-import { ValidParams } from "@/app/dashboard/properties/page";
+import { options } from "../myLib/components/Table/TableContent";
 import { PROPERTY_CATEGORY, PROPERTY_TYPE } from "../components/dashboard/properties/details/Header";
+import { VALID_PARAMS } from "@/src/features/property/admin/constants";
 
 export function withParamValidation(req: NextRequest) {
   const url = req.nextUrl.clone();
@@ -16,7 +16,7 @@ export function withParamValidation(req: NextRequest) {
   let changed = false;
 
   for (const [key] of url.searchParams.entries()) {
-    if (!ValidParams.includes(key)) {
+    if (!VALID_PARAMS.includes(key)) {
       url.searchParams.delete(key);
       changed = true;
     }

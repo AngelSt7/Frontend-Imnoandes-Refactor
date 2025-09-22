@@ -1,7 +1,7 @@
 'use client'
 
 import { ImageGallery as ImageGalleryType, ImageMain as ImageMainType } from "@/src/types/image/image";
-import { useModalUtils } from "@/src/hooks/modal/useModalUtils";
+import { useModalUtils } from "@/src/myLib/hooks/modal/useModalUtils/useModalUtils";
 import { useEffect, useState } from "react";
 import { validate } from "uuid";
 import ControlTabs from "./ControlTabs";

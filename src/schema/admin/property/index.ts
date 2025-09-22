@@ -1,1 +1,1 @@
-export * from './property'
+export * from '../../../features/property/admin/schemas/property.schema'

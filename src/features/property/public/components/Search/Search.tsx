@@ -1,6 +1,6 @@
 'use client';
 
-import { Meta } from '../../../../../schema/shared/meta';
+import { Meta } from '../../../../shared/schemas';
 import { CardProperty, LocationsSearch, PropertySearch } from '@/src/features/property';
 import FilterOrquest from '../Filters/components/FilterOrquest';
 import { StickyContent } from '@/src/myLib';

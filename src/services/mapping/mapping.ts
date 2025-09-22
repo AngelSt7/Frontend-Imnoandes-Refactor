@@ -1,6 +1,6 @@
 import { UseGetFilters } from "@/src/hooks/search/useGetFilters";
 import { PropertyAdmin } from "../admin";
-import { ApiResponse } from "@/src/components/dashboard/ui/table/TableContent";
+import { ApiResponse } from "@/src/myLib/components/Table/TableContent";
 
 type ServiceFn<T> = (filters: UseGetFilters) => Promise<ApiResponse<T> | undefined>;
 

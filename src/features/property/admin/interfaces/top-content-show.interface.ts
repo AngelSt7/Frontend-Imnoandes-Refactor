@@ -1,0 +1,12 @@
+export type TOP_CONTENT_SHOW =
+  | "currency"
+  | "state"
+  | "columns"
+  | "departmentId"
+  | "categories"
+  | "types"
+  | "pagination"
+  | "propertyType"
+  | "propertyCategory"
+  | "clear"
+  | "filters"

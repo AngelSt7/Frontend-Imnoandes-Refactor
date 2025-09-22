@@ -13,7 +13,7 @@ import { useStepsForm } from '@/src/hooks/formStep/hooks/useStepForm';
 import ButtonsControl from '../ui/ButtonsControl';
 import ButtonSubmit from '../ui/ButtonSubmit';
 import toast from 'react-hot-toast';
-import { useModalUtils } from '@/src/hooks/modal/useModalUtils';
+import { useModalUtils } from '@/src/myLib/hooks/modal/useModalUtils/useModalUtils';
 
 interface EditPropertyProps {
     user?: User

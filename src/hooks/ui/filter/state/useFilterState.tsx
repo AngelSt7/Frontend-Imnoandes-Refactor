@@ -1,4 +1,4 @@
-import { options } from "@/src/components/dashboard/ui/table/TableContent";
+import { options } from "@/src/myLib/components/Table/TableContent";
 import { useMemo } from "react";
 
 interface FiltersProps {

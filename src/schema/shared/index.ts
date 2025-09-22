@@ -1,1 +1,1 @@
-export * from './meta'
+export * from '../../features/shared/schemas'

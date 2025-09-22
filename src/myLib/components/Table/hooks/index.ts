@@ -1,0 +1,1 @@
+export { useLogicTable } from "./useLogicTable";

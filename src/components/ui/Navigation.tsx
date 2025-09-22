@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { messages } from '@/src/utils/frontend/ui/messagesUtils'
 import { Button } from '@heroui/react'
-import { Actions, useModalUtils } from '../../hooks/modal/useModalUtils'
+import { Actions, useModalUtils } from '../../myLib/hooks/modal/useModalUtils/useModalUtils'
 import { MenuPopover } from '@/src/myLib'
 import { LinksMenu } from '@/src/config/links'
 import { User } from '@/src/types'

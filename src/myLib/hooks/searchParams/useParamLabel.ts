@@ -28,7 +28,7 @@ export function useParamLabel(
   }, [getParam, key, options, defaultLabel]);
 
   const handleChange = (keys: SharedSelection) => {
-    const selectedKey = Array.from(keys)[0];
+    const selectedKey = Array.from(keys)[0].toString().toUpperCase();
     if (selectedKey === "ALL") {
       clearParam(key);
     } else {

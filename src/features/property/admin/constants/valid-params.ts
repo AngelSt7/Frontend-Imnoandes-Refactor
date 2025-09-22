@@ -1,0 +1,17 @@
+export const VALID_PARAMS = [
+  "action",
+  "id",
+  "page",
+  "create",
+  "details",
+  "custom-images",
+  "edit",
+  "changeStatus",
+  "limit",
+  "departmentId",
+  "propertyCategory",
+  "propertyType",
+  "availability",
+  "state",
+  "search",
+] ;

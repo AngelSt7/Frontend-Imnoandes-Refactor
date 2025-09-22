@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MetaSchema } from '../../../../schema/shared/meta';
+import { MetaSchema } from '../../../shared/schemas';
 import { CURRENCY, PROPERTY_TYPE, PROPERTY_CATEGORY } from "@/src/utils/resolves/bases/enums";
 
 export type PropertySearch = z.infer<typeof propertySearchSchema>;

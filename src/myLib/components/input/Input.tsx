@@ -1,9 +1,9 @@
 import { FieldValues } from "react-hook-form";
-import Errors from "../../../components/ui/Errors/Errors";
 import { InputProps } from "./interfaces/interface";
 import { useInputClasses } from "./hooks/useInputClasses";
 import { InputLabel } from "./components/InputLabel";
 import { InputField } from "./components/InputField";
+import { Errors } from "@/src/components";
 
 export function Input<T extends FieldValues>({
   type,
@@ -77,7 +77,7 @@ export function Input<T extends FieldValues>({
         )}
       </div>
 
-      {errorMessage && <Errors>{errorMessage.message?.toString()}</Errors>}
+      {errorMessage && <Errors>{errorMessage.toString()}</Errors>}
     </div>
 
   );

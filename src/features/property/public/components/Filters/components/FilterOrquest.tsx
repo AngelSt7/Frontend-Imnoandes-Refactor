@@ -1,4 +1,4 @@
-import DrawerHero from "@/app/success/DrawerHero";
+import DrawerHero from "@/src/myLib/components/Drawer/Drawer";
 import { InputSearch } from "@/src/features/property/public/components/Search";
 import { Filters } from './Filters';
 

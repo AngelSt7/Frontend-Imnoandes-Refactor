@@ -8,7 +8,7 @@ interface SelectNumbersProps {
 
 export function SelectNumbers({ keyParam, options, tittle }: SelectNumbersProps) {
 
-    const { getParam, setParam, clearParam } = useQueryParam();
+    const { getParam, setParam, clearParams } = useQueryParam();
 
     const param = getParam(keyParam)
 
@@ -22,7 +22,7 @@ export function SelectNumbers({ keyParam, options, tittle }: SelectNumbersProps)
                         key={option.key}
                         onClick={() => {
                             if (param === option.key) {
-                                clearParam(keyParam)
+                                clearParams([keyParam])
                             } else {
                                 setParam(keyParam, option.key)
                             }

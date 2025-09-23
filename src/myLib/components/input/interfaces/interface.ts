@@ -1,4 +1,4 @@
-import { FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, RegisterOptions, UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";
 
 export interface InputProps<T extends FieldValues> {
@@ -8,7 +8,7 @@ export interface InputProps<T extends FieldValues> {
   htmlFor: Path<T>;
   label?: string;
   disabled?: boolean;
-  errorMessage?: FieldError;
+  errorMessage?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   Icon?: IconType;
   inputMode?: 'text' | 'numeric' | 'decimal' | 'tel' | 'email' | 'url';
   max?: number;

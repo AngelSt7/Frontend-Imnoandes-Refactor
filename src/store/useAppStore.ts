@@ -15,7 +15,6 @@ export const useAppStore = create<PropertySlice & PublicPropertySlice & DrawerSl
             {
                 name: "property-storage", 
                 partialize: (state) => ({ 
-                    take: state.take, 
                     propertiesFavorites: state.propertiesFavorites
                 }),
             }

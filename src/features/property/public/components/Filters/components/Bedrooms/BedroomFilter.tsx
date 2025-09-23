@@ -6,10 +6,10 @@ import FormBedroom from "./FormBedroom";
 interface BedroomFilterProps {
     setParam: (key: string, value: string) => void
     getParam: (key: string) => string | undefined
-    deleteParams: (keys: string[]) => void
+    clearParams: (keys: string[]) => void
 }
 
-export function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilterProps) {
+export function BedroomFilter({ setParam, getParam, clearParams }: BedroomFilterProps) {
     const defaultValues = { 
         minBedrooms: getParam("minBedrooms") &&Number(getParam("minBedrooms")), 
         maxBedrooms: getParam("maxBedrooms") && Number(getParam("maxBedrooms")) 
@@ -17,7 +17,7 @@ export function BedroomFilter({ setParam, getParam, deleteParams }: BedroomFilte
 
     const { register, handleSubmit,  errors , onSubmit, handleClearParams } = useFormFilter<FilterBedrooms>({
         defaultValues,
-        deleteParams
+        clearParams
     })
 
     return (

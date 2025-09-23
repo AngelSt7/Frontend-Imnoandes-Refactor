@@ -6,12 +6,12 @@ import equal from "fast-deep-equal";
 import { TabsForms } from '../../ui';
 import { useSubmitMutation } from '@/src/hooks';
 import { PropertyAdmin } from '@/src/services/admin';
-import { useControlStep } from '@/src/hooks/formStep/hooks/useControlStep';
-import { useStepUpdater } from '@/src/hooks/formStep/hooks/useStepUpdater';
-import { useStepRules } from '@/src/hooks/formStep/config/useStepRules';
-import { useStepsForm } from '@/src/hooks/formStep/hooks/useStepForm';
-import ButtonsControl from '../ui/ButtonsControl';
-import ButtonSubmit from '../ui/ButtonSubmit';
+import { useControlStep } from '@/src/myLib/hooks/formStep/hooks/useControlStep';
+import { useStepUpdater } from '@/src/myLib/hooks/formStep/hooks/useStepUpdater';
+import { useStepRules } from '@/src/myLib/hooks/formStep/config/useStepRules';
+import { useStepsForm } from '@/src/myLib/hooks/formStep/hooks/useStepForm';
+import ButtonsControl from '../../../../myLib/components/Form/ButtonsControl';
+import ButtonSubmit from '../../../../myLib/components/Form/ButtonSubmit';
 import toast from 'react-hot-toast';
 import { useModalUtils } from '@/src/myLib/hooks/modal/useModalUtils/useModalUtils';
 

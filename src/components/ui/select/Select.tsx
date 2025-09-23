@@ -1,14 +1,9 @@
-import { Select, SelectItem as HeroSelectItem } from "@heroui/react";
+import { Select as HeroSelect, SelectItem as HeroSelectItem } from "@heroui/react";
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, PathValue, UseFormRegisterReturn, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import Errors from "../Errors/Errors";
+import { Errors } from "../errors";
+import { Option } from "@/src/myLib/interfaces";
 
-interface Option { 
-  key: string | number; 
-  label: string; 
-  active?: boolean | number; 
-}
-
-interface SelectItemProps<T extends FieldValues> {
+interface SelectProps<T extends FieldValues> {
   data: Option[];
   name: Path<T>;
   register: UseFormRegisterReturn;
@@ -18,7 +13,7 @@ interface SelectItemProps<T extends FieldValues> {
   errorMessage?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 };
 
-export default function SelectItem<T extends FieldValues>({
+export function Select<T extends FieldValues>({
   data,
   register,
   errorMessage,
@@ -26,7 +21,7 @@ export default function SelectItem<T extends FieldValues>({
   label = "Seleccionar opción",
   watch,
   setValue,
-}: SelectItemProps<T>) {
+}: SelectProps<T>) {
   const selectedValue = watch(name);
 
 
@@ -58,7 +53,7 @@ export default function SelectItem<T extends FieldValues>({
             : "border-[#afaeae] dark:border-[#3f3f46]"
         }`}
       >
-        <Select
+        <HeroSelect
           className="w-full"
           aria-labelledby={labelId}
           items={data}
@@ -78,7 +73,7 @@ export default function SelectItem<T extends FieldValues>({
               {item.label}
             </HeroSelectItem>
           )}
-        </Select>
+        </HeroSelect>
       </div>
 
       {errorMessage && <Errors>{errorMessage.message?.toString()}</Errors>}

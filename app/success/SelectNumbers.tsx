@@ -2,7 +2,7 @@ import { useQueryParam } from "@/src/myLib/hooks/searchParams/useQueryParam";
 
 export default function SelectNumbers() {
 
-    const { getParam, setParam, clearParam } = useQueryParam();
+    const { getParam, setParam, clearParams } = useQueryParam();
 
     const param = getParam("minBathrooms")
 
@@ -24,7 +24,7 @@ export default function SelectNumbers() {
                         key={option.key}
                         onClick={() => {
                             if (param === option.key) {
-                                clearParam("minBathrooms")
+                                clearParams(["minBathrooms"])
                             } else {
                                 setParam("minBathrooms", option.key)
                             }

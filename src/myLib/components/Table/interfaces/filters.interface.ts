@@ -6,7 +6,4 @@ export interface FiltersProps<T = unknown> {
     visibleColumns: "all" | Set<string>;
     setVisibleColumns: Dispatch<SetStateAction<"all" | Set<string>>>;
     columns: ColumnsType;
-    onAddParam: (key: string, value: string) => void
-    onDeleteParam: (key: string) => void
-    onGetParam: (key: string) => string | null
 }

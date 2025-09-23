@@ -6,10 +6,10 @@ import { FilterPrices } from "@/src/types";
 interface CurrencyProps {
     setParam: (key: string, value: string) => void
     getParam: (key: string) => string | undefined
-    deleteParams: (keys: string[]) => void
+    clearParams: (keys: string[]) => void
 }
 
-export function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
+export function CurrencyFilter({ setParam, getParam, clearParams }: CurrencyProps) {
     const initPrices = {
         minPrice: getParam("minPrice") && Number(getParam("minPrice")),
         maxPrice: getParam("maxPrice") && Number(getParam("maxPrice")),
@@ -17,7 +17,7 @@ export function CurrencyFilter({ setParam, getParam, deleteParams }: CurrencyPro
 
     const { register, handleSubmit, errors, onSubmit, handleClearParams } = useFormFilter<FilterPrices>({
         defaultValues: initPrices,
-        deleteParams,
+        clearParams,
         clearKeys: ["minPrice", "maxPrice", "currency"],
     })
 

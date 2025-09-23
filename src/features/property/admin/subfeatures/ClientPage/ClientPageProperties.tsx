@@ -1,50 +1,31 @@
 "use client";
 
-import { User } from "@/src/types";
-
-import { COLUMNS } from "@/src/features/property/admin/constants";
+import { Actions, useModalUtils, useQueryParam, useSubmitMutation } from "@/src/myLib/hooks";
 import { AdminProperty, TOP_CONTENT_SHOW } from "@/src/features/property/admin/interfaces";
-import { PropertyAdmin } from "@/src/features/property/admin/services";
 import { buildKey, resolveFunction } from "@/src/features/property/admin/utils";
-
-
-import { useModalUtils } from "@/src/myLib/hooks/modal/useModalUtils/useModalUtils";
-import { useParams } from "@/src/hooks/search/useParams";
-import GenericDataWrapper from "@/src/components/ui/generic/GenericDataWrapper";
-import GenericModal from "@/src/components/ui/generic/GenericModal";
-import { Button } from "@heroui/react";
-import { Actions, TableContent, useSubmitMutation } from "@/src/myLib";
-
-
-import { Filters, RenderCellProperty, TopContent } from "./components";
-
+import { COLUMNS } from "@/src/features/property/admin/constants";
+import { Filters, RenderCellProperty, TopContent, AddButton } from "./components";
+import { GenericDataWrapper, GenericModal, TableContent } from "@/src/myLib/components";
+import { PropertyAdmin } from "@/src/features/property/admin/services";
+import { User } from "@/src/types";
 
 export function ClientPageProperties({ user }: { user: User }) {
     const { openModal, closeModal } = useModalUtils();
-    const { setParam, deleteParam, getParam } = useParams();
+    const { getParam } = useQueryParam();
     const ID = getParam("id");
     const action = getParam("action");
-
     const { mutate } = useSubmitMutation({
         serviceFunction: PropertyAdmin.changeStatus,
-        invalidateQueries: [
-            ["properties", user.id]
-        ],
+        invalidateQueries: [["properties", user.id]],
     });
-
 
     return (
         <>
-
             <div className='block md:hidden'>
-                <Button
+                <AddButton
                     onPress={() => openModal({ action: Actions.create })}
-                    type='submit'
-                    radius='full'
-                    className='w-full px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 transition flex items-center gap-2 bg-gray-100 hover:bg-gray-50 shadow-sm hover:shadow-md '
-                >
-                    Agregar propiedad
-                </Button>
+                    label="Agregar propiedad"
+                />
             </div>
             <TableContent<AdminProperty, TOP_CONTENT_SHOW>
                 columns={COLUMNS}
@@ -58,9 +39,6 @@ export function ClientPageProperties({ user }: { user: User }) {
                 }}
                 renderFilters={Filters}
                 onList={PropertyAdmin.list}
-                onAddParam={setParam}
-                onDeleteParam={deleteParam}
-                onGetParam={getParam}
                 getRowId={(item) => item.id}
             />
 
@@ -72,7 +50,6 @@ export function ClientPageProperties({ user }: { user: User }) {
                     user={user}
                     serviceFunction={resolveFunction(ID, action)!}
                     queryKey={buildKey(action, ID)}
-
                     closeModal={closeModal}
                 />
             )}

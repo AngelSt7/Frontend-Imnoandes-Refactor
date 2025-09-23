@@ -1,0 +1,1 @@
+export { useUbigeoData } from "./useUbigeoData";

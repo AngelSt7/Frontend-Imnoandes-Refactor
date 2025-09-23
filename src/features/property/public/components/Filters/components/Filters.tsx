@@ -5,7 +5,7 @@ import { Button } from "@heroui/react";
 import { useAppStore } from "@/src/store/useAppStore";
 import { AreaFilter, BedroomFilter, CurrencyFilter, ButtonFilter } from '.';
 import { AllowedFilters } from "../interfaces/interface";
-import { useDrawerContext } from "@/app/success/DrawerContext";
+import { useDrawerContext } from "@/src/myLib/components/Drawer/contexts/DrawerContext";
 
 export interface FiltersProps {
     show: AllowedFilters[]
@@ -28,7 +28,7 @@ const propertyTypes = [
 
 export function Filters({ show }: FiltersProps) {
 
-    const { setParam, getParam, deleteParams } = useQueryParam();
+    const { setParam, getParam, keepParams, clearParams } = useQueryParam();
     const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
     const { isInDrawer: inProvider } = useDrawerContext();
 
@@ -42,18 +42,7 @@ export function Filters({ show }: FiltersProps) {
 
             {show.includes("clear") && (
                 <Button
-                    onPress={() => deleteParams([
-                        'currency',
-                        'bedrooms',
-                        'bathrooms',
-                        'propertyType',
-                        'propertyCategory',
-                        'area',
-                        'minBathrooms',
-                        'minParkingSpaces',
-                        'published',
-                        'propertyCategory',
-                    ])}
+                    onPress={() => keepParams([''])}
                     size="md" variant="flat" className="w-full border border-[#dbdada]"
                 >
                     Limpiar
@@ -64,7 +53,7 @@ export function Filters({ show }: FiltersProps) {
                 <CurrencyFilter
                     setParam={setParam}
                     getParam={getParam}
-                    deleteParams={deleteParams}
+                    clearParams={clearParams}
                 />
             )}
 
@@ -72,7 +61,7 @@ export function Filters({ show }: FiltersProps) {
                 <BedroomFilter
                     setParam={setParam}
                     getParam={getParam}
-                    deleteParams={deleteParams}
+                    clearParams={clearParams}
                 />
             )}
 
@@ -103,7 +92,7 @@ export function Filters({ show }: FiltersProps) {
                 <AreaFilter
                     setParam={setParam}
                     getParam={getParam}
-                    deleteParams={deleteParams}
+                    clearParams={clearParams}
                 />
             )}
 

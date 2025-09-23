@@ -1,36 +1,15 @@
-import React from "react";
-import { Chip, User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, ChipProps } from "@heroui/react";
-import { AdminProperty } from "@/src/types";
-import { VerticalDotsIcon } from "../../../../../../../components/dashboard/ui/icons/VerticalDotsIcon";
-import { UseMutateFunction } from "@tanstack/react-query";
-import { formatCurrency } from "@/src/utils/frontend/format/currencyUtil";
-import { formatDate } from '@/src/utils/frontend/format/dateUtils';
-import { Actions, IOpenModal } from "@/src/myLib";
-
-export const statusColorMap: Record<string, ChipProps["color"]> = {
-    activo: "success",
-    inactivo: "danger",
-};
-interface RenderCellPropertyProps {
-    onOpenModal?: (meta: IOpenModal) => void
-    onMutate?: mutateProps;
-    item: AdminProperty;
-    columnKey: React.Key
-}
-
-export type ChangeStatus = {
-    id: string;
-    status: boolean;
-};
-
-export type mutateProps = UseMutateFunction<any, any, string, unknown>
+import { Actions } from "@/src/myLib/hooks/modal";
+import { AdminProperty } from "@/src/features/property/admin/interfaces";
+import { Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@heroui/react";
+import { formatCurrency, formatDate } from "@/src/myLib/utils";
+import { RenderCellsProps, statusColorMap, VerticalDotsIcon } from "@/src/myLib/components/Table";
 
 export const RenderCellProperty = ({
     onMutate,
     onOpenModal,
     item,
     columnKey
-}: RenderCellPropertyProps) => {
+}: RenderCellsProps<AdminProperty>) => {
     const cellValue = item[columnKey as keyof typeof item];
 
     switch (columnKey) {

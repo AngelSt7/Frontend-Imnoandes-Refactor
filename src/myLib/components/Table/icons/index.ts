@@ -1,0 +1,1 @@
+export { VerticalDotsIcon } from "./VerticalDotsIcon";

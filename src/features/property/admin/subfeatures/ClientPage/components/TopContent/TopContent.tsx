@@ -1,9 +1,8 @@
 import { Input } from "@heroui/react";
 import { SearchIcon } from "lucide-react";
-import DrawerHero from "@/app/success/DrawerHero";
 import { TOP_CONTENT_SHOW } from "@/src/features/property/admin/interfaces";
-import { TopContentProps } from "@/src/myLib";
-
+import { TopContentProps } from "@/src/myLib/components/Table/interfaces";
+import { Drawer } from "@/src/myLib/components/Drawer";
 
 export const TopContent = ({
   filterValue,
@@ -34,7 +33,7 @@ export const TopContent = ({
         <div className="md:hidden">{renderFilters(["filters"])}</div>
       </div>
 
-        <DrawerHero
+        <Drawer
           renderFilters={renderFilters(["columns", "categories", "types", "departmentId", "propertyType", "propertyCategory", "clear", "pagination", "state"])}
         />
     </div>

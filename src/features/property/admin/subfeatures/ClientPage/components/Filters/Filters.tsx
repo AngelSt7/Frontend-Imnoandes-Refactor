@@ -1,25 +1,21 @@
-import { CURRENCY, DEPARTMENT, PROPERTY_CATEGORY, PROPERTY_TYPE } from "./constants";
 import { Button } from "@heroui/react";
-import { FilterPagination, FilterColumns, FilterState } from "./components";
-import { TOP_CONTENT_SHOW } from "@/src/features/property/admin/interfaces";
-
-import { useAppStore } from "@/src/store/useAppStore";
-import { useParams } from "@/src/hooks/search/useParams";
+import { ButtonFilter } from "@/src/myLib/components/Filters";
+import { CURRENCY, DEPARTMENT, PAGINATION, PROPERTY_CATEGORY, PROPERTY_TYPE } from "./constants";
+import { FilterColumns, FilterState } from "./components";
 import { FiltersProps } from "@/src/myLib/components/Table";
-import { ButtonFilter } from "@/src/features/property/public/components/Filters/components";
+import { TOP_CONTENT_SHOW } from "@/src/features/property/admin/interfaces";
+import { useAppStore } from "@/src/store/useAppStore";
+import { useQueryParam } from "@/src/myLib/hooks/searchParams";
 
 export function Filters({
     show,
     visibleColumns,
     setVisibleColumns,
-    columns,
-    onAddParam,
-    onDeleteParam,
-    onGetParam
+    columns
 }: FiltersProps<TOP_CONTENT_SHOW>) {
 
     const onChangeDrawer = useAppStore(state => state.onChangeDrawer)
-    const { clearParams } = useParams()
+    const { keepParams, clearParams, getParam, setParam } = useQueryParam()
     const classNames = 'border border-[#dbdada]'
     return (
         <>
@@ -32,7 +28,7 @@ export function Filters({
 
             {show.includes("clear") && (
                 <Button
-                    onPress={() => clearParams()}
+                    onPress={() => keepParams(["page", "limit"])}
                     size="md" variant="flat" className="w-full border border-[#dbdada]"
                 >
                     Limpiar
@@ -58,11 +54,10 @@ export function Filters({
             )}
 
             {show.includes("pagination") && (
-                <FilterPagination
+                <ButtonFilter
                     classNames={classNames}
-                    onGetParam={onGetParam}
-                    onAddParam={onAddParam}
-                    onDeleteParam={onDeleteParam}
+                    keyParam="limit"
+                    options={PAGINATION}
                 />
             )}
 
@@ -96,9 +91,9 @@ export function Filters({
             {show.includes("state") && (
                 <FilterState
                     classNames={classNames}
-                    onGetParam={onGetParam}
-                    onAddParam={onAddParam}
-                    onDeleteParam={onDeleteParam}
+                    onGetParam={getParam}
+                    onAddParam={setParam}
+                    onDeleteParam={clearParams}
                 />
             )}
 

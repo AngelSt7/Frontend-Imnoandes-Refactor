@@ -12,7 +12,7 @@ export function useParamLabel(
   options: Option[],
   defaultLabel: string = "Cualquier opción"
 ) {
-  const { getParam, setParam, clearParam } = useQueryParam();
+  const { getParam, setParam, clearParams } = useQueryParam();
 
   const getLabel = () => {
     const value = getParam(key);
@@ -30,7 +30,7 @@ export function useParamLabel(
   const handleChange = (keys: SharedSelection) => {
     const selectedKey = Array.from(keys)[0].toString().toUpperCase();
     if (selectedKey === "ALL") {
-      clearParam(key);
+      clearParams([key]);
     } else {
       setParam(key, selectedKey.toString());
     }

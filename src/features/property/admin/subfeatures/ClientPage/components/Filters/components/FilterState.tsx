@@ -1,13 +1,13 @@
 import { Dropdown, DropdownTrigger, Button, DropdownMenu, DropdownItem } from '@heroui/react'
 import { ChevronDownIcon } from 'lucide-react'
-import { useFilterState } from '@/src/hooks/ui/filter/state/useFilterState'
+import { useFilterState } from './hooks'
 import { STATE } from '../constants'
 
 interface FilterStateProps {
     classNames: string
     onAddParam: (key: string, value: string) => void
-    onDeleteParam: (key: string) => void
-    onGetParam: (key: string) => string | null
+    onDeleteParam: (key: string[]) => void
+    onGetParam: (key: string) => string | undefined
 }
 
 export function FilterState({
@@ -38,7 +38,7 @@ export function FilterState({
                 selectionMode="single"
                 onSelectionChange={(keys) => {
                     const selectedKey = Array.from(keys)[0];
-                    selectedKey === "all" ? onDeleteParam("availability") : onAddParam("availability", String(selectedKey) === "activo" ? "true" : "false");
+                    selectedKey === "all" ? onDeleteParam(["availability"]) : onAddParam("availability", String(selectedKey) === "activo" ? "true" : "false");
                 }}
             >
                 {STATE.map((status) => (

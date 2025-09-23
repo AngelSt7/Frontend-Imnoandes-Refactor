@@ -1,6 +1,5 @@
 // errorComponents.ts
-import { ReactNode } from "react";
-import Errors from "../components/ui/Errors/Errors";
+import { Errors } from "../components";
 
 interface ErrorProps {
   message?: string;

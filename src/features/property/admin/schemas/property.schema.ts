@@ -1,6 +1,6 @@
-import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "@/src/utils/resolves/bases/enums";
 import { z } from "zod";
 import { MetaSchema } from "../../../../schema/shared";
+import { PROPERTY_TYPE, PROPERTY_CATEGORY, CURRENCY } from "@/src/features/property/admin/constants";
 
 export const formDataPropertySchema = z.object({
   id: z.string().uuid().nullish(),

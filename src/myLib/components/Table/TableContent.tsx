@@ -16,9 +16,6 @@ export function TableContent<T, F>({
     renderCellsProps,
     getRowId,
     onList,
-    onAddParam,
-    onDeleteParam,
-    onGetParam
 }: TableContentProps<T, F>) {
 
     const { data, meta, isLoading, search, setSearch } = useSearch<T>({
@@ -61,9 +58,6 @@ export function TableContent<T, F>({
                             visibleColumns={visibleColumns}
                             setVisibleColumns={setVisibleColumns}
                             columns={columns}
-                            onAddParam={onAddParam}
-                            onDeleteParam={onDeleteParam}
-                            onGetParam={onGetParam}
                         />
                     )}
                 />

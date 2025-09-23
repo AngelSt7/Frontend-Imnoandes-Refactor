@@ -1,2 +1,5 @@
 export { PropertyAdmin } from "./property-admin.service"
 export { User } from "./user.service"
+export { Service } from "./service.service"
+export { Province } from "./province.service"
+export { District } from "./district.service"

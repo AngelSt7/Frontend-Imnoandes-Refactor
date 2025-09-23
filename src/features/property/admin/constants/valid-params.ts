@@ -6,7 +6,7 @@ export const VALID_PARAMS = [
   "details",
   "custom-images",
   "edit",
-  "changeStatus",
+  "change-status",
   "limit",
   "departmentId",
   "propertyCategory",

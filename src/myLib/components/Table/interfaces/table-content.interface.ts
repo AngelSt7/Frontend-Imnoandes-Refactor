@@ -17,9 +17,6 @@ export interface TableContentProps<T, F> {
   renderFilters: React.ComponentType<FiltersProps<F>>;
   renderCellsProps?: RenderCellProps;
   onList: (filters: any) => Promise<ApiResponse<T> | undefined>;
-  onAddParam: (key: string, value: string) => void;
-  onDeleteParam: (key: string) => void;
-  onGetParam: (key: string) => string | null;
   getRowId: (item: T) => string | number;
 
   topContent: React.ComponentType<{

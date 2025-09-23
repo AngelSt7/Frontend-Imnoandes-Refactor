@@ -6,10 +6,10 @@ import FormArea from "./FormArea";
 interface CurrencyProps {
     setParam: (key: string, value: string) => void
     getParam: (key: string) => string | undefined
-    deleteParams: (keys: string[]) => void
+    clearParams: (keys: string[]) => void
 }
 
-export function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) {
+export function AreaFilter({ setParam, getParam, clearParams }: CurrencyProps) {
     const tittle = "Área";
     const defaultValues = { 
         minArea: getParam("minArea") && Number(getParam("minArea")),  
@@ -18,7 +18,7 @@ export function AreaFilter({ setParam, getParam, deleteParams }: CurrencyProps) 
 
     const { register, handleSubmit, errors , onSubmit, handleClearParams } = useFormFilter<FilterArea>({
         defaultValues,
-        deleteParams,
+        clearParams,
         clearKeys: ["minArea", "maxArea"],
     })
 

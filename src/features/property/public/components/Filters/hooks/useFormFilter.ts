@@ -3,13 +3,13 @@ import { useForm, FieldValues, DefaultValues } from "react-hook-form"
 
 interface UseFormFilterProps<T extends FieldValues> {
   defaultValues: DefaultValues<T>
-  deleteParams: (keys: string[]) => void
+  clearParams: (keys: string[]) => void
   clearKeys?: string[] 
 }
 
 export const useFormFilter = <T extends FieldValues>({
   defaultValues,
-  deleteParams,
+  clearParams,
   clearKeys = [],
 }: UseFormFilterProps<T>) => {
 
@@ -33,7 +33,7 @@ export const useFormFilter = <T extends FieldValues>({
   }
 
   const handleClearParams = () => {
-    deleteParams(clearKeys as string[])
+    clearParams(clearKeys as string[])
     reset()
   }
 
